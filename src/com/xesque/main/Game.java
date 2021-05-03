@@ -269,8 +269,15 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         
         //Graphics gfx = image.getGraphics();
         // BG
+        switch(CUR_LEVEL)
+        {
+        case 1:
+        	gfx.setColor(new Color(69, 80, 82));
+        break;
+        default:
+        	gfx.setColor(new Color(0, 0, 0));
+        }
         
-        gfx.setColor(new Color(0, 0, 0));
         gfx.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
         world.render(gfx);
         

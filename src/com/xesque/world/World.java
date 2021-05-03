@@ -70,12 +70,14 @@ public class World {
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
 					break;
 					default:
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_GENERIC);
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
 					}
 					
 					
 					switch(h)
 					{
+					// PROVAVEL MAPA, DEIXAR
+					/*
 					case "000000":
 						// chão
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_GENERIC);
@@ -105,6 +107,7 @@ public class World {
 					case "b200ff":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_LGRAY);
 					break;
+					*/
 					case "ff00dc":
 						// player
 						Game.player.setX(x * 32);
@@ -149,9 +152,23 @@ public class World {
 					case "677475":
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_1);
 					break;
+					case "147a3b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_13);
+					break;
+					case "637751":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_14);
+					break;
+					
+					// Complemento mapa esquerda
 					case "71c8ce":
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_2);
 					break;
+					// Complemento mapa direita
+					case "664244":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_12);
+					break;
+					
+					
 					// Pilares virados para a direita
 					// Cima
 					case "718fce":
@@ -161,13 +178,51 @@ public class World {
 					case "7152ce":
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_4);
 					break;
+					// Entre os pilares
+					case "2d844f":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_5);
+					break;
 					
+					// Pilares parte de cima
+					// Cima
+					case "0c6166":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_6);
+					break;
+					// Inferior
+					case "233666":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_7);
+					break;
+					// Entre os pilares
+					case "434b66":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_8);
+					break;
+					
+					// Pilares dereita
+					// Cima
+					case "fbffaf":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_9);
+					break;
+					// Inferior
+					case "ffb28e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_10);
+					break;
+					// Entre os pilares
+					case "93ffb0":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_11);
+					break;
+					
+					// Parte inferior do mapa
+					case "a1ff5e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_16);
+					break;
+					case "f9ff66":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_15);
+					break;
+					case "ffc587":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_17);
+					break;
 					// Fim MAPA_1
 					
-					
-					default:
-						// padrão chão (caso não tenha nenhum correspondente)
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR);
 					}
 				}
 			}

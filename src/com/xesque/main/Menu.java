@@ -22,7 +22,6 @@ public class Menu
 	public static int curOption = 0;
 
 	public int maxOption = options.length - 1;
-	private int r = 100, g = 100, b = 100;
 	public boolean down, up, rr = true, gg = true, bb = true;
 	public BufferedImage logo, bg;
 	public static boolean paused = false, saveExists = false, saveGame = false, context = false;
@@ -51,60 +50,6 @@ public class Menu
 		{
 			saveExists = false;
 		}
-		if(rr)
-		{
-			r++;
-		}
-		else
-		{
-			r--;
-		}
-		if(bb)
-		{
-			b++;
-		}
-		else
-		{
-			b--;
-		}
-		if(gg)
-		{
-			g++;
-		}
-		else
-		{
-			g--;
-		}
-			
-		
-		
-		if(r >= 200)
-		{
-			rr = false;
-		}
-		if(b >= 200)
-		{
-			bb = false;
-		}
-		if(g >= 200)
-		{
-			gg = false;
-		}
-		
-		
-		if(r <= 100)
-		{
-			rr = true;
-		}
-		if(b <= 100)
-		{
-			bb = true;
-		}
-		if(g <= 100)
-		{
-			gg = true;
-		}
-		
 		if(up)
 		{
 			up = false;
@@ -172,6 +117,7 @@ public class Menu
 				Game.player.setY(Integer.parseInt(spl2[1]));
 			break;
 			case "vida":
+				System.out.println("Vida: "+Integer.parseInt(spl2[1]));
 				Game.player.life = Integer.parseInt(spl2[1]);
 			break;
 			case "municao":

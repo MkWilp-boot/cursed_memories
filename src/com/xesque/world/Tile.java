@@ -71,6 +71,7 @@ public class Tile {
 	public static BufferedImage TILE_WALL_M_1_16 = Game.spritesheet.getSprite(96, 320, 32, 32);
 	// :(
 	public static BufferedImage TILE_WALL_M_1_17 = Game.spritesheet.getSprite(128, 320, 32, 32);
+	public static BufferedImage TILE_WALL_M_1_18 = Game.spritesheet.getSprite(160, 320, 32, 32);
 	
 	
 	// Fim MAP_1
@@ -79,6 +80,15 @@ public class Tile {
 	
 	private int x,y;
 	
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+
 	public Tile(int x, int y, BufferedImage sprite)
 	{
 		this.x = x;

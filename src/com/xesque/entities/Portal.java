@@ -35,7 +35,7 @@ public class Portal extends Entity
 	
 	public boolean isCollidingPlayer()
 	{
-		Rectangle current_enemy = new Rectangle(this.getX(), this.getY(), 64, 96);
+		Rectangle current_enemy = new Rectangle(this.getX(), this.getY(), 64, 64);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), World.TILE_SIZE, World.TILE_SIZE);
 		
 		return current_enemy.intersects(player);

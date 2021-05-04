@@ -21,13 +21,17 @@ public class Player extends Entity {
      * 2 Esquerda
      * 3 Baixo
      */
-    public int life = 100, maxLife = 100;
+    public static int life = 100;
+	public int maxLife = 100;
     private int frames, index = 0, maxFrames = 5, maxIndex = 4, damageFrames = 0;
     public static boolean moved = false;
     public boolean hasWeapon = false, shoot = false, isDameged = false;
     private BufferedImage[] rightPlayer, leftPlayer;
     private BufferedImage defPlayerR, defPlayerL, defPlayer, damegedPlayer;
-    public int ammo = 0, maxAmmo = 300, mx, my;
+    public static int ammo = 0;
+	public int maxAmmo = 300;
+	public int mx;
+	public int my;
 
     public Player(int x, int y, int w, int h, BufferedImage sprite) {
         super(x, y, w, h, sprite);
@@ -189,7 +193,7 @@ public class Player extends Entity {
         	double angle = Math.atan2(my - (this.getY() + 16 - Camera.y), mx - (this.getX() + 16 - Camera.x));
         	
         	double dx = Math.cos(angle), dy = Math.sin(angle);
-        	Bullet bullet = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx, dy, Color.yellow);
+        	Bullet bullet = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx, dy, Color.yellow, 6.0);
         	Game.bullets.add(bullet);
         	ammo--;
         	shoot = false;

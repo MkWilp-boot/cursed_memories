@@ -4,6 +4,7 @@ package com.xesque.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.DataBufferInt;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.xesque.entities.Boss;
@@ -31,6 +33,7 @@ import com.xesque.entities.Player;
 import com.xesque.entities.Portal;
 import com.xesque.entities.Weapon;
 import com.xesque.graficos.Spritesheet;
+import com.xesque.graficos.Pixel;
 import com.xesque.graficos.UI;
 import com.xesque.world.World;
 
@@ -43,10 +46,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     private boolean bIsRunning;
 
-    public static final int WIDTH = 640;
-    public static final int HEIGHT = 480;
+    public static final int WIDTH = 540;
+    public static final int HEIGHT = 330;
     private int framdesRestart = 0, maxFramesRestart = 200;
-    public final static int SCALE = 1;
+    public final static int SCALE = 2;
     public static int GAME_STATE = 2;
     
     public static String mapName = "/map_1.png";
@@ -89,6 +92,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public InputStream stream_main_font = ClassLoader.getSystemClassLoader().getResourceAsStream("main_font.ttf");
     public static Font main_font;
     
+    public int[] pixels;
+    public BufferedImage lightmap;
+    public int[] lightmapPixels;
+    
     public Game() 
     {
     	//Sound.musicGB.loop();
@@ -122,11 +129,22 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         spritesheet = new Spritesheet("/spr.png");
         ui = new UI();
         image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
+        try 
+        {
+			lightmap = ImageIO.read(getClass().getResource("/light.png"));
+		} 
+        catch (IOException e)
+        {
+			e.printStackTrace();
+		}
+        lightmapPixels = new int[lightmap.getWidth() * lightmap.getHeight()];
+        lightmap.getRGB(0, 0, lightmap.getWidth(), lightmap.getHeight(), lightmapPixels, 0, lightmap.getWidth());
+        pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
         
         player = new Player(0, 0, 32, 32, spritesheet.getSprite(64, 0, 32, 32));
         entities.add(player);
         world = new World(mapName);
-        menu = new Menu("/logo.png", "/BG.jpg");
+        menu = new Menu("/logo.png", "/BG_0.png");
     }
 
     public void initFrame() {
@@ -162,7 +180,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     }
 
     public void tick() {
-
     	if(resetAble)
     	{
     		resetAble = false;
@@ -185,8 +202,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 					int[] opt2 = {CUR_LEVEL, 
 									player.getX(),
 									player.getY(),
-									player.life,
-									player.ammo
+									Player.life,
+									Player.ammo
 								};
 					Menu.saveGame(opt1, opt2, 10);
 					System.out.println("Saved");
@@ -258,16 +275,31 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     	}
     	angle = Math.toDegrees(Math.atan2(my, mx));
     }
-
+    
+    public void applyLight()
+    {
+    	for(int x = 0; x < lightmap.getWidth(); x++)
+    	{
+    		for(int y = 0; y < lightmap.getHeight(); y++)
+    		{
+    			if(lightmapPixels[x + (y * lightmap.getWidth())] == 0xffffffff)
+    			{
+    				int pixel = Pixel.getLightBlend(pixels[x + (y * lightmap.getWidth())], 0x808080, 0);
+    				pixels[x + (y * lightmap.getWidth())] = pixel;
+    			}
+    		}
+    	}
+    }
+    
     public void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
             this.createBufferStrategy(3);
             return;
         }
-        Graphics gfx = bs.getDrawGraphics();
+        //Graphics gfx = bs.getDrawGraphics();
         
-        //Graphics gfx = image.getGraphics();
+        Graphics gfx = image.getGraphics();
         // BG
         switch(CUR_LEVEL)
         {
@@ -296,6 +328,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             	 e.render(gfx);
             }
         }
+        
         if(GAME_STATE != 2)
         {
         	 for (int i = 0; i < bullets.size(); i++) {
@@ -308,20 +341,20 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
              	bulletsEn.get(i).tick();
              }
         }
-       
+        applyLight();
         ui.render(gfx);
-        //gfx.dispose();
-        //gfx = bs.getDrawGraphics();
-		//gfx.drawImage(image, 0, 0,WIDTH*SCALE,HEIGHT*SCALE,null);
+        gfx.dispose();
+        gfx = bs.getDrawGraphics();
+		gfx.drawImage(image, 0, 0,WIDTH*SCALE,HEIGHT*SCALE,null);
      
         if(GAME_STATE == 1)
         {
         	Graphics2D gfx2 = (Graphics2D) gfx;
         	gfx2.setColor(new Color(0,0,0,100));
-        	gfx2.fillRect(0, 0, WIDTH, HEIGHT);
+        	gfx2.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
         	gfx2.setColor(Color.white);
         	gfx2.setFont(new Font("Arial", Font.PLAIN, 40));
-        	gfx2.drawString("Game Over", WIDTH / 2 - 80, HEIGHT / 2);
+        	gfx2.drawString("Game Over", (WIDTH * SCALE) / 2 - 80, (HEIGHT * SCALE) / 2);
         	gfx2.setFont(new Font("Arial", Font.PLAIN, 25));
         	if(showRestart)
         	{
@@ -334,7 +367,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         }
        
         // Showing
-        gfx.dispose();
+        //gfx.dispose();
         bs.show();
     }
 
@@ -481,8 +514,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		if(e.getButton() == 1)
 		{
 			player.shoot = true;
-			player.mx = e.getX();
-			player.my = e.getY();
+			player.mx = e.getX() / SCALE;
+			player.my = e.getY() / SCALE;
 		}
 		
 	}
@@ -513,8 +546,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		mx = e.getX();
-		my = e.getY();
+		mx = e.getX() / SCALE;
+		my = e.getY() / SCALE;
 		
 	}
 }

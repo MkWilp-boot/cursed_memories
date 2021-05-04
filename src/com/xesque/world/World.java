@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import com.xesque.entities.Ammo;
 import com.xesque.entities.Boss;
+import com.xesque.entities.Boss01;
 import com.xesque.entities.Bullet;
 import com.xesque.entities.Enemy;
 import com.xesque.entities.Entity;
@@ -41,6 +42,7 @@ public class World {
     	Game.spritesheet = new Spritesheet("/spr.png");
     	Game.ui = new UI();
     	Game.player = new Player(0, 0, 32, 32, Game.spritesheet.getSprite(64, 0, 32, 32));
+    	Game.player.life = Game.player.maxLife;
     	Game.entities.add(Game.player);
     	Game.world = new World(level);
     	return;
@@ -100,14 +102,16 @@ public class World {
 					case "b2698b":
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_RIGHT);
 					break;
-					case "7f006e":
-						Game.showPortal = false;
-						Game.entities.add(new Portal(x * 32, y * 32, 64, 96, Entity.PORTAL));
-					break;
+					
 					case "b200ff":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_LGRAY);
 					break;
 					*/
+					case "7f006e":
+						Game.showPortal = false;
+						Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL));
+					break;
+					
 					case "ff00dc":
 						// player
 						Game.player.setX(x * 32);
@@ -132,7 +136,7 @@ public class World {
 						Game.entities.add(new LifePack(x * 32, y * 32, 32, 32, Entity.LIFE_PACK_ENT));
 					break;
 					case "a6ff72":
-						Boss bs =new Boss(x * 32, y * 32, 128, 128, 10, Entity.BOSS_01);
+						Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 10, Entity.BOSS_01);
 						Game.entities.add(bs);
 						Game.bosses.add(bs);
 					break;
@@ -220,6 +224,9 @@ public class World {
 					break;
 					case "ffc587":
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_17);
+					break;
+					case "ff804f":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_18);
 					break;
 					// Fim MAPA_1
 					

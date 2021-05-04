@@ -10,17 +10,18 @@ import com.xesque.world.World;
 
 public class Boss extends Entity
 {
-	private double speed = 0.0;
-	private int x, y;
-	public int life, damageFrame = 0, damageMaxFrame = 8;
-	private boolean dameged = false;
+	protected double speed;
+	protected int x, y;
+	protected int life, damageFrame = 0, damageMaxFrame = 8;
+	protected boolean dameged = false;
 	
-	public Boss(int x, int y, int w, int h, int vida,BufferedImage sprite)
+	public Boss(int x, int y, int w, int h, double speed,int vida,BufferedImage sprite)
 	{
 		super(x, y, w, h, sprite);
 		this.x = x;
 		this.y = y;
 		this.life = vida;
+		this.speed = speed;
 	}
 	
 	public int getX() {
@@ -76,7 +77,7 @@ public class Boss extends Entity
 			if(Game.rand.nextInt(100) < 5)
 			{
 				Game.player.isDameged = true;
-				Game.player.life--;
+				Game.player.life-=10;
 			}
 		}
 		
@@ -96,7 +97,7 @@ public class Boss extends Entity
 		}
 	}
 	
-	private void destroyBoss()
+	protected void destroyBoss()
 	{
 		Game.entities.remove(this);
 		Game.bosses.remove(this);

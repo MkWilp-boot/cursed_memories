@@ -9,7 +9,7 @@ import com.xesque.world.Camera;
 import com.xesque.world.World;
 
 public class Entity {
-    protected int x, y, w, h;
+    public int x, y, w, h;
     
     public static BufferedImage LIFE_PACK_ENT =  Game.spritesheet.getSprite(0, 32, 32, 32);
     public static BufferedImage WEAPON_ENT =  Game.spritesheet.getSprite(32, 32, 32, 32);
@@ -17,7 +17,7 @@ public class Entity {
     public static BufferedImage ENEMY_ENT =  Game.spritesheet.getSprite(96, 32, 32, 32);
     public static BufferedImage GUN_LEFT =  Game.spritesheet.getSprite(256, 32, 32, 32);
     public static BufferedImage GUN_RIGHT =  Game.spritesheet.getSprite(224, 32, 32, 32);
-    public static BufferedImage PORTAL = Game.spritesheet.getSprite(320, 0, 64, 96);
+    public static BufferedImage PORTAL = Game.spritesheet.getSprite(320, 0, 64, 64);
     
     // Player face for text
     public static BufferedImage PLAYER_AVATAR =  Game.spritesheet.getSprite(0, 768, 32, 32);

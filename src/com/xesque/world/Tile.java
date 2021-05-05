@@ -25,7 +25,15 @@ public class Tile {
 	// MAP_1
 	// FLOOR
 	public static BufferedImage TILE_FLOOR_M_1_0 = Game.spritesheet.getSprite(0, 256, 32, 32);
-	public static BufferedImage TILE_FLOOR_M_1_1 = Game.spritesheet.getSprite(32, 256, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_1 = Game.spritesheet.getSprite(32, 384, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_19 = Game.spritesheet.getSprite(64, 384, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_20 = Game.spritesheet.getSprite(96, 384, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_21 = Game.spritesheet.getSprite(32, 416, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_22 = Game.spritesheet.getSprite(64, 416, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_23 = Game.spritesheet.getSprite(96, 416, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_24 = Game.spritesheet.getSprite(32, 448, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_25 = Game.spritesheet.getSprite(64, 448, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_1_26 = Game.spritesheet.getSprite(96, 448, 32, 32);
 	
 	// MAP_1
 	// WALL

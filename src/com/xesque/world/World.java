@@ -147,9 +147,37 @@ public class World {
 					case "87fffd":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
 					break;
+					
+					
 					case "00f6ff":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_1);
 					break;
+					case "3dbeff":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_19);
+					break;
+					case "7f96ff":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_20);
+					break;
+					case "ae8eff":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_21);
+					break;
+					case "d684ff":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_22);
+					break;
+					case "f67cff":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_23);
+					break;
+					case "ff87e5":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_24);
+					break;
+					case "ff7cbb":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_25);
+					break;
+					case "ff709d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_26);
+					break;
+					
+					
 					case "007377":
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_0);
 					break;

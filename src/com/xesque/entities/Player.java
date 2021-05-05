@@ -193,7 +193,7 @@ public class Player extends Entity {
         	double angle = Math.atan2(my - (this.getY() + 16 - Camera.y), mx - (this.getX() + 16 - Camera.x));
         	
         	double dx = Math.cos(angle), dy = Math.sin(angle);
-        	Bullet bullet = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx, dy, Color.yellow, 6.0);
+        	Bullet bullet = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx, dy, new Color(173,96,0,255), 6.0);
         	Game.bullets.add(bullet);
         	ammo--;
         	shoot = false;

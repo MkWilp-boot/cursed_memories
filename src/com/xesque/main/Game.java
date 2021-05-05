@@ -46,8 +46,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     private boolean bIsRunning;
 
-    public static final int WIDTH = 540;
-    public static final int HEIGHT = 330;
+    public static final int WIDTH = 540; //540
+    public static final int HEIGHT = 330; // 330
     private int framdesRestart = 0, maxFramesRestart = 200;
     public final static int SCALE = 2;
     public static int GAME_STATE = 2;

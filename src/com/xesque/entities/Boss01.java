@@ -10,7 +10,7 @@ import com.xesque.world.World;
 public class Boss01 extends Boss 
 {
 
-	private int maxTime = 30, curTime = 0;
+	private int maxTime = 150, curTime = 0;
 	private int maxSizeTime = 50, curTiSizeTime = 0;
 	private Random rand = new Random();
 	
@@ -23,117 +23,44 @@ public class Boss01 extends Boss
 	private void attack_8()
 	{
 		Bullet bullet;
-		for(int i = 0; i < 8; i++)
+		for(int o = 0; o < 20; o++)
 		{
-			/*if(i == 0)
+			for(int i = 0; i < 8; i++)
 			{
-				bullet = new Bullet(this.getX() + 32 + 16, this.getY() + 32  + 24, 24, 16, null, 1, 0, Color.GRAY, 10.0);
+				if(i == 0)
+				{
+					bullet = new Bullet(this.getX() + 32 + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+				}
+				else if(i == 1)
+				{
+					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+				}
+				else if(i == 2)
+				{
+					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), -rand.nextDouble(), Color.RED, 4.0);
+				}
+				else if(i == 3)
+				{
+					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+				}
+				else if(i == 4)
+				{
+					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+				}
+				else if(i == 5)
+				{
+					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), -rand.nextDouble(), Color.RED, 4.0);
+				}
+				else if(i == 6)
+				{
+					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), -rand.nextDouble(), Color.RED, 4.0);
+				}
+				else
+				{
+					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+				}
+				Game.bulletsEn.add(bullet);
 			}
-			else if(i == 1)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 1, Color.GRAY, 10.0);
-			}
-			else if(i == 2)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, -1, Color.GRAY, 10.0);
-			}
-			else if(i == 3)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 1, Color.GRAY, 10.0);
-			}
-			else if(i == 4)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 0, Color.GRAY, 10.0);
-			}
-			else if(i == 5)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, -1, Color.GRAY, 10.0);
-			}
-			else if(i == 6)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, -1, Color.GRAY, 10.0);
-			}
-			else
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, 1, Color.GRAY, 10.0);
-			}
-			 */
-			if(i == 0)
-			{
-				bullet = new Bullet(this.getX() + 32 + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			else if(i == 1)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			else if(i == 2)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), -rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			else if(i == 3)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			else if(i == 4)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			else if(i == 5)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), -rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			else if(i == 6)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), -rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			else
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.GRAY, 10.0);
-			}
-			Game.bulletsEn.add(bullet);
-		}
-	}
-	
-	private void attack_4()
-	{
-		Bullet bullet;
-		for(int i = 0; i < 4; i++)
-		{
-			/*
-			if(i == 0)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 0, Color.RED, 10.0);
-			}
-			else if(i == 1)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 0, Color.RED, 10.0);
-			}
-			else if(i == 2)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, -1, Color.RED, 10.0);
-			}
-			else
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, 1, Color.RED, 10.0);
-			}
-			*/
-			if(i == 0)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 10.0);
-			}
-			else if(i == 1)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), rand.nextDouble(), Color.RED, 10.0);
-			}
-			else if(i == 2)
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), -rand.nextDouble(), Color.RED, 10.0);
-			}
-			else
-			{
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 10.0);
-			}
-	    	Game.bulletsEn.add(bullet);
 		}
 	}
 	
@@ -142,23 +69,10 @@ public class Boss01 extends Boss
 		
 		curTime++;
 		
-		if(curTime >= 1 && curTime <= 2)
-		{
-			/*
-			if(rand.nextInt(100) > 50)
-			{
-				attack_4();
-			}
-			else
-			{
-				attack_8();
-			}
-			*/
-		}
-		
 		if(curTime >= maxTime)
 		{
 			curTime = 0;
+			//attack_8();
 		}
 		
 		if(!this.isCollidingPlayer())

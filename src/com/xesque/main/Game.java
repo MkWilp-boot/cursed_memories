@@ -4,7 +4,6 @@ package com.xesque.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.image.DataBufferInt;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
@@ -16,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -31,9 +31,10 @@ import com.xesque.entities.Enemy;
 import com.xesque.entities.Entity;
 import com.xesque.entities.Player;
 import com.xesque.entities.Portal;
+import com.xesque.entities.SaveBeam;
 import com.xesque.entities.Weapon;
-import com.xesque.graficos.Spritesheet;
 import com.xesque.graficos.Pixel;
+import com.xesque.graficos.Spritesheet;
 import com.xesque.graficos.UI;
 import com.xesque.world.World;
 
@@ -85,7 +86,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static UI ui;
     
     public Menu menu;
-
+    
     public boolean saveGame = false;
     public static double angle;
     
@@ -98,7 +99,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     
     public Game() 
     {
-    	//Sound.musicGB.loop();
     	try 
     	{
 			main_font = Font.createFont(Font.TRUETYPE_FONT, stream_main_font).deriveFont(48f);
@@ -111,7 +111,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     	{
 			e.printStackTrace();
 		}
-    	
     	rand = new Random();
         addKeyListener(this);
         addMouseListener(this);
@@ -144,7 +143,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         player = new Player(0, 0, 32, 32, spritesheet.getSprite(64, 0, 32, 32));
         entities.add(player);
         world = new World(mapName);
-        menu = new Menu("/logo.png", "/BG_0.png");
+        menu = new Menu("/logo.png", "/BG_1.jpg");
     }
 
     public void initFrame() {
@@ -188,32 +187,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     	// Normal gameplay
     	if(GAME_STATE == 0)
         {
-    		if(saveGame)
-    		{
-    			saveGame = false;
-    			if(bosses.size() <= 0 && enemies.size() <= 0)
-    			{
-    				String[] opt1 = {"mapa",
-									"PlayerX",
-									"PlayerY",
-									"vida",
-									"municao"
-								};
-					int[] opt2 = {CUR_LEVEL, 
-									player.getX(),
-									player.getY(),
-									Player.life,
-									Player.ammo
-								};
-					Menu.saveGame(opt1, opt2, 10);
-					System.out.println("Saved");
-    			}
-    			else
-    			{
-    				System.out.println("O mapa não cumpre os requesitos para salvar o jogo!\n(Existe um Boss ou Inimigos vivos)");
-    			}
-    		}
-    		
     		if(bosses.size() == 0 && CHANGE_LEVEL && CUR_LEVEL <= MAX_LEVEL)
             {
             	showPortal = true;
@@ -272,6 +245,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     	else if(GAME_STATE == 2)
     	{
     		menu.tick();
+    		Sound.musicGB.loop();
+    	}
+    	
+    	if(GAME_STATE != 2)
+    	{
+    		Sound.musicGB.stop();
     	}
     	angle = Math.toDegrees(Math.atan2(my, mx));
     }
@@ -314,9 +293,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         world.render(gfx);
         
         // Entities
-        for (int i = 0; i < entities.size(); i++) {
+        for (int i = 0; i < entities.size(); i++)
+        {
             Entity e = entities.get(i);
-            if(e instanceof Portal)
+            
+            if(e instanceof Portal || e instanceof SaveBeam)
             {
             	if(showPortal)
             	{
@@ -326,6 +307,22 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             else
             {
             	 e.render(gfx);
+            }
+            
+            if(e instanceof SaveBeam)
+            {
+            	if(showPortal)
+            	{
+            		if(((SaveBeam) e).isCollidingPlayer())
+                	{
+                		((SaveBeam) e).renderSaveMSG(gfx);
+                		saveGame = true;
+                	}
+                	else
+                	{
+                		saveGame = false;
+                	}
+            	}
             }
         }
         
@@ -408,6 +405,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     @Override
     public void keyPressed(KeyEvent e) 
     {	
+    	
     	if(GAME_STATE == 1)
     	{
     		if(e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -496,9 +494,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         		Menu.paused = true;
         		GAME_STATE = 2;
         	}
-        	if(e.getKeyCode() == KeyEvent.VK_SPACE)
+        	if(saveGame)
         	{
-        		saveGame = true;
+        		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+            	{
+            		SaveBeam.isSaved = true;
+            	}
         	}
         }
     }

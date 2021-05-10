@@ -86,7 +86,7 @@ public class Menu
 				file = new File("save.txt");
 				if(file.exists()) 
 				{
-					String saver = loadSave(10);
+					String saver = loadSave(1);
 					applyLoadLevel(saver);
 				}
 			}
@@ -154,6 +154,7 @@ public class Menu
 						line += ";";
 						line += transition[1];
 						line += "/";
+						System.out.println(line);
 					}
 				}
 				catch(IOException e)
@@ -221,9 +222,10 @@ public class Menu
 		
 		gfx.fillRect(0,0,Game.WIDTH * Game.SCALE, Game.HEIGHT * Game.SCALE);
 		
-		gfx.drawImage(bg, 0, -130, null);
 		
-		gfx.setColor(Color.DARK_GRAY);
+		gfx.drawImage(bg, -380, -130, null);
+		
+		gfx.setColor(Color.lightGray);
 		
 		gfx.setFont(Game.main_font);
 		

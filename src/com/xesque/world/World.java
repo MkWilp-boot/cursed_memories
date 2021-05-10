@@ -17,6 +17,7 @@ import com.xesque.entities.Entity;
 import com.xesque.entities.LifePack;
 import com.xesque.entities.Player;
 import com.xesque.entities.Portal;
+import com.xesque.entities.SaveBeam;
 import com.xesque.entities.Weapon;
 import com.xesque.graficos.Spritesheet;
 import com.xesque.graficos.UI;
@@ -30,6 +31,9 @@ public class World {
 	public static int WIDTH;
 	public static final int TILE_SIZE = 32;
 	public static final int TILE_SIZE_BOSS = 128;
+	public static int px;
+
+	public static int py;
 	
 	public static void restartGame(String level)
 	{
@@ -42,7 +46,7 @@ public class World {
     	Game.spritesheet = new Spritesheet("/spr.png");
     	Game.ui = new UI();
     	Game.player = new Player(0, 0, 32, 32, Game.spritesheet.getSprite(64, 0, 32, 32));
-    	Game.player.life = Game.player.maxLife;
+    	Player.life = Game.player.maxLife;
     	Game.entities.add(Game.player);
     	Game.world = new World(level);
     	return;
@@ -110,6 +114,12 @@ public class World {
 					case "7f006e":
 						Game.showPortal = false;
 						Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL));
+					break;
+					case "ffbb5b":
+						Game.showPortal = false;
+						px = x * 32;
+						py = y * 32;
+						Game.entities.add(new SaveBeam(x * 32, y * 32, 32, 64, Entity.SAVE_BEAM));
 					break;
 					
 					case "ff00dc":

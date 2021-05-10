@@ -7,7 +7,7 @@ import javax.sound.sampled.Clip;
 public class Sound
 {
 	private Clip clip;
-	public static final Sound musicGB = new Sound("/music.wav");
+	public static final Sound musicGB = new Sound("/MENU_BG.wav");
 	public static final Sound playerHurt = new Sound("/hurt.wav");
 	
 	Sound(String name)
@@ -22,6 +22,11 @@ public class Sound
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	public void stop()
+	{
+		this.clip.stop();
 	}
 	
 	public void play() 
@@ -54,7 +59,7 @@ public class Sound
 			{
 				public void run()
 				{
-					clip.loop(1000000);
+					clip.loop(100000000);
 				}
 			}.start();
 		}

@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.xesque.main.Game;
+import com.xesque.main.Sound;
 import com.xesque.world.Camera;
 import com.xesque.world.World;
 
@@ -76,6 +77,7 @@ public class Boss extends Entity
 		{
 			if(Game.rand.nextInt(100) < 5)
 			{
+				Sound.playerHurt.play();
 				Game.player.isDameged = true;
 				Game.player.life-=10;
 			}

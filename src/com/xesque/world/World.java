@@ -113,7 +113,7 @@ public class World {
 					*/
 					case "7f006e":
 						Game.showPortal = false;
-						Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL));
+						Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL_01));
 					break;
 					case "ffbb5b":
 						Game.showPortal = false;

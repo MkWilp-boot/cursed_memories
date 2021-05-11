@@ -19,6 +19,8 @@ public class Entity {
     public static BufferedImage GUN_RIGHT =  Game.spritesheet.getSprite(224, 32, 32, 32);
     public static BufferedImage PORTAL = Game.spritesheet.getSprite(320, 0, 64, 64);
     
+    public static BufferedImage PORTAL_01 = Game.spritesheet.getSprite(416, 0, 64, 103);
+    
     // SAVE GAME
     public static BufferedImage SAVE_BEAM = Game.spritesheet.getSprite(384, 0, 32, 64);
     

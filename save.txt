@@ -1,5 +1,0 @@
-mapa:2
-PlayerX:2967
-PlayerY:3159
-vida:211
-municao:3:1

@@ -143,7 +143,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         player = new Player(0, 0, 32, 32, spritesheet.getSprite(64, 0, 32, 32));
         entities.add(player);
         world = new World(mapName);
-        menu = new Menu("/logo.png", "/BG_1.jpg");
+        menu = new Menu("/logo.png", "/BG_1.png");
     }
 
     public void initFrame() {
@@ -263,7 +263,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     		{
     			if(lightmapPixels[x + (y * lightmap.getWidth())] == 0xffffffff)
     			{
-    				int pixel = Pixel.getLightBlend(pixels[x + (y * lightmap.getWidth())], 0x808080, 0);
+    				int pixel = Pixel.getLightBlend(pixels[x + (y * lightmap.getWidth())], 0x000000, 0);
     				pixels[x + (y * lightmap.getWidth())] = pixel;
     			}
     		}

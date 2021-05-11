@@ -225,7 +225,7 @@ public class Menu
 		
 		gfx.drawImage(bg, -380, -130, null);
 		
-		gfx.setColor(Color.lightGray);
+		gfx.setColor(new Color(255, 255, 255, 255));
 		
 		gfx.setFont(Game.main_font);
 		

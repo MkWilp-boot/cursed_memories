@@ -30,12 +30,12 @@ public class Portal extends Entity
 	
 	public void render(Graphics gfx)
 	{
-		gfx.drawImage(Entity.PORTAL, this.getX() - Camera.x, this.getY() - Camera.y, null);
+		gfx.drawImage(Entity.PORTAL_01, this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 	
 	public boolean isCollidingPlayer()
 	{
-		Rectangle current_enemy = new Rectangle(this.getX(), this.getY(), 64, 64);
+		Rectangle current_enemy = new Rectangle(this.getX(), this.getY(), 64, 103);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), World.TILE_SIZE, World.TILE_SIZE);
 		
 		return current_enemy.intersects(player);

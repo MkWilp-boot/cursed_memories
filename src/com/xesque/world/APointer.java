@@ -32,7 +32,7 @@ public class APointer
 		}
 		return false;
 	}
-	/*
+	
 	public List<Node> findPath(World world, Vector2i start, Vector2i end)
 	{
 		lastTime = System.currentTimeMillis();
@@ -47,7 +47,7 @@ public class APointer
 			current = openList.get(0);
 			if(current.tile.equals(end))
 			{
-				List<Node> path = new ArrayList();
+				List<Node> path = new ArrayList<Node>();
 				while(current.parent != null)
 				{
 					path.add(current);
@@ -57,10 +57,78 @@ public class APointer
 				closedList.clear();
 				return path;
 			}
-			
+			openList.remove(current);
+			closedList.add(current);
+			for(int i = 0; i < 9; i++)
+			{
+				if(i == 4) continue;
+				int x = current.tile.x;
+				int y = current.tile.y;
+				int xi = (i % 3) - 1;
+				int yi = (1 / 3) - 1;
+				Tile tile = World.tiles[x + xi + ((y + yi) * World.WIDTH)];
+				if(tile == null) continue;
+				if(tile instanceof WallTile) continue;
+				if(i == 0)
+				{
+					Tile test = World.tiles[x + xi + 1 + ((y + yi) * World.WIDTH)];
+					Tile test2 = World.tiles[x + xi + 1 + ((y + yi) * World.WIDTH)];
+					if(test instanceof WallTile ||
+					   test2 instanceof WallTile)
+					{
+						continue;
+					}
+				}
+				else if(i == 2)
+				{
+					Tile test = World.tiles[x + xi + 1 + ((y + yi) * World.WIDTH)];
+					Tile test2 = World.tiles[x + xi + ((y + yi) * World.WIDTH)];
+					if(test instanceof WallTile ||
+					   test2 instanceof WallTile)
+					{
+						continue;
+					}
+				}
+				else if(i == 6)
+				{
+					Tile test = World.tiles[x + xi + ((y + yi - 1) * World.WIDTH)];
+					Tile test2 = World.tiles[x + xi + 1 + ((y + yi) * World.WIDTH)];
+					if(test instanceof WallTile ||
+					   test2 instanceof WallTile)
+					{
+						continue;
+					}
+				}
+				else if(i == 8)
+				{
+					Tile test = World.tiles[x + xi + ((y + yi - 1) * World.WIDTH)];
+					Tile test2 = World.tiles[x + xi - 1 + ((y + yi) * World.WIDTH)];
+					if(test instanceof WallTile ||
+					   test2 instanceof WallTile)
+					{
+						continue;
+					}
+				}
+				Vector2i Avec= new Vector2i(x + xi, y + yi);
+				double gCost = current.gCost + getDistance(current.tile, Avec);
+				double hCots = getDistance(Avec, end);
+				Node node = new Node(Avec, current, gCost, hCots);
+				if(vecInList(closedList, Avec) && gCost >= current.gCost) continue;
+				if(!vecInList(openList, Avec))
+				{
+					openList.add(node);
+				}
+				else if(gCost < current.gCost)
+				{
+					openList.remove(current);
+					openList.add(node);
+				}
+			}
 		}
+		closedList.clear();
+		return null;
 	}
-	*/
+	
 	private static boolean vecInList(List<Node> list, Vector2i vec)
 	{
 		for(int i = 0; i < list.size(); i++)

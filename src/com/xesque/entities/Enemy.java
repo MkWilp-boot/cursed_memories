@@ -6,8 +6,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.xesque.main.Game;
-import com.xesque.main.Sound;
+import com.xesque.world.APointer;
 import com.xesque.world.Camera;
+import com.xesque.world.Vector2i;
 import com.xesque.world.World;
 
 public class Enemy extends Entity 
@@ -83,7 +84,7 @@ public class Enemy extends Entity
     	}
 		
     	
-    	
+    	/*
 		if(!this.isCollidingPlayer())
 		{
 			if(x < Game.player.getX() && 
@@ -121,8 +122,23 @@ public class Enemy extends Entity
 				Sound.playerHurt.play();
 			}
 		}
-		
-
+		*/
+    	if(path == null || path.size() == 0)
+    	{
+    		Vector2i start = new Vector2i( (int)(x / World.TILE_SIZE),
+    								       (int)(y / World.TILE_SIZE));
+    		
+    		Vector2i end   = new Vector2i( (int)(Game.player.x / World.TILE_SIZE), 
+    									   (int)(Game.player.y / World.TILE_SIZE));
+    		
+    		path = APointer.findPath(Game.world, start, end);
+    	}
+    	if(this.isCollidingPlayer())
+    	{
+    		Game.player.life--;
+    	}
+    	followPath(path);
+    	
 		if (moved) {
             frames++;
             if (frames == maxFrames) {

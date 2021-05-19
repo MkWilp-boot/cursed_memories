@@ -22,6 +22,7 @@ public class Tile {
 	public static BufferedImage TILE_WALL_STD_ROW = Game.spritesheet.getSprite(288, 64, 32, 32);
 	public static BufferedImage TILE_FLOOR_LGRAY = Game.spritesheet.getSprite(224, 64, 32, 32);
 	*/
+	public static BufferedImage TILE_WALL = Game.spritesheet.getSprite(32, 0, 32, 32);
 	// MAP_1
 	// FLOOR
 	public static BufferedImage TILE_FLOOR_M_1_0 = Game.spritesheet.getSprite(0, 256, 32, 32);

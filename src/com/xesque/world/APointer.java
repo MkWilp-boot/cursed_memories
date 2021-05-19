@@ -8,7 +8,7 @@ import java.util.List;
 public class APointer 
 {
 	public static double lastTime = System.currentTimeMillis();
-	private Comparator<Node> nodeSorter = new Comparator<Node>() {
+	private static Comparator<Node> nodeSorter = new Comparator<Node>() {
 		@Override
 		public int compare(Node n0, Node n1)
 		{
@@ -33,7 +33,7 @@ public class APointer
 		return false;
 	}
 	
-	public List<Node> findPath(World world, Vector2i start, Vector2i end)
+	public static List<Node> findPath(World world, Vector2i start, Vector2i end)
 	{
 		lastTime = System.currentTimeMillis();
 		List<Node> openList = new ArrayList<Node>();
@@ -65,7 +65,7 @@ public class APointer
 				int x = current.tile.x;
 				int y = current.tile.y;
 				int xi = (i % 3) - 1;
-				int yi = (1 / 3) - 1;
+				int yi = (i / 3) - 1;
 				Tile tile = World.tiles[x + xi + ((y + yi) * World.WIDTH)];
 				if(tile == null) continue;
 				if(tile instanceof WallTile) continue;

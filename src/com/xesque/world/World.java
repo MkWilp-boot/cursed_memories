@@ -79,9 +79,12 @@ public class World {
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
 					}
 					
-					
 					switch(h)
 					{
+					case "ffd799":
+						// chão
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL);
+					break;
 					// PROVAVEL MAPA, DEIXAR
 					/*
 					case "000000":

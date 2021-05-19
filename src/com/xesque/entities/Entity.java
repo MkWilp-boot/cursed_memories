@@ -3,13 +3,17 @@ package com.xesque.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import com.xesque.main.Game;
 import com.xesque.world.Camera;
+import com.xesque.world.Node;
+import com.xesque.world.Vector2i;
 import com.xesque.world.World;
 
 public class Entity {
     public int x, y, w, h;
+    protected List<Node> path;
     
     public static BufferedImage LIFE_PACK_ENT =  Game.spritesheet.getSprite(0, 32, 32, 32);
     public static BufferedImage WEAPON_ENT =  Game.spritesheet.getSprite(32, 32, 32, 32);
@@ -41,6 +45,40 @@ public class Entity {
         this.w = w;
         this.h = h;
         this.sprite = sprite;
+    }
+    
+    public void followPath(List<Node> path)
+    {
+    	if(path != null)
+    	{
+    		if(path.size() > 0)
+    		{
+    			Vector2i target = path.get(path.size() - 1).tile;
+    			if(x < target.x * World.TILE_SIZE)
+    			{
+    				x++;
+    			}
+    			else if(x > target.x * World.TILE_SIZE)
+    			{
+    				x--;
+    			}
+    			
+    			if(y < target.y * World.TILE_SIZE)
+    			{
+    				y++;
+    			}
+    			else if(y > target.y * World.TILE_SIZE)
+    			{
+    				y--;
+    			}
+    			
+    			// caso ja tenha chegado
+    			if(x == target.x * World.TILE_SIZE && y == target.y * World.TILE_SIZE)
+    			{
+    				path.remove(path.size() - 1);
+    			}
+    		}
+    	}
     }
     
     public static boolean isColliding(Entity e1, Entity e2)

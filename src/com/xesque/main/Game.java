@@ -245,12 +245,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     	else if(GAME_STATE == 2)
     	{
     		menu.tick();
-    		Sound.musicGB.loop();
+    		//Sound.musicGB.loop();
     	}
     	
     	if(GAME_STATE != 2)
     	{
-    		Sound.musicGB.stop();
+    		//Sound.musicGB.stop();
     	}
     	angle = Math.toDegrees(Math.atan2(my, mx));
     }

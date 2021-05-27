@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -116,7 +117,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        //this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
         initFrame();
         entities = new ArrayList < Entity > ();
         enemies = new ArrayList< Enemy >();
@@ -150,6 +152,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         frame = new JFrame("Cursed Memories");
         frame.add(this);
         frame.setResizable(false);
+        frame.setUndecorated(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -342,7 +345,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         ui.render(gfx);
         gfx.dispose();
         gfx = bs.getDrawGraphics();
-		gfx.drawImage(image, 0, 0,WIDTH*SCALE,HEIGHT*SCALE,null);
+		gfx.drawImage(image, 
+						0, 
+						0,
+						Toolkit.getDefaultToolkit().getScreenSize().width,
+						Toolkit.getDefaultToolkit().getScreenSize().height,
+						null
+						);
      
         if(GAME_STATE == 1)
         {

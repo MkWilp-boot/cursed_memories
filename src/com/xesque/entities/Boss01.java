@@ -64,6 +64,24 @@ public class Boss01 extends Boss
 		}
 	}
 	
+	public void attack_circ()
+	{
+		Bullet bullet = null;
+		for(int i = 0; i < 30; i++)
+		{
+			switch(i)
+			{
+			case 0:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+			break;
+			case 1:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+			break;
+			}
+		}
+		Game.bulletsEn.add(bullet);
+	}
+	
 	public void tick()
 	{
 		
@@ -72,7 +90,7 @@ public class Boss01 extends Boss
 		if(curTime >= maxTime)
 		{
 			curTime = 0;
-			//attack_8();
+			attack_circ();
 		}
 		
 		if(!this.isCollidingPlayer())

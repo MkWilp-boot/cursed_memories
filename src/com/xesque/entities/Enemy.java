@@ -14,7 +14,7 @@ import com.xesque.world.World;
 public class Enemy extends Entity 
 {
 	
-	private double speed = 0.0;
+	private double speed = 1.0;
 	private int frames, index = 0, maxFrames = 20, maxIndex = 1, maxTime = 200, curTime = 0, life = 1;
 	private boolean moved = true;
 	

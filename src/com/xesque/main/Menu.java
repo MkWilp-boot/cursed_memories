@@ -2,6 +2,7 @@ package com.xesque.main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,6 +21,8 @@ public class Menu
 	public String[] options = {"Novo jogo","Carregar jogo","Sair"};
 	
 	public static int curOption = 0;
+	
+	private final int W = Toolkit.getDefaultToolkit().getScreenSize().width;
 
 	public int maxOption = options.length - 1;
 	public boolean down, up, rr = true, gg = true, bb = true;
@@ -229,36 +232,36 @@ public class Menu
 		
 		gfx.setFont(Game.main_font);
 		
-		gfx.drawImage(logo, (Game.WIDTH * Game.SCALE) / 2 - 250, -130, null);
+		gfx.drawImage(logo, W / 2 - 250, -130, null);
 
 		// opções
 		
 		if(!paused)
 		{
-			gfx.drawString("Novo Jogo", (Game.WIDTH * Game.SCALE) / 2 - 90, 250);
+			gfx.drawString("Novo Jogo", W / 2 - 90, 250);
 		}
 		else
 		{
-			gfx.drawString("Retomar", (Game.WIDTH * Game.SCALE) / 2 - 120, 250);
+			gfx.drawString("Retomar", W / 2 - 80, 250);
 		}
 		
-		gfx.drawString("Carregar Jogo", (Game.WIDTH * Game.SCALE) / 2 - 130, 300);
-		gfx.drawString("Sair", (Game.WIDTH * Game.SCALE) / 2 - 45, 350);
+		gfx.drawString("Carregar Jogo", W / 2 - 130, 300);
+		gfx.drawString("Sair", W / 2 - 45, 350);
 		
 		if(options[curOption] == "Novo jogo")
 		{
-			gfx.drawString(">", (Game.WIDTH * Game.SCALE) / 2 - 130, 250);
-			gfx.drawString("<", (Game.WIDTH * Game.SCALE) / 2 + 105, 250);
+			gfx.drawString(">", W / 2 - 130, 250);
+			gfx.drawString("<", W / 2 + 105, 250);
 		}
 		else if(options[curOption] == "Carregar jogo")
 		{
-			gfx.drawString(">", (Game.WIDTH * Game.SCALE) / 2 - 165, 300);
-			gfx.drawString("<", (Game.WIDTH * Game.SCALE) / 2 + 145, 300);
+			gfx.drawString(">", W / 2 - 165, 300);
+			gfx.drawString("<", W / 2 + 145, 300);
 		}
 		else if(options[curOption] == "Sair")
 		{
-			gfx.drawString(">", (Game.WIDTH * Game.SCALE) / 2 - 85, 350);
-			gfx.drawString("<", (Game.WIDTH * Game.SCALE) / 2 + 50, 350);
+			gfx.drawString(">", W / 2 - 85, 350);
+			gfx.drawString("<", W / 2 + 50, 350);
 		}	
 	}
 }

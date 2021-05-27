@@ -3,11 +3,14 @@ package com.xesque.main;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -154,6 +157,17 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         frame.setResizable(false);
         frame.setUndecorated(true);
         frame.pack();
+        Image icon = null;
+        
+        try { icon = ImageIO.read(getClass().getResource("/icon.png")); } 
+        catch(IOException e) { e.printStackTrace(); }
+        
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Image cross = toolkit.getImage(getClass().getResource("/cross.png"));
+        Cursor cursor = toolkit.createCustomCursor(cross, new Point(0, 0), "img");
+        
+        frame.setCursor(cursor);
+        frame.setIconImage(icon);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

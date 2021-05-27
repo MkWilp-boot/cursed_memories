@@ -9,6 +9,8 @@ public class Sound
 	private Clip clip;
 	public static final Sound musicGB = new Sound("/MENU_BG.wav");
 	public static final Sound playerHurt = new Sound("/hurt.wav");
+	// MAP 1	
+	public static final Sound mp_bg_1 = new Sound("/BATTLE_1.wav");
 	
 	Sound(String name)
 	{

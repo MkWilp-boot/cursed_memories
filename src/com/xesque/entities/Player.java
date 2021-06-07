@@ -23,11 +23,14 @@ public class Player extends Entity {
      */
     public static int life = 100;
 	public int maxLife = 100;
+	//varial de controle, para checar se o player pode tomar dano ou não, false = pode toma dano, true = não pode
+	public boolean invulnerable = false;
+	
     private int frames, index = 0, maxFrames = 5, maxIndex = 4, damageFrames = 0;
     public static boolean moved = false;
     public boolean hasWeapon = false, shoot = false, isDameged = false;
     private BufferedImage[] rightPlayer, leftPlayer;
-    private BufferedImage defPlayerR, defPlayerL, defPlayer, damegedPlayer;
+    private BufferedImage defPlayerR, defPlayerL, damegedPlayer;
     public static int ammo = 0;
 	public int maxAmmo = 300;
 	public int mx;
@@ -36,7 +39,6 @@ public class Player extends Entity {
     public Player(int x, int y, int w, int h, BufferedImage sprite) {
         super(x, y, w, h, sprite);
 
-        defPlayer  = Game.spritesheet.getSprite(65, 0, 32, 32); // 64, 0, 32, 32
         defPlayerR = Game.spritesheet.getSprite(65, 0, 32, 32); // 64, 0, 32, 32
         defPlayerL = Game.spritesheet.getSprite(224, 96, 32, 32); // 64, 0, 32, 32
         damegedPlayer = Game.spritesheet.getSprite(256, 0, 32, 32);
@@ -60,86 +62,59 @@ public class Player extends Entity {
 
     public void render(Graphics gfx) 
     {
-    	
     	if(!isDameged)
     	{
-    		if (!right && !left && !up && !down) 
-    		{
-                gfx.drawImage(defPlayer, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-            }
-            if (right) 
-            {
-            	cur_dir = 0;
-                gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-                defPlayer = defPlayerR;
-            }
-            else if (left)
-            {
-            	cur_dir = 2;
-                gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-                defPlayer = defPlayerL;
-            }
-            
-            
-            if(up && left) 
-            {
-            	cur_dir = 1;
-            	gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-            	defPlayer = defPlayerL;
-            }
-            else if(up && right)
-            {
-            	cur_dir = 1;
-            	gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-            	defPlayer = defPlayerR;
-            }
-            else if(up)
-            {
-            	cur_dir = 1;
-            	if(defPlayer == defPlayerR)
-         		   gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-         	   else
-         		   gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-            }
-            
-           if(down && left) 
-           {
-        	   	cur_dir = 3;
-           	 	gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-           	 	defPlayer = defPlayerL;
-           }
-           else if(down && right)
-           {    	   
-        	   gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-        	   defPlayer = defPlayerR;
-           }
-           else if(down)
-           {
-        	   cur_dir = 3;
-        	   if(defPlayer == defPlayerR)
-        		   gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-        	   else
-        		   gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-           }
-           if(hasWeapon)
-           {
-        	   double dangle = Math.atan2(Game.my - (this.getY() - Camera.y), Game.mx - (this.getX() - Camera.x));
-        	   if(defPlayer == defPlayerR)
-        	   {
-        		   	//System.out.println(Math.toDegrees(dangle));
-        		   	gfx.drawImage(rotate(Entity.GUN_RIGHT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
-        	   }
-        	   else
-        	   {
-        		   	gfx.drawImage(rotate(Entity.GUN_RIGHT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
-        	   }
-           }
+            this.drawPlayer(gfx);
     	}
-    	else
+    	else 
     	{
-    		gfx.drawImage(damegedPlayer, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+    		if((damageFrames >= 20 && damageFrames <= 30) ||
+    		   (damageFrames >= 40 && damageFrames <= 50) ||
+    		   (damageFrames >= 60 && damageFrames <= 70) ||
+    		   (damageFrames >= 80 && damageFrames <= 90))
+    		{
+    			gfx.drawImage(damegedPlayer, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+    		}
+    		else
+    		{
+    			 this.drawPlayer(gfx);
+    		}
     	}
     }
+    
+    public void drawPlayer(Graphics gfx) 
+    {
+    	if (right || left || up || down) 
+        {
+        	if(Game.mx > 270)
+        		gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+        	
+        	else
+        		gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+        }
+        
+        else 
+        {
+        	if(Game.mx > 270)
+        		gfx.drawImage(defPlayerR, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+        	
+        	else
+        		gfx.drawImage(defPlayerL, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+        }
+        
+       if(hasWeapon)
+       {
+    	   double dangle = Math.atan2(Game.my - (this.getY() - Camera.y), Game.mx - (this.getX() - Camera.x));
+    	   
+    	   if(Game.mx > 270)
+    		   gfx.drawImage(rotate(Entity.GUN_RIGHT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
+       	
+       		else
+       			gfx.drawImage(rotate(Entity.GUN_LEFT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
+
+       }	
+    }
+    
     
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
 
@@ -206,10 +181,11 @@ public class Player extends Entity {
         if(isDameged)
         {
         	this.damageFrames++;
-        	if(this.damageFrames == 8)
+        	if(this.damageFrames == 120)
         	{
         		this.damageFrames = 0;
         		isDameged = false;
+        		invulnerable = false;
         	}
         }
         

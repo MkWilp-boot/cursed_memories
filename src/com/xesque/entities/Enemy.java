@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.xesque.main.Game;
+import com.xesque.main.Sound;
 import com.xesque.world.APointer;
 import com.xesque.world.Camera;
 import com.xesque.world.Vector2i;
@@ -84,45 +85,8 @@ public class Enemy extends Entity
     	}
 		
     	
-    	/*
-		if(!this.isCollidingPlayer())
-		{
-			if(x < Game.player.getX() && 
-					World.isFree(x + (int)speed, this.getY()) && 
-					!isColliding(x + (int)speed, this.getY()))
-			{
-				x += speed;
-			}
-			else if(x > Game.player.getX() &&
-					World.isFree(x - (int)speed, this.getY()) &&
-					!isColliding(x - (int)speed, this.getY()))
-			{
-				x -= speed;
-			}
-			
-			if(y < Game.player.getY() && 
-					World.isFree(x, this.getY() + (int)speed) &&
-					!isColliding(x, this.getY() + (int)speed))
-			{
-				y += speed;
-			}
-			else if(y > Game.player.getY() && 
-					World.isFree(x, this.getY() - (int)speed) &&
-					!isColliding(x, this.getY() -(int) speed))
-			{
-				y -= speed;
-			}
-		}
-		else
-		{
-			if(Game.rand.nextInt(100) < 5)
-			{
-				Game.player.isDameged = true;
-				Game.player.life--;
-				Sound.playerHurt.play();
-			}
-		}
-		*/
+    	if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 200 )
+    	{
     	if(path == null || path.size() == 0)
     	{
     		Vector2i start = new Vector2i( (int)(x / World.TILE_SIZE),
@@ -135,7 +99,13 @@ public class Enemy extends Entity
     	}
     	if(this.isCollidingPlayer())
     	{
-    		Game.player.life--;
+    		if(!Game.player.invulnerable)
+    		{
+    		Game.player.life-=10;
+    		Sound.playerHurt.play();
+    		Game.player.isDameged = true;
+    		Game.player.invulnerable = true;
+    		}
     	}
     	followPath(path);
     	
@@ -149,6 +119,7 @@ public class Enemy extends Entity
                 }
             }
         }
+    	}
 		this.checkCollisionBullet();
 		if(life <= 0)
 		{

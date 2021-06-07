@@ -22,7 +22,7 @@ public class Menu
 	
 	public static int curOption = 0;
 	
-	private final int W = Toolkit.getDefaultToolkit().getScreenSize().width;
+	private final int W = Game.WIDTH * Game.SCALE;
 
 	public int maxOption = options.length - 1;
 	public boolean down, up, rr = true, gg = true, bb = true;

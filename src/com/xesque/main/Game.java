@@ -1,5 +1,4 @@
 package com.xesque.main;
-// FF0000
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -46,6 +45,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     private static final long serialVersionUID = 1L;
 
     public static Spritesheet spritesheet;
+    public static Spritesheet spr_map0;
 
     private Thread thread;
 
@@ -120,8 +120,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        //this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+        this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        //this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
         initFrame();
         entities = new ArrayList < Entity > ();
         enemies = new ArrayList < Enemy > ();
@@ -131,6 +131,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         weapon = new ArrayList < Weapon > ();
 
         spritesheet = new Spritesheet("/spr.png");
+        spr_map0 = new Spritesheet("/spr_map_0.png");
+        
         ui = new UI();
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         try {
@@ -152,7 +154,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         frame = new JFrame("Cursed Memories");
         frame.add(this);
         frame.setResizable(false);
-        frame.setUndecorated(true);
+        //frame.setUndecorated(true);
         frame.pack();
         Image icon = null;
 
@@ -307,9 +309,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         Graphics gfx = image.getGraphics();
         // BG
         switch (CUR_LEVEL) {
+        case 0:
+            gfx.setColor(new Color(0, 0, 0));
+        break;
         case 1:
             gfx.setColor(new Color(69, 80, 82));
-            break;
+        break;
         default:
             gfx.setColor(new Color(0, 0, 0));
         }
@@ -357,21 +362,21 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         gfx.drawImage(image,
             0,
             0,
-            Toolkit.getDefaultToolkit().getScreenSize().width,
-            Toolkit.getDefaultToolkit().getScreenSize().height,
+            WIDTH * SCALE,
+            HEIGHT * SCALE,
             null
         );
 
         if (GAME_STATE == 1) {
             Graphics2D gfx2 = (Graphics2D) gfx;
             gfx2.setColor(new Color(0, 0, 0, 100));
-            gfx2.fillRect(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+            gfx2.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
             gfx2.setColor(Color.white);
             gfx2.setFont(new Font("Arial", Font.PLAIN, 40));
-            gfx2.drawString("Game Over", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 80, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
+            gfx2.drawString("Game Over", WIDTH * SCALE / 2 - 80, HEIGHT * SCALE / 2);
             gfx2.setFont(new Font("Arial", Font.PLAIN, 25));
             if (showRestart) {
-                gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 205, Toolkit.getDefaultToolkit().getScreenSize().height / 2 + 40);
+                gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH * SCALE / 2 - 205, HEIGHT * SCALE / 2 + 40);
             }
         } else if (GAME_STATE == 2) {
             menu.render(gfx);

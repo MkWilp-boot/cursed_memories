@@ -15,6 +15,7 @@ public class Player extends Entity {
     public boolean right, left, up, down;
     public double speed = 3.0;
     public int cur_dir = 0;
+    private boolean keepShooting = false;
     /*
      * 0 Direita
      * 1 Cima
@@ -30,11 +31,15 @@ public class Player extends Entity {
     public static boolean moved = false;
     public boolean hasWeapon = false, shoot = false, isDameged = false;
     private BufferedImage[] rightPlayer, leftPlayer;
-    private BufferedImage defPlayerR, defPlayerL, damegedPlayer;
+    private BufferedImage defPlayerR, defPlayerL, damegedPlayer, GUN_LEFT, GUN_RIGHT;
     public static int ammo = 0;
-	public int maxAmmo = 300;
+	public int maxAmmo = 100;
 	public int mx;
 	public int my;
+	public int cur_weapon = 0;
+	public int max_weapon = 0;
+	
+	private boolean changeWeapon = false;
 
     public Player(int x, int y, int w, int h, BufferedImage sprite) {
         super(x, y, w, h, sprite);
@@ -42,7 +47,8 @@ public class Player extends Entity {
         defPlayerR = Game.spritesheet.getSprite(65, 0, 32, 32); // 64, 0, 32, 32
         defPlayerL = Game.spritesheet.getSprite(224, 96, 32, 32); // 64, 0, 32, 32
         damegedPlayer = Game.spritesheet.getSprite(256, 0, 32, 32);
-
+        
+     
         rightPlayer = new BufferedImage[5];
         leftPlayer = new BufferedImage[5];
 
@@ -106,30 +112,60 @@ public class Player extends Entity {
        {
     	   double dangle = Math.atan2(Game.my - (this.getY() - Camera.y), Game.mx - (this.getX() - Camera.x));
     	   
-    	   if(Game.mx > 270)
-    		   gfx.drawImage(rotate(Entity.GUN_RIGHT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
-       	
-       		else
-       			gfx.drawImage(rotate(Entity.GUN_LEFT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
-
+    	   if(Game.mx > 270) {
+    		   gfx.drawImage(rotate(this.GUN_RIGHT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
+    	   }
+    	   else {
+    		   gfx.drawImage(rotate(this.GUN_LEFT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 8, null);
+    	   }
        }	
     }
     
     
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
+    	
+    	if(bimg != null ) {
+    		int w = bimg.getWidth();    
+            int h = bimg.getHeight();
 
-        int w = bimg.getWidth();    
-        int h = bimg.getHeight();
-
-        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());  
-        Graphics2D graphic = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w/2, h/2);
-        graphic.drawImage(bimg, null, 0, 0);
-        graphic.dispose();
-        return rotated;
+            BufferedImage rotated = new BufferedImage(w, h, bimg.getType());  
+            Graphics2D graphic = rotated.createGraphics();
+            graphic.rotate(Math.toRadians(angle), w/2, h/2);
+            graphic.drawImage(bimg, null, 0, 0);
+            graphic.dispose();
+            return rotated;
+    	}
+    	else {
+    		return null;
+    	}
     }
 
     public void tick() {
+    	
+    	// trocar de arma
+    	if(this.isChangeWeapon()) {
+    		if(Game.weapon.size() > 0) {
+    			if(cur_weapon >= max_weapon) {
+        			cur_weapon = 0;
+        		}
+        		else {
+        			Weapon w = Game.weapon.get(cur_weapon);
+        			
+        			System.out.println(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO);
+        			if(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
+        				GUN_LEFT = Entity.GUN_LEFT;
+        				GUN_RIGHT = Entity.GUN_RIGHT;
+        			}
+        			else if(w.getSprite() == Entity.WEAPON_ENT_SHOTGUN) {
+        				GUN_LEFT = Entity.GUN_SHOTGUN_RIGHT;
+        				GUN_RIGHT = Entity.GUN_SHOTGUN_LEFT;
+        			}
+        			cur_weapon++;
+        		}
+        		setChangeWeapon(false);
+    		}
+    	}
+    	
         moved = false;
 
         if (right && World.isFree(this.getX() + (int)speed, this.getY())) {
@@ -251,7 +287,7 @@ public class Player extends Entity {
     				hasWeapon = true;
     				Game.weapon.add(w);
         			Game.entities.remove(i);
-    				
+    				max_weapon++;
     				return;
     			}
     		}
@@ -267,11 +303,11 @@ public class Player extends Entity {
     		{
     			if(Entity.isColliding(this, e))
     			{
-    				if(ammo != 300)
+    				if(ammo != 100)
     				{
-    					ammo = maxAmmo;
-        				if(ammo >= 300)
-        					ammo = 300;
+    					ammo += (Game.rand.nextInt(101) > 50 ) ? 25 : 15;
+        				if(ammo >= 100)
+        					ammo = 100;
         				Game.entities.remove(i);
     				}
     				return;
@@ -279,4 +315,28 @@ public class Player extends Entity {
     		}
     	}
     }
+
+    public void setGUN_LEFT(BufferedImage img) {
+    	this.GUN_LEFT = img;
+    }
+    
+    public void setGUN_RIGHT(BufferedImage img) {
+    	this.GUN_RIGHT = img;
+    }
+    
+	public boolean isKeepShooting() {
+		return keepShooting;
+	}
+
+	public void setKeepShooting(boolean keepShooting) {
+		this.keepShooting = keepShooting;
+	}
+
+	public boolean isChangeWeapon() {
+		return changeWeapon;
+	}
+
+	public void setChangeWeapon(boolean changeWeapon) {
+		this.changeWeapon = changeWeapon;
+	}
 }

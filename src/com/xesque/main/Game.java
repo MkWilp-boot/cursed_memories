@@ -16,6 +16,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -41,7 +43,7 @@ import com.xesque.graficos.Spritesheet;
 import com.xesque.graficos.UI;
 import com.xesque.world.World;
 
-public class Game extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
+public class Game extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
     private static final long serialVersionUID = 1L;
 
     public static Spritesheet spritesheet;
@@ -119,6 +121,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         addKeyListener(this);
         addMouseListener(this);
         addMouseMotionListener(this);
+        addMouseWheelListener(this);
 
         this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
         //this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
@@ -408,7 +411,17 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 dDelta--;
             }
             if (System.currentTimeMillis() - dTimer >= 1000) {
-                System.out.println("FPS: " + nFrames);
+                //System.out.println("FPS: " + nFrames);
+            	/*
+            	for(int i = 0; i < Game.weapon.size(); i++) {
+            		if(Game.weapon.get(Game.player.cur_weapon).getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
+            			System.out.println("Entity.WEAPON_ENT_RIFLE_NON_AUTO");
+            		}
+            		else if(Game.weapon.get(Game.player.cur_weapon).getSprite() == Entity.WEAPON_ENT_SHOTGUN) {
+            			System.out.println("Entity.WEAPON_ENT_SHOTGUN");
+            		}
+            	}
+            	*/
                 nFrames = 0;
                 dTimer += 1000;
             }
@@ -496,18 +509,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-
     }
-
+// 256 128
     @Override
     public void mousePressed(MouseEvent e) {
+    	
         if (e.getButton() == 1) {
             player.shoot = true;
             player.mx = e.getX() / SCALE;
             player.my = e.getY() / SCALE;
         }
-
     }
 
     @Override
@@ -540,4 +551,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         my = e.getY() / SCALE;
 
     }
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		// TODO Auto-generated method stub
+		Game.player.setChangeWeapon(true);
+	}
 }

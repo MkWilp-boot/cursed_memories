@@ -19,10 +19,10 @@ import com.xesque.entities.Player;
 import com.xesque.entities.Portal;
 import com.xesque.entities.SaveBeam;
 import com.xesque.entities.Weapon;
+import com.xesque.entities.enums.WeaponEnums;
 import com.xesque.graficos.Spritesheet;
 import com.xesque.graficos.UI;
 import com.xesque.main.Game;
-import com.xesque.main.Sound;
 
 public class World {
 	
@@ -73,11 +73,14 @@ public class World {
 					// padrão (chão)
 					switch(path)
 					{
+					case "/map_0.png":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_1);
+					break;
 					case "/map_1.png":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
 					break;
 					default:
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
 					}
 					
 					switch(h)
@@ -139,7 +142,10 @@ public class World {
 					break;
 					case "0026ff":
 						// arma
-						Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT));
+						Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT_RIFLE_NON_AUTO, 2));
+					break;
+					case "3251ff":
+						Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT_SHOTGUN, 1));
 					break;
 					case "ffd800":
 						// munição
@@ -154,6 +160,72 @@ public class World {
 						Game.entities.add(bs);
 						Game.bosses.add(bs);
 					break;
+					
+					// Inicio MAP_0
+					
+					//Gate, Wall TILE
+					case "00ff90":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_0);
+					break;
+					case "00d374":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_1);
+					break;
+					case "00c46b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_2);
+					break;
+					case "00a859":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_3);
+					break;
+					
+					// Gate, Bottom TILE
+					case "00994c":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_4);
+					break;
+					case "00964b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_5);
+					break;
+					case "009148":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_6);
+					break;
+					case "008743":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_7);
+					break;
+					
+					// FloorTiles
+					case "717271":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
+					break;
+					case "004a7f":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_1);
+					break;
+					case "00477a":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_2);
+					break;
+					case "004475":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_3);
+					break;
+					case "00355b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_4);
+					break;
+					
+					// Fim MAP_0
+					// WallTiles
+					case "722815":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_0);
+					break;
+					case "70131c":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_1);
+					break;
+					case "6b1d25":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_2);
+					break;
+					case "6d2e3b":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_3);
+					break;
+					case "6d1836":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_4);
+					break;
+					// Fim WallTiles
 					
 					
 					
@@ -323,7 +395,7 @@ public class World {
 	}
 	
 	public void render(Graphics gfx)
-	{	
+	{
 		int xStart = Camera.x / TILE_SIZE;
 		int yStart = Camera.y / TILE_SIZE;
 		int xFinal = xStart + (Game.WIDTH / TILE_SIZE);

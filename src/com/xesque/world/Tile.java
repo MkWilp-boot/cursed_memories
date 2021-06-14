@@ -22,10 +22,42 @@ public class Tile {
 	public static BufferedImage TILE_WALL_STD_ROW = Game.spritesheet.getSprite(288, 64, 32, 32);
 	public static BufferedImage TILE_FLOOR_LGRAY = Game.spritesheet.getSprite(224, 64, 32, 32);
 	*/
+	
+	// MAP_0
+	public static BufferedImage TILE_GATE_M_0_0 = Game.spr_map0.getSprite(0, 0, 32, 32);
+	public static BufferedImage TILE_GATE_M_0_1 = Game.spr_map0.getSprite(32, 0, 32, 32);
+	public static BufferedImage TILE_GATE_M_0_2 = Game.spr_map0.getSprite(64, 0, 32, 32);
+	public static BufferedImage TILE_GATE_M_0_3 = Game.spr_map0.getSprite(96, 0, 32, 32);
+	
+	public static BufferedImage TILE_GATE_M_0_4 = Game.spr_map0.getSprite(0, 32, 32, 32);
+	public static BufferedImage TILE_GATE_M_0_5 = Game.spr_map0.getSprite(32, 32, 32, 32);
+	public static BufferedImage TILE_GATE_M_0_6 = Game.spr_map0.getSprite(64, 32, 32, 32);
+	public static BufferedImage TILE_GATE_M_0_7 = Game.spr_map0.getSprite(96, 32, 32, 32);
+	
+	public static BufferedImage TILE_FLOOR_M_0_0 = Game.spr_map0.getSprite(0, 224, 32, 32);
+	
+	// Floor Tiles
+	public static BufferedImage TILE_FLOOR_M_0_1 = Game.spr_map0.getSprite(0, 64, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_0_2 = Game.spr_map0.getSprite(32, 64, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_0_3 = Game.spr_map0.getSprite(64, 64, 32, 32);
+	public static BufferedImage TILE_FLOOR_M_0_4 = Game.spr_map0.getSprite(96, 64, 32, 32);
+	// Fim Floor Tiles
+	// Wall Tiles
+	public static BufferedImage TILE_WALL_M_0_0 = Game.spr_map0.getSprite(0, 96, 32, 10);
+	public static BufferedImage TILE_WALL_M_0_1 = Game.spr_map0.getSprite(32, 96, 32, 32);
+	public static BufferedImage TILE_WALL_M_0_2 = Game.spr_map0.getSprite(64, 96, 32, 32);
+	public static BufferedImage TILE_WALL_M_0_3 = Game.spr_map0.getSprite(160, 96, 32, 32);
+	public static BufferedImage TILE_WALL_M_0_4 = Game.spr_map0.getSprite(128, 96, 32, 32);
+	// Fim Wall Tiles
+	
+	// Fim MAP_0
+	
+	
 	public static BufferedImage TILE_WALL = Game.spritesheet.getSprite(32, 0, 32, 32);
 	// MAP_1
 	// FLOOR
 	public static BufferedImage TILE_FLOOR_M_1_0 = Game.spritesheet.getSprite(0, 256, 32, 32);
+	
 	public static BufferedImage TILE_FLOOR_M_1_1 = Game.spritesheet.getSprite(32, 384, 32, 32);
 	public static BufferedImage TILE_FLOOR_M_1_19 = Game.spritesheet.getSprite(64, 384, 32, 32);
 	public static BufferedImage TILE_FLOOR_M_1_20 = Game.spritesheet.getSprite(96, 384, 32, 32);

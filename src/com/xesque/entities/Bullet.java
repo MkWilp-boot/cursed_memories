@@ -12,7 +12,7 @@ public class Bullet extends Entity
 {
 	private double dx, dy;
 	private double spd;
-	private int lifeTime = 100, cur_life = 0;
+	private int lifeTime = 200, cur_life = 0;
 	private Color color;
 	private BufferedImage spr = Game.spritesheet.getSprite(288, 32, 32, 32);
 	

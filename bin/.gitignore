@@ -1,15 +1,13 @@
-/BATTLE_1.wav
+/BATTLE_2.wav
 /BG_0.png
-/BG_001.png
-/BG_1.png
 /MENU_BG.wav
-/SC_1.jpg
-/Sem título.png
-/TESTES/
+/com/
+/cross.png
+/hall.png
 /hurt.wav
+/icon.png
 /light.png
 /logo.png
-/com/
 /main_font.ttf
 /mainlevbuild.png
 /map_0.png
@@ -17,7 +15,4 @@
 /map_1.png
 /map_2.png
 /spr.png
-/cross.png
-/icon.png
-/MENU_BG.mp3
-/BATTLE_2.wav
+/spr_map_0.png

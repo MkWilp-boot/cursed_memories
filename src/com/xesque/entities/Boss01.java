@@ -11,7 +11,7 @@ public class Boss01 extends Boss
 {
 
 	private int maxTime = 150, curTime = 0;
-	private int maxSizeTime = 50, curTiSizeTime = 0;
+	//private int maxSizeTime = 50, curTiSizeTime = 0;
 	private Random rand = new Random();
 	
 	public Boss01(int x, int y, int w, int h, double speed, int vida, BufferedImage sprite) 
@@ -72,14 +72,26 @@ public class Boss01 extends Boss
 			switch(i)
 			{
 			case 0:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 1.5, Color.RED, 2.0);
 			break;
 			case 1:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 0.9, Color.RED, 2.0);
 			break;
+			case 2:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, 1, Color.RED, 3.0);
+			break;
+			case 3:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 0.5, Color.RED, 2.0);
+			break;
+			case 4:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0.9, 0.9, Color.RED, 2.0);
+			break;
+			default:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, 0, Color.RED, 2.0);
+			
 			}
+			Game.bulletsEn.add(bullet);
 		}
-		Game.bulletsEn.add(bullet);
 	}
 	
 	public void tick()
@@ -90,7 +102,7 @@ public class Boss01 extends Boss
 		if(curTime >= maxTime)
 		{
 			curTime = 0;
-			attack_circ();
+			//attack_circ();
 		}
 		
 		if(!this.isCollidingPlayer())
@@ -126,7 +138,7 @@ public class Boss01 extends Boss
 			if(Game.rand.nextInt(100) < 5)
 			{
 				Game.player.isDameged = true;
-				Game.player.life-=10;
+				Game.player.setLife(Game.player.getLife() - 10);
 			}
 		}
 		

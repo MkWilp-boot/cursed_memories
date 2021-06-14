@@ -3,7 +3,6 @@ package com.xesque.entities;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -41,8 +40,8 @@ public class SaveBeam extends Entity
 					int[] opt2 = {Game.CUR_LEVEL, 
 									World.px,
 									World.py,
-									Game.player.life,
-									Game.player.ammo
+									Game.player.getLife(),
+									(Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo()
 								};
 					Menu.saveGame(opt1, opt2, 1);
 					System.out.println("Saved");

@@ -79,7 +79,7 @@ public class Boss extends Entity
 			{
 				Sound.playerHurt.play();
 				Game.player.isDameged = true;
-				Game.player.life-=10;
+				Game.player.setLife(Game.player.getLife() - 10);
 			}
 		}
 		

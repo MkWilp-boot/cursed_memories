@@ -412,16 +412,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             }
             if (System.currentTimeMillis() - dTimer >= 1000) {
                 //System.out.println("FPS: " + nFrames);
-            	/*
-            	for(int i = 0; i < Game.weapon.size(); i++) {
-            		if(Game.weapon.get(Game.player.cur_weapon).getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
-            			System.out.println("Entity.WEAPON_ENT_RIFLE_NON_AUTO");
-            		}
-            		else if(Game.weapon.get(Game.player.cur_weapon).getSprite() == Entity.WEAPON_ENT_SHOTGUN) {
-            			System.out.println("Entity.WEAPON_ENT_SHOTGUN");
-            		}
-            	}
-            	*/
                 nFrames = 0;
                 dTimer += 1000;
             }
@@ -431,18 +421,26 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+    	
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+    	
+    	if(e.getKeyCode() == KeyEvent.VK_R) {
+    		if(Game.player.isReload()) {
+    			Game.player.setReload(true);
+    		}
+    	}
 
         if (GAME_STATE == 1) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                 resetAble = true;
             }
         }
-
+        if(e.getKeyCode() == KeyEvent.VK_R) {
+        	player.setReload(true);
+        }
         // Direita - Esquerda
         if (e.getKeyCode() == KeyEvent.VK_D) {
             player.right = true;
@@ -464,7 +462,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 menu.down = true;
             }
         }
-
     }
 
     @Override

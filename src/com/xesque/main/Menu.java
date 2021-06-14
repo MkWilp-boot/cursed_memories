@@ -2,7 +2,6 @@ package com.xesque.main;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -106,6 +105,7 @@ public class Menu
 		for(int i = 0; i < spl.length; i++)
 		{
 			String[] spl2 = spl[i].split(";");
+			System.out.println(spl2[1]);
 			switch(spl2[0])
 			{
 			case "mapa":
@@ -121,10 +121,10 @@ public class Menu
 			break;
 			case "vida":
 				System.out.println("Vida: "+Integer.parseInt(spl2[1]));
-				Game.player.life = Integer.parseInt(spl2[1]);
+				Game.player.setLife(Integer.parseInt(spl2[1]));
 			break;
 			case "municao":
-				Game.player.ammo = Integer.parseInt(spl2[1]);
+				Game.player.setAmmo(Integer.parseInt(spl2[1]));
 			break;
 			}
 			

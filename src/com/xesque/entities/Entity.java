@@ -16,11 +16,21 @@ public class Entity {
     protected List<Node> path;
     
     public static BufferedImage LIFE_PACK_ENT =  Game.spritesheet.getSprite(0, 32, 32, 32);
-    public static BufferedImage WEAPON_ENT =  Game.spritesheet.getSprite(32, 32, 32, 32);
     public static BufferedImage AMMO_PACK_ENT =  Game.spritesheet.getSprite(64, 32, 32, 32);
     public static BufferedImage ENEMY_ENT =  Game.spritesheet.getSprite(96, 32, 32, 32);
+    
+    // WEAPON declaration
+    
+    public static BufferedImage WEAPON_ENT_RIFLE_NON_AUTO =  Game.spritesheet.getSprite(32, 32, 32, 32);
     public static BufferedImage GUN_LEFT =  Game.spritesheet.getSprite(256, 32, 32, 32);
     public static BufferedImage GUN_RIGHT =  Game.spritesheet.getSprite(224, 32, 32, 32);
+    
+    public static BufferedImage WEAPON_ENT_SHOTGUN =  Game.spritesheet.getSprite(256, 128, 32, 32);
+    public static BufferedImage GUN_SHOTGUN_LEFT = Game.spritesheet.getSprite(288, 128, 32, 32);
+    public static BufferedImage GUN_SHOTGUN_RIGHT = Game.spritesheet.getSprite(256, 128, 32, 32);
+    
+    // End
+    
     public static BufferedImage PORTAL = Game.spritesheet.getSprite(320, 0, 64, 64);
     
     public static BufferedImage PORTAL_01 = Game.spritesheet.getSprite(416, 0, 64, 103);

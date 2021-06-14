@@ -19,7 +19,6 @@ import com.xesque.entities.Player;
 import com.xesque.entities.Portal;
 import com.xesque.entities.SaveBeam;
 import com.xesque.entities.Weapon;
-import com.xesque.entities.enums.WeaponEnums;
 import com.xesque.graficos.Spritesheet;
 import com.xesque.graficos.UI;
 import com.xesque.main.Game;
@@ -47,7 +46,7 @@ public class World {
     	Game.spritesheet = new Spritesheet("/spr.png");
     	Game.ui = new UI();
     	Game.player = new Player(0, 0, 32, 32, Game.spritesheet.getSprite(64, 0, 32, 32));
-    	Player.life = Game.player.maxLife;
+    	Game.player.setLife(Game.player.maxLife);
     	Game.entities.add(Game.player);
     	Game.world = new World(level);
     	return;

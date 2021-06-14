@@ -22,7 +22,7 @@ public class Player extends Entity {
      * 2 Esquerda
      * 3 Baixo
      */
-    public static int life = 100;
+    private int life = 100;
 	public int maxLife = 100;
 	//varial de controle, para checar se o player pode tomar dano ou não, false = pode toma dano, true = não pode
 	public boolean invulnerable = false;
@@ -32,18 +32,21 @@ public class Player extends Entity {
     public boolean hasWeapon = false, shoot = false, isDameged = false;
     private BufferedImage[] rightPlayer, leftPlayer;
     private BufferedImage defPlayerR, defPlayerL, damegedPlayer, GUN_LEFT, GUN_RIGHT;
-    public static int ammo = 0;
+    private int ammo = 0;
 	public int maxAmmo = 100;
 	public int mx;
 	public int my;
 	public int cur_weapon = 0;
 	public int max_weapon = 0;
+	private int reserveAmmo = 0;
+	private boolean reload;
 	
 	private boolean changeWeapon = false;
 
     public Player(int x, int y, int w, int h, BufferedImage sprite) {
         super(x, y, w, h, sprite);
-
+        this.setReload(false);
+        
         defPlayerR = Game.spritesheet.getSprite(65, 0, 32, 32); // 64, 0, 32, 32
         defPlayerL = Game.spritesheet.getSprite(224, 96, 32, 32); // 64, 0, 32, 32
         damegedPlayer = Game.spritesheet.getSprite(256, 0, 32, 32);
@@ -142,6 +145,23 @@ public class Player extends Entity {
 
     public void tick() {
     	
+    	// reload
+    	if(this.isReload()) {
+    		if(this.getAmmo() < maxAmmo) {
+    			if(this.getReserveAmmo() > 0) {
+    				this.setReserveAmmo(this.getReserveAmmo() - (maxAmmo - this.getAmmo()));
+        			this.setAmmo((maxAmmo - this.getAmmo()) + this.getAmmo());
+    			}
+    			else {
+    				while(this.getReserveAmmo() > 0) {
+    					this.setReserveAmmo(this.getReserveAmmo() - 1);
+    					this.setAmmo(this.getAmmo() + 1);
+    				}
+    			}
+    		}
+    		this.setReload(false);
+    	}
+    	
     	// trocar de arma
     	if(this.isChangeWeapon()) {
     		if(Game.weapon.size() > 0) {
@@ -151,15 +171,8 @@ public class Player extends Entity {
         		else {
         			Weapon w = Game.weapon.get(cur_weapon);
         			
-        			System.out.println(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO);
-        			if(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
-        				GUN_LEFT = Entity.GUN_LEFT;
-        				GUN_RIGHT = Entity.GUN_RIGHT;
-        			}
-        			else if(w.getSprite() == Entity.WEAPON_ENT_SHOTGUN) {
-        				GUN_LEFT = Entity.GUN_SHOTGUN_RIGHT;
-        				GUN_RIGHT = Entity.GUN_SHOTGUN_LEFT;
-        			}
+        			this.setWeapon(w);
+        			
         			cur_weapon++;
         		}
         		setChangeWeapon(false);
@@ -201,11 +214,27 @@ public class Player extends Entity {
         
         if(shoot && hasWeapon && ammo > 0)
         {
-        	double angle = Math.atan2(my - (this.getY() + 16 - Camera.y), mx - (this.getX() + 16 - Camera.x));
+        	double angle = Math.atan2(my - (this.getY() - Camera.y), mx - (this.getX() - Camera.x));
         	
         	double dx = Math.cos(angle), dy = Math.sin(angle);
-        	Bullet bullet = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx, dy, new Color(173,96,0,255), 6.0);
-        	Game.bullets.add(bullet);
+        	
+        	if(this.GUN_LEFT.equals(Entity.GUN_LEFT)) {
+        		Bullet bullet = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx, dy, new Color(173,96,0,255), 6.0);
+            	Game.bullets.add(bullet);
+        	}
+        	else if(this.GUN_LEFT.equals(Entity.GUN_SHOTGUN_LEFT)) {
+        		
+        		Bullet b1 = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx, dy, new Color(173,96,0,255), 6.0);
+        		Bullet b2 = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx - 0.25, dy - 0.25, new Color(173,96,0,255), 6.0);
+        		Bullet b3 = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx + 0.25, dy + 0.25, new Color(173,96,0,255), 6.0);
+        		if(Game.rand.nextInt(4) > 2) {
+        			Bullet b4 = new Bullet(this.getX() + 16, this.getY() + 16, 8, 8, null, dx + 0.45, dy + 0.45, new Color(173,96,0,255), 6.0);
+        			Game.bullets.add(b4);
+        		}
+        		Game.bullets.add(b1);
+        		Game.bullets.add(b2);
+        		Game.bullets.add(b3);
+        	}
         	ammo--;
         	shoot = false;
         }
@@ -243,8 +272,7 @@ public class Player extends Entity {
 			Entity e = Game.bulletsEn.get(i);
 			if(Entity.isColliding(e, Game.player))
 			{
-				//System.out.println("Acertou");
-				//life--;
+				life--;
 				Sound.playerHurt.play();
 				Game.bulletsEn.remove(i);
 				return;
@@ -288,10 +316,24 @@ public class Player extends Entity {
     				Game.weapon.add(w);
         			Game.entities.remove(i);
     				max_weapon++;
+    				if(this.GUN_LEFT == null) {
+    					this.setWeapon(w);
+    				}
     				return;
     			}
     		}
     	}
+    }
+    
+    private void setWeapon(Weapon w) {
+    	if(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
+			this.GUN_LEFT = Entity.GUN_LEFT;
+			this.GUN_RIGHT = Entity.GUN_RIGHT;
+		}
+		else if(w.getSprite() == Entity.WEAPON_ENT_SHOTGUN) {
+			this.GUN_LEFT = Entity.GUN_SHOTGUN_LEFT;
+			this.GUN_RIGHT = Entity.GUN_SHOTGUN_RIGHT;
+		}
     }
     
     public void checkCollisionAmmoPack()
@@ -303,19 +345,25 @@ public class Player extends Entity {
     		{
     			if(Entity.isColliding(this, e))
     			{
-    				if(ammo != 100)
+    				if(this.getAmmo() != maxAmmo)
     				{
-    					ammo += (Game.rand.nextInt(101) > 50 ) ? 25 : 15;
-        				if(ammo >= 100)
-        					ammo = 100;
+    					this.setAmmo(this.getAmmo() + 25);
+        				if(this.getAmmo() >= maxAmmo)
+        					this.setAmmo(maxAmmo);
         				Game.entities.remove(i);
     				}
+    				else
+        			{
+        				this.setReserveAmmo(maxAmmo);
+        				Game.entities.remove(i);
+        			}
     				return;
     			}
     		}
     	}
     }
 
+    
     public void setGUN_LEFT(BufferedImage img) {
     	this.GUN_LEFT = img;
     }
@@ -339,4 +387,45 @@ public class Player extends Entity {
 	public void setChangeWeapon(boolean changeWeapon) {
 		this.changeWeapon = changeWeapon;
 	}
+
+	public boolean isReload() {
+		return reload;
+	}
+
+	public void setReload(boolean reload) {
+		this.reload = reload;
+	}
+
+	public int getReserveAmmo() {
+		return reserveAmmo;
+	}
+
+	public void setReserveAmmo(int reserveAmmo) {
+		this.reserveAmmo = reserveAmmo;
+	}
+
+	public int getLife() {
+		return life;
+	}
+
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	public int getMaxLife() {
+		return maxLife;
+	}
+
+	public void setMaxLife(int maxLife) {
+		this.maxLife = maxLife;
+	}
+
+	public int getAmmo() {
+		return ammo;
+	}
+
+	public void setAmmo(int ammo) {
+		this.ammo = ammo;
+	}
+	
 }

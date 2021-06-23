@@ -15,6 +15,10 @@ public class Entity {
     public int x, y, w, h;
     protected List<Node> path;
     
+    public static BufferedImage HEART_FULL = Game.spritesheet.getSprite(320, 128, 32, 32);
+    public static BufferedImage HEART_HALF = Game.spritesheet.getSprite(352, 128, 32, 32);
+    public static BufferedImage HEART_EMPTY = Game.spritesheet.getSprite(384, 128, 32, 32);
+    
     public static BufferedImage LIFE_PACK_ENT =  Game.spritesheet.getSprite(0, 32, 32, 32);
     public static BufferedImage AMMO_PACK_ENT =  Game.spritesheet.getSprite(64, 32, 32, 32);
     public static BufferedImage ENEMY_ENT =  Game.spritesheet.getSprite(96, 32, 32, 32);

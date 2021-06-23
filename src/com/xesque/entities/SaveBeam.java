@@ -14,6 +14,9 @@ import com.xesque.world.World;
 public class SaveBeam extends Entity 
 {
 	public static boolean isSaved = false;
+	public static boolean bShowSavedMessage = false;
+	private int nFrames;
+	private int nMaxFrames = 4000;
 	
 	public SaveBeam(int x, int y, int w, int h, BufferedImage sprite) 
 	{
@@ -24,6 +27,15 @@ public class SaveBeam extends Entity
 	
 	public void tick()
 	{
+		if(SaveBeam.bShowSavedMessage)
+		{
+			nFrames++;
+			if(nFrames >= nMaxFrames)
+			{
+				SaveBeam.bShowSavedMessage = false;
+				nFrames = 0;
+			}
+		}
 		if(isCollidingPlayer())
 		{
 			if(isSaved)
@@ -35,13 +47,15 @@ public class SaveBeam extends Entity
 									"PlayerX",
 									"PlayerY",
 									"vida",
-									"municao"
+									"municao",
+									"reserva"
 								};
 					int[] opt2 = {Game.CUR_LEVEL, 
 									World.px,
 									World.py,
 									Game.player.getLife(),
-									(Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo()
+									(Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo(),
+									(Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()
 								};
 					Menu.saveGame(opt1, opt2, 1);
 					System.out.println("Saved");
@@ -66,6 +80,13 @@ public class SaveBeam extends Entity
 		gfx.setFont(new Font("arial", Font.ITALIC, 11));
 		gfx.setColor(new Color(255, 255, 255,150));
 		gfx.drawString("Aperte \"ENTER\" para salvar seu progresso", this.getX() - Camera.x - 95, this.getY() - Camera.y + 90);
+		if(bShowSavedMessage)
+		{
+			gfx.setColor(new Color(0, 0, 0,100));
+			gfx.fillRect(this.getX() - Camera.x - 42, this.getY() - Camera.y + 102, 100, 30);
+			gfx.setColor(new Color(255, 255, 255,150));
+			gfx.drawString("Progresso salvo!", this.getX() - Camera.x - 35, this.getY() - Camera.y + 122);
+		}
 	}
 	
 	public boolean isCollidingPlayer()

@@ -353,6 +353,21 @@ public class World {
 		}
 	}
 	
+	public float reverseSQRT( float number ) {
+		long i;
+		float x2, y;
+		float threehalfs = 1.5F;
+		
+		x2 = number * 0.5F;
+		y = number;
+		i = ( long ) y;
+		i = 0x5f3759df - ( i >> 1 );
+		y = ( float ) i;
+		y = y * (threehalfs - (x2 * y * y));
+		
+		return y;
+	}
+	
 	public static boolean isFree(int xNext, int yNext)
 	{
 		int x1 = xNext / TILE_SIZE;
@@ -366,6 +381,26 @@ public class World {
 		
 		int x4 = (xNext + TILE_SIZE -1) / TILE_SIZE;
 		int y4 = (yNext + TILE_SIZE -1) / TILE_SIZE;
+		
+		return !(tiles[x1 + (y1 * World.WIDTH)] instanceof WallTile ||
+				tiles[x2 + (y2 * World.WIDTH)] instanceof WallTile ||
+				tiles[x3 + (y3 * World.WIDTH)] instanceof WallTile ||
+				tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile);
+	}
+	
+	public static boolean isFreeDynamic(int xNext, int yNext, int width, int height)
+	{
+		int x1 = xNext / TILE_SIZE;
+		int y1 = yNext / TILE_SIZE;
+		
+		int x2 = (xNext + width -1) / TILE_SIZE;
+		int y2 = yNext / TILE_SIZE;
+		
+		int x3 = xNext / TILE_SIZE;
+		int y3 = (yNext + height -1) / TILE_SIZE;
+		
+		int x4 = (xNext + width -1) / TILE_SIZE;
+		int y4 = (yNext + height -1) / TILE_SIZE;
 		
 		return !(tiles[x1 + (y1 * World.WIDTH)] instanceof WallTile ||
 				tiles[x2 + (y2 * World.WIDTH)] instanceof WallTile ||

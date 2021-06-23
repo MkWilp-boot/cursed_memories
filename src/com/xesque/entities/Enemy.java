@@ -65,19 +65,19 @@ public class Enemy extends Entity
     			Bullet bullet;
     			if(i == 0)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 5.0);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), true);
     			}
     			else if(i == 1)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 5.0);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), true);
     			}
     			else if(i == 2)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 5.0);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), true);
     			}
     			else
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 5.0);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), true);
     			}
     	    	Game.bulletsEn.add(bullet);
     		}

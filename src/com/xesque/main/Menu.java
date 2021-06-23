@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.xesque.entities.SaveBeam;
 import com.xesque.world.World;
 
 public class Menu 
@@ -120,14 +121,15 @@ public class Menu
 				Game.player.setY(Integer.parseInt(spl2[1]));
 			break;
 			case "vida":
-				System.out.println("Vida: "+Integer.parseInt(spl2[1]));
 				Game.player.setLife(Integer.parseInt(spl2[1]));
 			break;
 			case "municao":
 				Game.player.setAmmo(Integer.parseInt(spl2[1]));
 			break;
+			case "reserva":
+				Game.player.setReserveAmmo(Integer.parseInt(spl2[1]));
+			break;
 			}
-			
 		}
 	}
 	
@@ -216,6 +218,7 @@ public class Menu
 		{
 			e.printStackTrace();
 		}
+		SaveBeam.bShowSavedMessage = true;
 	}
 	
 	

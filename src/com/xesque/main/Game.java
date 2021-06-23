@@ -136,7 +136,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         spritesheet = new Spritesheet("/spr.png");
         spr_map0 = new Spritesheet("/spr_map_0.png");
         
-        ui = new UI();
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         try {
             lightmap = ImageIO.read(getClass().getResource("/light.png"));
@@ -150,6 +149,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         player = new Player(0, 0, 32, 32, spritesheet.getSprite(64, 0, 32, 32));
         entities.add(player);
         world = new World(mapName);
+        ui = new UI();
         menu = new Menu("/logo.png", "/BG_0.png");
     }
 
@@ -372,14 +372,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         if (GAME_STATE == 1) {
             Graphics2D gfx2 = (Graphics2D) gfx;
-            gfx2.setColor(new Color(0, 0, 0, 100));
+            gfx2.setColor(new Color(0, 0, 0, 130));
             gfx2.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
-            gfx2.setColor(Color.white);
-            gfx2.setFont(new Font("Arial", Font.PLAIN, 40));
-            gfx2.drawString("Game Over", WIDTH * SCALE / 2 - 80, HEIGHT * SCALE / 2);
-            gfx2.setFont(new Font("Arial", Font.PLAIN, 25));
+            gfx2.setColor(new Color(255,255,255,230));
+            gfx2.setFont(main_font.deriveFont(90f));
+            gfx2.drawString("Game Over", WIDTH * SCALE / 2 - 160, HEIGHT * SCALE / 2);
+            gfx2.setFont(main_font.deriveFont(40f));
             if (showRestart) {
-                gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH * SCALE / 2 - 205, HEIGHT * SCALE / 2 + 40);
+                gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH * SCALE / 2 - 300, HEIGHT * SCALE / 2 + 60);
             }
         } else if (GAME_STATE == 2) {
             menu.render(gfx);

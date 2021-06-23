@@ -5,12 +5,16 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.xesque.main.Game;
+import com.xesque.main.Sound;
+import com.xesque.world.APointer;
+import com.xesque.world.Camera;
+import com.xesque.world.Vector2i;
 import com.xesque.world.World;
 
 public class Boss01 extends Boss 
 {
 
-	private int maxTime = 150, curTime = 0;
+	private int maxTime = 50, curTime = 0;
 	//private int maxSizeTime = 50, curTiSizeTime = 0;
 	private Random rand = new Random();
 	
@@ -20,76 +24,66 @@ public class Boss01 extends Boss
 		
 	}
 	
-	private void attack_8()
-	{
-		Bullet bullet;
-		for(int o = 0; o < 20; o++)
-		{
-			for(int i = 0; i < 8; i++)
-			{
-				if(i == 0)
-				{
-					bullet = new Bullet(this.getX() + 32 + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
-				}
-				else if(i == 1)
-				{
-					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
-				}
-				else if(i == 2)
-				{
-					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), -rand.nextDouble(), Color.RED, 4.0);
-				}
-				else if(i == 3)
-				{
-					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
-				}
-				else if(i == 4)
-				{
-					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
-				}
-				else if(i == 5)
-				{
-					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -rand.nextDouble(), -rand.nextDouble(), Color.RED, 4.0);
-				}
-				else if(i == 6)
-				{
-					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), -rand.nextDouble(), Color.RED, 4.0);
-				}
-				else
-				{
-					bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, rand.nextDouble(), rand.nextDouble(), Color.RED, 4.0);
-				}
-				Game.bulletsEn.add(bullet);
-			}
-		}
-	}
-	
 	public void attack_circ()
 	{
 		Bullet bullet = null;
-		for(int i = 0; i < 30; i++)
+		for(int i = 0; i < 16; i++)
 		{
 			switch(i)
 			{
+			// inicio padrao inteiro
 			case 0:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 1.5, Color.RED, 2.0);
-			break;
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
 			case 1:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 0.9, Color.RED, 2.0);
-			break;
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, -1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
 			case 2:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, 1, Color.RED, 3.0);
-			break;
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
 			case 3:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 0.5, Color.RED, 2.0);
-			break;
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, -1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
 			case 4:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0.9, 0.9, Color.RED, 2.0);
-			break;
-			default:
-				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, 0, Color.RED, 2.0);
-			
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, 1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 5:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 0, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 6:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 0, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 7:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0, -1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			// Fim padrao inteiro
+			// inicio padrao real
+			case 8:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0.5, 1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 9:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, 0.5, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 10:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, 0.5, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 11:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 0.5, -1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 12:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, 1, -0.5, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 13:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -0.5, 1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 14:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -0.5, -1, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
+			case 15:
+				bullet = new Bullet(this.getX() + 32  + 16, this.getY() + 32  + 24, 24, 16, null, -1, -0.5, Color.RED, 2.0, new Color(137,137,137, 100), false);
+				break;
 			}
+			// fim padrao real
 			Game.bulletsEn.add(bullet);
 		}
 	}
@@ -107,26 +101,27 @@ public class Boss01 extends Boss
 		
 		if(!this.isCollidingPlayer())
 		{
+			
 			if(Game.rand.nextInt(100) < 80)
 			{
 				if(x < Game.player.getX() && 
-						World.isFreeBos(this.getX() + 96 + (int)speed, this.getY()))
+						World.isFreeDynamic(this.getX() + (int)speed, this.getY(), this.getW(), this.getH()))
 				{
 					x += speed;
 				}
 				else if(x > Game.player.getX() &&
-						World.isFreeBos(this.getX() - (int)speed, this.getY()))
+						World.isFreeDynamic(this.getX() - (int)speed, this.getY(), this.getW(), this.getH()))
 				{
 					x -= speed;
 				}
 				
 				if(y < Game.player.getY() && 
-						World.isFreeBos(this.getX(), this.getY() + 96 + (int)speed))
+						World.isFreeDynamic(this.getX(), this.getY() + (int)speed, this.getW(), this.getH()))
 				{
 					y += speed;
 				}
 				else if(y > Game.player.getY() && 
-						World.isFreeBos(this.getX(), this.getY() - 96 - (int)speed))
+						World.isFreeDynamic(this.getX(), this.getY() - (int)speed, this.getW(), this.getH()))
 				{
 					y -= speed;
 				}
@@ -137,8 +132,11 @@ public class Boss01 extends Boss
 		{
 			if(Game.rand.nextInt(100) < 5)
 			{
-				Game.player.isDameged = true;
-				Game.player.setLife(Game.player.getLife() - 10);
+				if(!Game.player.invulnerable) {
+					Game.player.isDameged = true;
+					Game.player.setLife(Game.player.getLife() - 1);
+					Game.player.invulnerable = true;
+				}
 			}
 		}
 		

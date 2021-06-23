@@ -2,5 +2,6 @@ mapa:2
 PlayerX:2967
 PlayerY:3159
 vida:9
-municao:211
-reserva:211
+municao:5:
+reserva:1
+armas:S-T-

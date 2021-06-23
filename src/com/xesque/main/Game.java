@@ -148,7 +148,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         player = new Player(0, 0, 32, 32, spritesheet.getSprite(64, 0, 32, 32));
         entities.add(player);
-        world = new World(mapName);
+        world = new World(mapName, true);
         ui = new UI();
         menu = new Menu("/logo.png", "/BG_0.png");
     }
@@ -203,7 +203,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public void tick() {
         if (resetAble) {
             resetAble = false;
-            World.restartGame(mapName);
+            World.restartGame(mapName, true);
         }
         // Normal gameplay
         if (GAME_STATE == 0) {
@@ -215,7 +215,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                     CUR_LEVEL++;
                     mapName = "/map_" + CUR_LEVEL + ".png";
                     CHANGE_LEVEL = false;
-                    World.restartGame(mapName);
+                    World.restartGame(mapName, false);
                     System.out.println(mapName);
                 }
             }

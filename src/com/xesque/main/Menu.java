@@ -13,7 +13,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.xesque.entities.Entity;
 import com.xesque.entities.SaveBeam;
+import com.xesque.entities.Weapon;
 import com.xesque.world.World;
 
 public class Menu 
@@ -106,11 +108,11 @@ public class Menu
 		for(int i = 0; i < spl.length; i++)
 		{
 			String[] spl2 = spl[i].split(";");
-			System.out.println(spl2[1]);
+			
 			switch(spl2[0])
 			{
 			case "mapa":
-				World.restartGame("/map_"+spl2[1]+".png");
+				World.restartGame("/map_"+spl2[1]+".png", false);
 				Game.CUR_LEVEL = Integer.parseInt(spl2[1]);
 				paused = false;
 			break;
@@ -128,6 +130,19 @@ public class Menu
 			break;
 			case "reserva":
 				Game.player.setReserveAmmo(Integer.parseInt(spl2[1]));
+			break;
+			case "armas":
+				if(!Game.player.hasWeapon) {
+					Game.player.hasWeapon = true;
+				}
+				Game.weapon.add(new Weapon(0,0,32,32,Entity.WEAPON_ENT_RIFLE_NON_AUTO, 2));
+				Game.player.max_weapon = Game.player.max_weapon + 1;
+    				
+				if(spl2[1].indexOf("S") != -1) {
+					Weapon we = new Weapon(1,1,32,32,Entity.WEAPON_ENT_SHOTGUN, 1);
+					Game.weapon.add(we);
+					Game.player.max_weapon = Game.player.max_weapon + 1;
+				}
 			break;
 			}
 		}
@@ -159,7 +174,6 @@ public class Menu
 						line += ";";
 						line += transition[1];
 						line += "/";
-						System.out.println(line);
 					}
 				}
 				catch(IOException e)
@@ -175,7 +189,54 @@ public class Menu
 		return line;
 	}
 	
-	public static void saveGame(String[] val1, int[] val2, int encode)
+	public static void saveGame(String[] val1, String[] val2, int encode)
+	{
+		BufferedWriter writer = null;
+		try
+		{
+			writer = new BufferedWriter(new FileWriter("save.txt"));
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		for(int i = 0; i < val1.length; i++)
+		{
+			String current = val1[i];
+			current += ":";
+			char[] value = val2[i].toCharArray();
+			for(int x = 0; x < value.length; x++)
+			{
+				value[x] += encode;
+				current += value[x];
+			}
+			try
+			{
+				writer.write(current);
+				if(i < val1.length - 1)
+				{
+					writer.newLine();
+				}
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		try
+		{
+			writer.flush();
+			writer.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		SaveBeam.bShowSavedMessage = true;
+	}
+	
+	/*
+	 public static void saveGame(String[] val1, int[] val2, int encode)
 	{
 		BufferedWriter writer = null;
 		try
@@ -219,7 +280,9 @@ public class Menu
 			e.printStackTrace();
 		}
 		SaveBeam.bShowSavedMessage = true;
-	}
+	} 
+	 
+	 */
 	
 	
 	public void render(Graphics gfx)

@@ -15,6 +15,7 @@ public class Boss extends Entity
 	protected int x, y;
 	protected int life, damageFrame = 0, damageMaxFrame = 8;
 	protected boolean dameged = false;
+	protected int maxLife;
 	
 	public Boss(int x, int y, int w, int h, double speed,int vida,BufferedImage sprite)
 	{
@@ -22,6 +23,7 @@ public class Boss extends Entity
 		this.x = x;
 		this.y = y;
 		this.life = vida;
+		this.maxLife = vida;
 		this.speed = speed;
 	}
 	
@@ -47,26 +49,27 @@ public class Boss extends Entity
 	{
 		if(!this.isCollidingPlayer())
 		{
+			
 			if(Game.rand.nextInt(100) < 80)
 			{
 				if(x < Game.player.getX() && 
-						World.isFreeBos(this.getX() + 96 + (int)speed, this.getY()))
+						World.isFreeDynamic(this.getX() + (int)speed, this.getY(), this.getW(), this.getH()))
 				{
 					x += speed;
 				}
 				else if(x > Game.player.getX() &&
-						World.isFreeBos(this.getX() - (int)speed, this.getY()))
+						World.isFreeDynamic(this.getX() - (int)speed, this.getY(), this.getW(), this.getH()))
 				{
 					x -= speed;
 				}
 				
 				if(y < Game.player.getY() && 
-						World.isFreeBos(this.getX(), this.getY() + 96 + (int)speed))
+						World.isFreeDynamic(this.getX(), this.getY() + (int)speed, this.getW(), this.getH()))
 				{
 					y += speed;
 				}
 				else if(y > Game.player.getY() && 
-						World.isFreeBos(this.getX(), this.getY() - 96 - (int)speed))
+						World.isFreeDynamic(this.getX(), this.getY() - (int)speed, this.getW(), this.getH()))
 				{
 					y -= speed;
 				}
@@ -77,13 +80,16 @@ public class Boss extends Entity
 		{
 			if(Game.rand.nextInt(100) < 5)
 			{
-				Sound.playerHurt.play();
-				Game.player.isDameged = true;
-				Game.player.setLife(Game.player.getLife() - 10);
+				if(!Game.player.invulnerable) {
+					Game.player.isDameged = true;
+					Game.player.setLife(Game.player.getLife() - 1);
+					Game.player.invulnerable = true;
+				}
 			}
 		}
 		
 		this.checkCollisionBullet();
+		
 		if(this.life <= 0)
 		{
 			destroyBoss();
@@ -127,6 +133,14 @@ public class Boss extends Entity
 				return;
 			}
 		}
+	}
+	
+	public int getMaxLife() {
+		return this.maxLife;
+	}
+	
+	public int getLife() {
+		return this.life;
 	}
 
 	public void render(Graphics gfx)

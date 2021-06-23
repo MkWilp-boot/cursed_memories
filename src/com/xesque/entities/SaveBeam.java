@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Collections;
 
 import com.xesque.main.Game;
 import com.xesque.main.Menu;
@@ -43,22 +44,53 @@ public class SaveBeam extends Entity
 				isSaved = false;
     			if(Game.bosses.size() <= 0 && Game.enemies.size() <= 0)
     			{
+    				String armas = "";
+    				for(Weapon w : Game.weapon) {
+    					if(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
+    						armas += "R,";
+    					}
+    					
+    					if(w.getSprite() == Entity.WEAPON_ENT_SHOTGUN) {
+    						armas += "S,";
+    					}
+    				}
+    				System.out.println(armas);
     				String[] opt1 = {"mapa",
 									"PlayerX",
 									"PlayerY",
 									"vida",
 									"municao",
-									"reserva"
+									"reserva",
+									"armas"
 								};
-					int[] opt2 = {Game.CUR_LEVEL, 
-									World.px,
-									World.py,
-									Game.player.getLife(),
-									(Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo(),
-									(Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()
+					String[] opt2 = {Integer.toString(Game.CUR_LEVEL), 
+									Integer.toString(World.px),
+									Integer.toString(World.py),
+									Integer.toString(Game.player.getLife()),
+									Integer.toString((Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo()),
+									Integer.toString((Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()),
+									armas
 								};
 					Menu.saveGame(opt1, opt2, 1);
 					System.out.println("Saved");
+					/*
+						String[] opt1 = {"mapa",
+										"PlayerX",
+										"PlayerY",
+										"vida",
+										"municao",
+										"reserva"
+									};
+						int[] opt2 = {Game.CUR_LEVEL, 
+										World.px,
+										World.py,
+										Game.player.getLife(),
+										(Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo(),
+										(Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()
+									};
+						Menu.saveGame(opt1, opt2, 1);
+						System.out.println("Saved");
+					 */
     			}
     			else
     			{

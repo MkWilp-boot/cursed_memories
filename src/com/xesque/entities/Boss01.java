@@ -15,8 +15,6 @@ public class Boss01 extends Boss
 {
 
 	private int maxTime = 50, curTime = 0;
-	//private int maxSizeTime = 50, curTiSizeTime = 0;
-	private Random rand = new Random();
 	
 	public Boss01(int x, int y, int w, int h, double speed, int vida, BufferedImage sprite) 
 	{
@@ -141,6 +139,7 @@ public class Boss01 extends Boss
 		}
 		
 		this.checkCollisionBullet();
+		
 		if(this.life <= 0)
 		{
 			destroyBoss();

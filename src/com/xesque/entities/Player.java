@@ -362,7 +362,7 @@ public class Player extends Entity {
     	}
     }
     
-    private void setWeapon(Weapon w) {
+    public void setWeapon(Weapon w) {
     	if(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
 			this.GUN_LEFT = Entity.GUN_LEFT;
 			this.GUN_RIGHT = Entity.GUN_RIGHT;
@@ -404,6 +404,9 @@ public class Player extends Entity {
     	}
     }
 
+    public BufferedImage getGunLeft() {
+    	return this.GUN_LEFT;
+    }
     
     public void setGUN_LEFT(BufferedImage img) {
     	this.GUN_LEFT = img;

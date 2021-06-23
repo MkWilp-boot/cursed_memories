@@ -35,7 +35,7 @@ public class World {
 
 	public static int py;
 	
-	public static void restartGame(String level)
+	public static void restartGame(String level, boolean showBoss)
 	{
 		Game.entities = new ArrayList < Entity > ();
 		Game.GAME_STATE = 0;
@@ -48,11 +48,11 @@ public class World {
     	Game.player = new Player(0, 0, 32, 32, Game.spritesheet.getSprite(64, 0, 32, 32));
     	Game.player.setLife(Game.player.maxLife);
     	Game.entities.add(Game.player);
-    	Game.world = new World(level);
+    	Game.world = new World(level, showBoss);
     	return;
 	}
 	
-	public World(String path) 
+	public World(String path, boolean showBoss) 
 	{
 		try 
 		{
@@ -118,8 +118,14 @@ public class World {
 					break;
 					*/
 					case "7f006e":
-						Game.showPortal = false;
-						Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL_01));
+						if(!showBoss) {
+							Game.showPortal = true;
+							Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL_01));
+						}
+						else {
+							Game.showPortal = false;
+							Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL_01));
+						}
 					break;
 					case "ffbb5b":
 						Game.showPortal = false;
@@ -135,29 +141,44 @@ public class World {
 					break;
 					case "ff0000":
 						// inimigo
-						Enemy en =new Enemy(x * 32, y * 32, 32, 32, Entity.ENEMY_ENT);
-						Game.entities.add(en);
-						Game.enemies.add(en);
+						if(showBoss) {
+							Enemy en =new Enemy(x * 32, y * 32, 32, 32, Entity.ENEMY_ENT);
+							Game.entities.add(en);
+							Game.enemies.add(en);
+						}
 					break;
+					
+					// ARMAS
+					
 					case "0026ff":
-						// arma
-						Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT_RIFLE_NON_AUTO, 2));
+						// rifle
+						if(showBoss) {
+							Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT_RIFLE_NON_AUTO, 2));
+						}
 					break;
 					case "3251ff":
-						Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT_SHOTGUN, 1));
+							// shotgun
+						if(showBoss) {
+							Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT_SHOTGUN, 1));
+						}
 					break;
+					
+					// FIM ARMAS
+					
 					case "ffd800":
 						// munição
-						Game.entities.add(new Ammo(x * 32, y * 32, 32, 32, Entity.AMMO_PACK_ENT));
+							Game.entities.add(new Ammo(x * 32, y * 32, 32, 32, Entity.AMMO_PACK_ENT));
 					break;
 					case "00ffff":
 						// vida
-						Game.entities.add(new LifePack(x * 32, y * 32, 32, 32, Entity.LIFE_PACK_ENT));
+							Game.entities.add(new LifePack(x * 32, y * 32, 32, 32, Entity.LIFE_PACK_ENT));
 					break;
 					case "a6ff72":
-						Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 10, Entity.BOSS_01);
-						Game.entities.add(bs);
-						Game.bosses.add(bs);
+						if(showBoss) {
+							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 1, Entity.BOSS_01);
+							Game.entities.add(bs);
+							Game.bosses.add(bs);
+						}
 					break;
 					
 					// Inicio MAP_0

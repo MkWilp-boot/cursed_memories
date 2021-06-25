@@ -16,8 +16,8 @@ public class Portal extends Entity
 	public Portal(int x, int y, int w, int h, BufferedImage sprite) 
 	{
 		super(x, y, w, h, sprite);
-		this.x = x;
-		this.y = y;
+		Portal.x = x;
+		Portal.y = y;
 	}
 	
 	public void tick()

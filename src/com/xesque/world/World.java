@@ -167,15 +167,19 @@ public class World {
 					
 					case "ffd800":
 						// munição
+						if(showBoss) {
 							Game.entities.add(new Ammo(x * 32, y * 32, 32, 32, Entity.AMMO_PACK_ENT));
+						}
 					break;
 					case "00ffff":
 						// vida
+						if(showBoss) {
 							Game.entities.add(new LifePack(x * 32, y * 32, 32, 32, Entity.LIFE_PACK_ENT));
+						}
 					break;
 					case "a6ff72":
 						if(showBoss) {
-							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 1, Entity.BOSS_01);
+							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 200, Entity.BOSS_01);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
 						}

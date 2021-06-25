@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.xesque.main.Game;
-import com.xesque.main.Sound;
 import com.xesque.world.Camera;
 import com.xesque.world.World;
 
@@ -145,13 +144,6 @@ public class Boss extends Entity
 
 	public void render(Graphics gfx)
 	{
-		if(!dameged)
-		{
-			gfx.drawImage(Entity.BOSS_01, this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
-		else
-		{
-			gfx.drawImage(Entity.BOSS_01_DAM, this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
+
 	}
 }

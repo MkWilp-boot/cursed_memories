@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import com.xesque.graficos.DynamicShadow;
 import com.xesque.main.Game;
 import com.xesque.main.Sound;
 import com.xesque.world.Camera;
@@ -309,7 +310,7 @@ public class Player extends Entity {
 			Entity e = Game.bulletsEn.get(i);
 			if(Entity.isColliding(e, Game.player))
 			{
-				this.setLife(this.getLife() - 1);
+				//this.setLife(this.getLife() - 1);
 				Sound.playerHurt.play();
 				Game.bulletsEn.remove(i);
 				return;

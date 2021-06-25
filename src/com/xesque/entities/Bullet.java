@@ -63,10 +63,12 @@ public class Bullet extends Entity
 	
 	public void render(Graphics gfx)
 	{
-
-		gfx.setColor(this.color);
-		gfx.fillOval(this.getX() - Camera.x, this.getY() - Camera.y, w, h);
+		if(this.spr == null) {
+			gfx.setColor(this.color);
+			gfx.fillOval(this.getX() - Camera.x, this.getY() - Camera.y, w, h);
+			return;
+		}
 		
-		//gfx.drawImage(spr, this.getX() - Camera.x, this.getY() - Camera.y, w, h, null);
+		gfx.drawImage(spr, this.getX() - Camera.x, this.getY() - Camera.y, w, h, null);
 	}
 }

@@ -395,7 +395,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         long lLastTime = System.nanoTime();
         double dAmountOfTicks = 60.0;
         double dNs = 1000000000 / dAmountOfTicks;
-        int nFrames = 0;
+        //int nFrames = 0;
         double dTimer = System.currentTimeMillis();
         double dDelta = 0;
         requestFocus();
@@ -407,12 +407,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             if (dDelta >= 1) {
                 tick();
                 render();
-                nFrames++;
+                //nFrames++;
                 dDelta--;
             }
             if (System.currentTimeMillis() - dTimer >= 1000) {
                 //System.out.println("FPS: " + nFrames);
-                nFrames = 0;
+                //nFrames = 0;
                 dTimer += 1000;
             }
         }

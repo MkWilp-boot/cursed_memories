@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.Collections;
 
 import com.xesque.main.Game;
 import com.xesque.main.Menu;
@@ -54,7 +53,6 @@ public class SaveBeam extends Entity
     						armas += "S,";
     					}
     				}
-    				System.out.println(armas);
     				String[] opt1 = {"mapa",
 									"PlayerX",
 									"PlayerY",

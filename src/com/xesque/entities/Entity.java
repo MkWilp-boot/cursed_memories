@@ -15,6 +15,18 @@ public class Entity {
     public int x, y, w, h;
     protected List<Node> path;
     
+    // Projectals
+    public static BufferedImage FIRE_BALL_LEFT = Game.spritesheet.getSprite(320, 160, 32, 32);
+    public static BufferedImage FIRE_BALL_RIGHT = Game.spritesheet.getSprite(352, 160, 32, 32);
+    public static BufferedImage FIRE_BALL_SUPERIOR_ESQ = Game.spritesheet.getSprite(384, 160, 32, 32);
+    public static BufferedImage FIRE_BALL_SUPERIOR_DIR = Game.spritesheet.getSprite(416, 160, 32, 32);
+    
+    public static BufferedImage FIRE_BALL_CIMA = Game.spritesheet.getSprite(448, 160, 32, 32);
+    public static BufferedImage FIRE_BALL_BAIXO = Game.spritesheet.getSprite(480, 160, 32, 32);
+    public static BufferedImage FIRE_BALL_INFERIOR_ESQ = Game.spritesheet.getSprite(512, 160, 32, 32);
+    public static BufferedImage FIRE_BALL_INFERIOR_DIR = Game.spritesheet.getSprite(544, 160, 32, 32);
+    // End
+    
     public static BufferedImage HEART_FULL = Game.spritesheet.getSprite(320, 128, 32, 32);
     public static BufferedImage HEART_HALF = Game.spritesheet.getSprite(352, 128, 32, 32);
     public static BufferedImage HEART_EMPTY = Game.spritesheet.getSprite(384, 128, 32, 32);
@@ -22,6 +34,9 @@ public class Entity {
     public static BufferedImage LIFE_PACK_ENT =  Game.spritesheet.getSprite(0, 32, 32, 32);
     public static BufferedImage AMMO_PACK_ENT =  Game.spritesheet.getSprite(64, 32, 32, 32);
     public static BufferedImage ENEMY_ENT =  Game.spritesheet.getSprite(96, 32, 32, 32);
+    
+    public static BufferedImage METEOR_SPR =  Game.spritesheet.getSprite(288, 32, 32, 32);
+    public static BufferedImage TESTE_SPR =  Game.spritesheet.getSprite(320, 64, 4, 4);
     
     // WEAPON declaration
     

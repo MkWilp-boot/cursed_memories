@@ -55,15 +55,20 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public static final int WIDTH = 540; //540
     public static final int HEIGHT = 330; // 330
+    
+    //private int WIDTH_SCALE = Toolkit.getDefaultToolkit().getScreenSize().width;
+    //private int HEIGHT_SCALE = Toolkit.getDefaultToolkit().getScreenSize().height;
+    
+    private int WIDTH_SCALE = WIDTH * SCALE;
+    private int HEIGHT_SCALE = HEIGHT * SCALE;
+    
     private int framdesRestart = 0, maxFramesRestart = 200;
     public final static int SCALE = 2;
     public static int GAME_STATE = 2;
-
-    public static String mapName = "/map_1.png";
+    public static int CUR_LEVEL = 1, MAX_LEVEL = 6;
+    public static String mapName = "/map_"+ CUR_LEVEL +".png";
 
     private BufferedImage image;
-
-    public static int CUR_LEVEL = 1, MAX_LEVEL = 6;
 
     static int CUR_SCENE = 0;
     public static boolean CHANGE_LEVEL = false;
@@ -108,6 +113,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public int[] pixels;
     public BufferedImage lightmap;
     public int[] lightmapPixels;
+    
+    private boolean isPreparedDash = false;
+    
+    private int dashSize = 64;
+    
+    public static int dashCooldown = 400;
+    public static int currentCooldownStep = 400;
 
     public Game() {
         try {
@@ -123,8 +135,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         addMouseMotionListener(this);
         addMouseWheelListener(this);
 
-        //this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+        this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        //this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
         initFrame();
         entities = new ArrayList < Entity > ();
         enemies = new ArrayList < Enemy > ();
@@ -152,12 +164,42 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         ui = new UI();
         menu = new Menu("/logo.png", "/BG_0.png");
     }
+    
+    private void dashAble(String dir) {
+    	if(currentCooldownStep == 0) {
+    		currentCooldownStep = 400;
+        	if(dir == "CIMA") {
+        		int prev = player.getY() - this.getDashSize();
+        		if(World.isFree(player.getX(), player.getY() - this.getDashSize()) && prev > 32) {
+        			player.setY(player.getY() - this.getDashSize());
+        		}
+        	}
+        	else if(dir == "BAIXO") {
+        		int prev = player.getY() + this.getDashSize();
+        		if(World.isFree(player.getX(), player.getY() + this.getDashSize())  && prev < World.MAX_MAP_Y) {
+        			player.setY(player.getY() + this.getDashSize());
+        		}
+        	}
+        	else if(dir == "ESQUERDA") {
+        		int prev = player.getX() - this.getDashSize();
+        		if(World.isFree(player.getX() - this.getDashSize(), player.getY()) && prev > 32) {
+        			player.setX(player.getX() - this.getDashSize());
+        		}
+        	}
+        	else if(dir == "DIREITA") {
+        		int prev = player.getX() + this.getDashSize();
+        		if(World.isFree(player.getX() + this.getDashSize(), player.getY()) && prev < World.MAX_MAP_X) {
+        			player.setX(player.getX() + this.getDashSize());
+        		}
+        	}
+    	}
+    }
 
     public void initFrame() {
         frame = new JFrame("Cursed Memories");
         frame.add(this);
         frame.setResizable(false);
-        frame.setUndecorated(true);
+        //frame.setUndecorated(true);
         frame.pack();
         Image icon = null;
 
@@ -201,12 +243,23 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     }
 
     public void tick() {
+    	if(currentCooldownStep > 0) {
+    		currentCooldownStep--;
+    	}
         if (resetAble) {
             resetAble = false;
             World.restartGame(mapName, true);
         }
         // Normal gameplay
         if (GAME_STATE == 0) {
+        	Sound.musicGB.stop();
+            if(CUR_LEVEL == 1) {
+            	Sound.mp_bg_1.loop();
+            }
+            else {
+            	Sound.mp_bg_1.stop();
+            }
+            
             if (bosses.size() == 0 && CHANGE_LEVEL && CUR_LEVEL <= MAX_LEVEL) {
                 showPortal = true;
                 if (nextLevel) {
@@ -276,14 +329,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         else if (GAME_STATE == 2) {
             menu.tick();
             Sound.musicGB.loop();
-        }
-
-        if (GAME_STATE != 2) {
-            Sound.musicGB.stop();
             if(CUR_LEVEL == 1) {
-            	Sound.mp_bg_1.loop();
-            }
-            else {
             	Sound.mp_bg_1.stop();
             }
         }
@@ -323,7 +369,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             gfx.setColor(new Color(0, 0, 0));
         }
         
-        gfx.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
+        gfx.fillRect(0, 0, 
+        		WIDTH_SCALE, 
+        		HEIGHT_SCALE);
         world.render(gfx);
 
         // Entities
@@ -363,24 +411,24 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         ui.render(gfx);
         gfx.dispose();
         gfx = bs.getDrawGraphics();
-        gfx.drawImage(image, 
-			0, 
-			0,
-			Toolkit.getDefaultToolkit().getScreenSize().width,
-			Toolkit.getDefaultToolkit().getScreenSize().height,
-			null
-			);
+        gfx.drawImage(image,
+            0,
+            0,
+            WIDTH_SCALE,
+    		HEIGHT_SCALE,
+            null
+        );
 
         if (GAME_STATE == 1) {
             Graphics2D gfx2 = (Graphics2D) gfx;
             gfx2.setColor(new Color(0, 0, 0, 130));
-            gfx2.fillRect(0, 0, Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+            gfx2.fillRect(0, 0, WIDTH_SCALE, HEIGHT_SCALE);
             gfx2.setColor(new Color(255,255,255,230));
             gfx2.setFont(main_font.deriveFont(90f));
-            gfx2.drawString("Game Over", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 160, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
+            gfx2.drawString("Game Over", WIDTH_SCALE / 2 - 160, HEIGHT_SCALE / 2);
             gfx2.setFont(main_font.deriveFont(40f));
             if (showRestart) {
-                gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", Toolkit.getDefaultToolkit().getScreenSize().width / 2 - 300, Toolkit.getDefaultToolkit().getScreenSize().height / 2 + 60);
+                gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH_SCALE / 2 - 300, HEIGHT_SCALE / 2 + 60);
             }
         } else if (GAME_STATE == 2) {
             menu.render(gfx);
@@ -420,7 +468,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         }
         stop();
     }
-
+    
     @Override
     public void keyTyped(KeyEvent e) {
     	
@@ -428,6 +476,25 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void keyPressed(KeyEvent e) {
+    	
+    	if(e.getKeyCode() == KeyEvent.VK_ALT) {
+    		isPreparedDash = true;
+    	}
+    	
+    	if(isPreparedDash) {
+    		if(e.getKeyCode() == KeyEvent.VK_W) {
+        		dashAble("CIMA");
+        	}
+    		else if(e.getKeyCode() == KeyEvent.VK_S) {
+        		dashAble("BAIXO");
+        	}
+    		else if(e.getKeyCode() == KeyEvent.VK_D) {
+        		dashAble("DIREITA");
+        	}
+    		else if(e.getKeyCode() == KeyEvent.VK_A) {
+        		dashAble("ESQUERDA");
+        	}
+    	}
     	
     	if(e.getKeyCode() == KeyEvent.VK_R) {
     		if(Game.player.isReload()) {
@@ -469,6 +536,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     @Override
     public void keyReleased(KeyEvent e) {
 
+    	if(e.getKeyCode() == KeyEvent.VK_ALT) {
+    		isPreparedDash = false;
+    	}
+    	
         if (e.getKeyCode() == KeyEvent.VK_D) {
             player.right = false;
         } else if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -555,5 +626,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		// TODO Auto-generated method stub
 		Game.player.setChangeWeapon(true);
+	}
+
+	public int getDashSize() {
+		return dashSize;
+	}
+
+	public void setDashSize(int dashSize) {
+		this.dashSize = dashSize;
 	}
 }

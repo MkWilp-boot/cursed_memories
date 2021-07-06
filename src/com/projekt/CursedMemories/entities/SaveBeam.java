@@ -71,24 +71,6 @@ public class SaveBeam extends Entity
 								};
 					Menu.saveGame(opt1, opt2, 1);
 					System.out.println("Saved");
-					/*
-						String[] opt1 = {"mapa",
-										"PlayerX",
-										"PlayerY",
-										"vida",
-										"municao",
-										"reserva"
-									};
-						int[] opt2 = {Game.CUR_LEVEL, 
-										World.px,
-										World.py,
-										Game.player.getLife(),
-										(Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo(),
-										(Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()
-									};
-						Menu.saveGame(opt1, opt2, 1);
-						System.out.println("Saved");
-					 */
     			}
     			else
     			{

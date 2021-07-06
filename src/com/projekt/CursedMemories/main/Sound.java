@@ -11,6 +11,8 @@ public class Sound
 	public static final Sound playerHurt = new Sound("/hurt.wav");
 	// MAP 1	
 	public static final Sound mp_bg_1 = new Sound("/BATTLE_1.wav");
+	public static final Sound mp_bs_1 = new Sound("/Fogo.wav");
+	public static final Sound mp_bs_2 = new Sound("/Fogo_2.wav");
 	
 	Sound(String name)
 	{

@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import com.projekt.CursedMemories.graficos.DynamicShadow;
 import com.projekt.CursedMemories.main.Game;
 import com.projekt.CursedMemories.main.Sound;
 import com.projekt.CursedMemories.world.Camera;
@@ -93,9 +92,10 @@ public class Player extends Entity {
     
     public void drawPlayer(Graphics gfx) 
     {
+    	gfx.setColor(Color.CYAN);
+    	gfx.fillRect(this.getX() - Camera.x - 10, this.getY() - Camera.y + 34, (int)Game.currentCooldownStep / 8, 2);
+    	
     	if(Game.GAME_STATE != 1) {
- 		   
- 	   
 	    	if (right || left || up || down) 
 	        {
 	        	if(Game.mx > 270)

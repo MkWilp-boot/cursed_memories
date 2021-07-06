@@ -35,6 +35,9 @@ public class World {
 
 	public static int py;
 	
+	public static int MAX_MAP_Y;
+	public static int MAX_MAP_X;
+	
 	public static void restartGame(String level, boolean showBoss)
 	{
 		Game.entities = new ArrayList < Entity > ();
@@ -59,6 +62,9 @@ public class World {
 			BufferedImage map = ImageIO.read(getClass().getResource(path));
 			HEIGHT = map.getHeight();
 			WIDTH = map.getWidth();
+			
+			MAX_MAP_X = ((WIDTH * HEIGHT) * 2) - 96;
+			MAX_MAP_Y = ((WIDTH * HEIGHT) * 2) - 96;
 			
 			//int[] pixel = new int[WIDTH * HEIGHT];
 			tiles = new Tile[WIDTH * HEIGHT];
@@ -147,9 +153,7 @@ public class World {
 							Game.enemies.add(en);
 						}
 					break;
-					
 					// ARMAS
-					
 					case "0026ff":
 						// rifle
 						if(showBoss) {
@@ -162,9 +166,7 @@ public class World {
 							Game.entities.add(new Weapon(x * 32, y * 32, 32, 32, Entity.WEAPON_ENT_SHOTGUN, 1));
 						}
 					break;
-					
 					// FIM ARMAS
-					
 					case "ffd800":
 						// munição
 						if(showBoss) {
@@ -177,6 +179,7 @@ public class World {
 							Game.entities.add(new LifePack(x * 32, y * 32, 32, 32, Entity.LIFE_PACK_ENT));
 						}
 					break;
+					// BOSSES
 					case "a6ff72":
 						if(showBoss) {
 							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 200, Entity.BOSS_01);
@@ -433,25 +436,6 @@ public class World {
 				tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile);
 	}
 	
-	public static boolean isFreeBos(int xNext, int yNext)
-	{
-		int x1 = xNext / TILE_SIZE;
-		int y1 = yNext / TILE_SIZE;
-		
-		int x2 = (xNext + TILE_SIZE -1) / TILE_SIZE;
-		int y2 = yNext / TILE_SIZE;
-		
-		int x3 = xNext / TILE_SIZE;
-		int y3 = (yNext + TILE_SIZE -1) / TILE_SIZE;
-		
-		int x4 = (xNext + TILE_SIZE -1) / TILE_SIZE;
-		int y4 = (yNext + TILE_SIZE -1) / TILE_SIZE;
-		
-		return !(tiles[x1 + (y1 * World.WIDTH)] instanceof WallTile ||
-				tiles[x2 + (y2 * World.WIDTH)] instanceof WallTile ||
-				tiles[x3 + (y3 * World.WIDTH)] instanceof WallTile ||
-				tiles[x4 + (y4 * World.WIDTH)] instanceof WallTile);
-	}
 	
 	public void render(Graphics gfx)
 	{

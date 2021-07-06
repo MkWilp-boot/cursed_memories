@@ -12,7 +12,7 @@ public class Meteor extends Bullet {
 
 	private double dx, dy;
 	private double spd;
-	private int lifeTime = 200, cur_life = 0;
+	private int lifeTime = 150, cur_life = 0;
 	private Color color;
 	private BufferedImage spr;
 	private String size;

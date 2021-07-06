@@ -47,8 +47,15 @@ public class Bullet extends Entity
 		}
 		else
 		{
+			//double angleRadian = (dy > 0) ? Math.acos(dx) : -Math.acos(dx);
+			//double angleDegrees = angleRadian * 180 / Math.PI;
+			
+			//this.dx = Math.cos(Math.toDegrees(angleRadian));
+			//this.dy = Math.sin(Math.toDegrees(angleRadian));
+			
 			Game.bullets.remove(this);
 			Game.bulletsEn.remove(this);
+			
 		}
 		
 		cur_life++;

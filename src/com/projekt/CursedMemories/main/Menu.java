@@ -10,6 +10,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -26,14 +29,30 @@ public class Menu
 	
 	//private final int W = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private final int W = Game.WIDTH * Game.SCALE;
-
-	public int maxOption = options.length - 1;
+	
+	private Boolean topDown = true;
+	private Integer R = 0, A = 0;
+	private Integer maxOption = options.length - 1;
+	private Integer runningMenuNumber = 0;
+	private Integer numberOfBackGrounds = 0;
+	private Integer coolDownBG = 0;
+	private Integer maxCoolDownBG = 255;
+	private List<String> lstBackGroundNames = Arrays.asList("BG_0.png", "BG_1.png");
+	private List<BufferedImage> lstBackGrounds = new ArrayList<>();
 	public boolean down, up, rr = true, gg = true, bb = true;
 	public BufferedImage logo, bg;
 	public static boolean paused = false, saveExists = false, saveGame = false, context = false;
 	
 	public Menu(String path, String bg)
 	{
+		lstBackGroundNames
+			.stream()
+			.forEach(e -> {
+				File f = new File("D:\\ECLIPSE_WORK\\CURSED_MEMORIES\\res\\"+e);
+				try { this.lstBackGrounds.add(ImageIO.read(f)); }
+				catch (IOException e1) { e1.printStackTrace(); }
+			});
+		this.numberOfBackGrounds = lstBackGrounds.size() - 1;
 		try 
 		{
 			this.logo = ImageIO.read(getClass().getResource(path));
@@ -43,6 +62,40 @@ public class Menu
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	private void changeBG(Graphics gfx) {
+		gfx.setColor(new Color(0,0,0,0));
+		
+		if(R >= 255) {
+			topDown = false;
+		}
+		else if(R <= 0) {
+			topDown = true;
+		}
+		
+		if(topDown) {
+			R++;
+		}
+		else {
+			R--;
+		}
+		coolDownBG++;
+		if(coolDownBG >= maxCoolDownBG - 100) {
+			while(R != 255) {
+				R++; A++;
+				gfx.setColor(new Color(0, 0, 0, A));
+			}
+		}
+		if (coolDownBG >= maxCoolDownBG) {
+			coolDownBG = 0;
+			runningMenuNumber++;
+			R = 0; A = 0;
+			if(runningMenuNumber > numberOfBackGrounds) {
+				runningMenuNumber = 0;
+			}
+		}
+		gfx.fillRect(0, 0, Game.WIDTH_SCALE, Game.HEIGHT_SCALE);
 	}
 	
 	public void tick()
@@ -236,65 +289,19 @@ public class Menu
 		SaveBeam.bShowSavedMessage = true;
 	}
 	
-	/*
-	 public static void saveGame(String[] val1, int[] val2, int encode)
-	{
-		BufferedWriter writer = null;
-		try
-		{
-			writer = new BufferedWriter(new FileWriter("save.txt"));
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		for(int i = 0; i < val1.length; i++)
-		{
-			String current = val1[i];
-			current += ":";
-			char[] value = Integer.toString(val2[i]).toCharArray();
-			for(int x = 0; x < value.length; x++)
-			{
-				value[x] += encode;
-				current += value[x];
-			}
-			try
-			{
-				writer.write(current);
-				if(i < val1.length - 1)
-				{
-					writer.newLine();
-				}
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		try
-		{
-			writer.flush();
-			writer.close();
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-		SaveBeam.bShowSavedMessage = true;
-	} 
-	 
-	 */
-	
-	
 	public void render(Graphics gfx)
 	{
-		//gfx.setColor(new Color(r,g,b));
+		//gfx.drawImage(bg, -380, -130, null);
+		gfx.drawImage(lstBackGrounds.get(runningMenuNumber), 0, 0, null);
+		
+		this.changeBG(gfx);
+		
+		/*
+		gfx.setColor(new Color(0,0,0,100));
 		
 		gfx.fillRect(0,0,Game.WIDTH * Game.SCALE, Game.HEIGHT * Game.SCALE);
 		
-		
-		gfx.drawImage(bg, -380, -130, null);
-		
+		*/
 		gfx.setColor(new Color(255, 255, 255, 255));
 		
 		gfx.setFont(Game.main_font);
@@ -303,12 +310,10 @@ public class Menu
 
 		// opções
 		
-		if(!paused)
-		{
+		if(!paused) {
 			gfx.drawString("Novo Jogo", W / 2 - 90, 250);
 		}
-		else
-		{
+		else {
 			gfx.drawString("Retomar", W / 2 - 80, 250);
 		}
 		

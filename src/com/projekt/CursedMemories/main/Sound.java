@@ -3,73 +3,69 @@ package com.projekt.CursedMemories.main;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
-public class Sound
-{
-	private Clip clip;
-	public static final Sound musicGB = new Sound("/MENU_BG.wav");
-	public static final Sound playerHurt = new Sound("/hurt.wav");
-	// MAP 1	
-	public static final Sound mp_bg_1 = new Sound("/BATTLE_1.wav");
-	public static final Sound mp_bs_1 = new Sound("/Fogo.wav");
-	public static final Sound mp_bs_2 = new Sound("/Fogo_2.wav");
-	
-	Sound(String name)
-	{
-		try
-		{
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource(name));
-			clip = AudioSystem.getClip();
-			clip.open( audioIn );
-		}
-		catch(Throwable e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void stop()
-	{
-		this.clip.stop();
-	}
-	
-	public void play() 
-	{
-		try
-		{
-			new Thread() 
-			{
-				public void run()
-				{
-					if( clip.isRunning() ) 
-						clip.stop();
-					clip.setFramePosition( 0 );
-		            clip.start();
-					
-				}
-			}.start();
-		}
-		catch(Throwable e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public void loop()
-	{
-		try
-		{
-			new Thread() 
-			{
-				public void run()
-				{
-					clip.loop(100000000);
-				}
-			}.start();
-		}
-		catch(Throwable e)
-		{
-			e.printStackTrace();
-		}
-	}
+public class Sound implements AudioInternal {
+    private Clip clip;
+    public static final Sound musicGB = new Sound("/MENU_BG.wav");
+    public static final Sound playerHurt = new Sound("/hurt.wav");
+    // MAP 0
+    public static final Sound mp_bg_0 = new Sound("/BG_M_0.wav");
+
+    // MAP 1	
+    public static final Sound mp_bg_1 = new Sound("/BATTLE_1.wav");
+    public static final Sound mp_bs_1 = new Sound("/Fogo.wav");
+    public static final Sound mp_bs_2 = new Sound("/Fogo_2.wav");
+
+    Sound(String name) {
+        try {
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource(name));
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void stop() {
+        this.clip.stop();
+    }
+
+    @Override
+    public void play(Float volume) {
+        try {
+            new Thread() {
+                public void run() {
+                    setVolume(volume);
+                    if (clip.isRunning())
+                        clip.stop();
+                    clip.setFramePosition(0);
+                    clip.start();
+                }
+            }.start();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
+    public float getVolume() {
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        return (float) Math.pow(10f, gainControl.getValue() / 20f);
+    }
+
+    public void setVolume(float volume) {
+        if (volume < 0f || volume > 1f)
+            throw new IllegalArgumentException("Volume not valid: " + volume);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(20f * (float) Math.log10(volume));
+    }
+
+    @Override
+    public void loop(Float volume) {
+        new Thread(() -> {
+    		setVolume(volume);
+            clip.loop(100000000);
+    	}).start();
+    }
 }

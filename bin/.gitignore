@@ -1,7 +1,15 @@
-/BATTLE_2.wav
-/BG_0.png
-/MENU_BG.wav
+/A+_bft.png
+/BATTLE_1.wav
 /com/
+/BG_0.png
+/BG_M_0.wav
+/Background.png
+/Fogo.wav
+/Fogo_2.wav
+/HID.png
+/MENU_BG.wav
+/b001_spr.png
+/bkp_spr.png
 /cross.png
 /hall.png
 /hurt.wav
@@ -11,12 +19,11 @@
 /main_font.ttf
 /mainlevbuild.png
 /map_0.png
-/map_01.png
 /map_1.png
 /map_2.png
 /spr.png
+/spr_boss_darker.png
 /spr_map_0.png
 /BG_1.png
-/Background.png
-/Fogo.wav
-/Fogo_2.wav
+/BG_1.png_original
+/HUD Menus.png

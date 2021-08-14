@@ -16,12 +16,7 @@ public class Player extends Entity {
     public double speed = 3.0;
     public int cur_dir = 0;
     private boolean keepShooting = false;
-    /*
-     * 0 Direita
-     * 1 Cima
-     * 2 Esquerda
-     * 3 Baixo
-     */
+    private int goldAmount = 100; 
     private int life = 8;
 	public int maxLife = 8;
 	//varial de controle, para checar se o player pode tomar dano ou não, false = pode toma dano, true = não pode
@@ -311,7 +306,7 @@ public class Player extends Entity {
 			if(Entity.isColliding(e, Game.player))
 			{
 				//this.setLife(this.getLife() - 1);
-				Sound.playerHurt.play();
+				Sound.playerHurt.play(50f);
 				Game.bulletsEn.remove(i);
 				return;
 			}
@@ -471,6 +466,14 @@ public class Player extends Entity {
 
 	public void setAmmo(int ammo) {
 		this.ammo = ammo;
+	}
+
+	public int getGoldAmount() {
+		return goldAmount;
+	}
+
+	public void setGoldAmount(int goldAmount) {
+		this.goldAmount = goldAmount;
 	}
 	
 }

@@ -21,6 +21,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import com.projekt.CursedMemories.entities.Boss;
 import com.projekt.CursedMemories.entities.Bullet;
 import com.projekt.CursedMemories.entities.Enemy;
 import com.projekt.CursedMemories.entities.Entity;
+import com.projekt.CursedMemories.entities.Merchant;
 import com.projekt.CursedMemories.entities.Player;
 import com.projekt.CursedMemories.entities.Portal;
 import com.projekt.CursedMemories.entities.SaveBeam;
@@ -48,24 +50,28 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public static Spritesheet spritesheet;
     public static Spritesheet spr_map0;
-
+    public static SpriteSheet spr_b001;
+    public static Spritesheet spr_bDarker;
+    
     private Thread thread;
 
     private boolean bIsRunning;
+    public static boolean isInScene;
 
     public static final int WIDTH = 540; //540
     public static final int HEIGHT = 330; // 330
     
-    //private int WIDTH_SCALE = Toolkit.getDefaultToolkit().getScreenSize().width;
-    //private int HEIGHT_SCALE = Toolkit.getDefaultToolkit().getScreenSize().height;
-    
-    private int WIDTH_SCALE = WIDTH * SCALE;
-    private int HEIGHT_SCALE = HEIGHT * SCALE;
-    
     private int framdesRestart = 0, maxFramesRestart = 200;
     public final static int SCALE = 2;
+    
+    //public static int WIDTH_SCALE = Toolkit.getDefaultToolkit().getScreenSize().width;
+    //public static int HEIGHT_SCALE = Toolkit.getDefaultToolkit().getScreenSize().height;
+    
+    public static final int WIDTH_SCALE = WIDTH * SCALE;
+    public static final int HEIGHT_SCALE = HEIGHT * SCALE;
+    
     public static int GAME_STATE = 2;
-    public static int CUR_LEVEL = 1, MAX_LEVEL = 6;
+    public static int CUR_LEVEL = 0, MAX_LEVEL = 6;
     public static String mapName = "/map_"+ CUR_LEVEL +".png";
 
     private BufferedImage image;
@@ -103,6 +109,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static UI ui;
 
     public Menu menu;
+    
+    public static Merchant merchant;
 
     public boolean saveGame = false;
     public static double angle;
@@ -116,12 +124,18 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     
     private boolean isPreparedDash = false;
     
-    private int dashSize = 64;
+    private int dashSize = 96;
     
     public static int dashCooldown = 400;
-    public static int currentCooldownStep = 400;
+    public static int currentCooldownStep = 0;
+    
+    public List<UIMessages> falas = new ArrayList<>();
+    
+    // Dialogos
+    public static int currentDialogue;
 
     public Game() {
+    	
         try {
             main_font = Font.createFont(Font.TRUETYPE_FONT, stream_main_font).deriveFont(48f);
         } catch (FontFormatException e) {
@@ -129,6 +143,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         } catch (IOException e) {
             e.printStackTrace();
         }
+    	
         rand = new Random();
         addKeyListener(this);
         addMouseListener(this);
@@ -147,6 +162,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         spritesheet = new Spritesheet("/spr.png");
         spr_map0 = new Spritesheet("/spr_map_0.png");
+        spr_b001 = new SpriteSheet("/b001_spr.png");
+        spr_bDarker = new Spritesheet("/spr_boss_darker.png");
         
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         try {
@@ -160,11 +177,40 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         player = new Player(0, 0, 32, 32, spritesheet.getSprite(64, 0, 32, 32));
         entities.add(player);
+        
+        merchant = new Merchant(0, 0, 32, 32, Entity.MerchantIdle);
+
+        entities.add(merchant);
+        
         world = new World(mapName, true);
         ui = new UI();
         menu = new Menu("/logo.png", "/BG_0.png");
+        currentDialogue = 0;
+        isInScene = true;
+        
+        String[] M_0_INTROCUCAO_HALL_MSG = {". . .",". . .",
+					"Acorde.",
+					"Você esteve fora por tanto tempo que. . . Bem. . . você verá.",
+					"O seu tempo não chegou ainda.",
+					"Ainda há o que ser feito.",
+					"Então acorde, meu filho, acorde e....",
+					"Cumpra seu dever"};
+        UIMessages M_0_INTROCUCAO_HALL = new TextMessage(M_0_INTROCUCAO_HALL_MSG, "???");
+        
+        
+        String[] M_0_FALAPLAYER_00_MSG = {"????",
+        							  "Onde estou?"};
+        UIMessages M_0_FALAPLAYER_00 = new TextMessage(M_0_FALAPLAYER_00_MSG, "Jogador");
+        
+        UIMessages HINT_BASICS = new HintMessage(new String[] {"Mova-se pelo mapa usando W A S D"}, "");
+        
+        new Thread(() -> {
+        	falas.add(M_0_INTROCUCAO_HALL);	
+        	falas.add(M_0_FALAPLAYER_00);
+        	falas.add(HINT_BASICS);
+        }).run();
     }
-    
+
     private void dashAble(String dir) {
     	if(currentCooldownStep == 0) {
     		currentCooldownStep = 400;
@@ -204,7 +250,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         Image icon = null;
 
         try {
-            icon = ImageIO.read(getClass().getResource("/icon.png"));
+            //icon = ImageIO.read(getClass().getResource("/icon.png"));
+        	icon = ImageIO.read(new FileInputStream("res/icon.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -221,9 +268,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     }
 
     public synchronized void start() {
+    	
         thread = new Thread(this);
         bIsRunning = true;
         thread.start();
+        
     }
 
     public synchronized void stop() {
@@ -236,8 +285,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     }
 
     public static void main(String[] args) {
-
         Game game = new Game();
+        
         //Game.inScene = true;
         game.start();
     }
@@ -252,9 +301,17 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         }
         // Normal gameplay
         if (GAME_STATE == 0) {
+        	
         	Sound.musicGB.stop();
+        	if(CUR_LEVEL == 0 && Game.estado_cena == Game.jogando) {
+            	Sound.mp_bg_0.loop(0.5f);
+            }
+            else {
+            	Sound.mp_bg_0.stop();
+            }
+        	
             if(CUR_LEVEL == 1) {
-            	Sound.mp_bg_1.loop();
+            	Sound.mp_bg_1.loop(0.5f);
             }
             else {
             	Sound.mp_bg_1.stop();
@@ -263,50 +320,49 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             if (bosses.size() == 0 && CHANGE_LEVEL && CUR_LEVEL <= MAX_LEVEL) {
                 showPortal = true;
                 if (nextLevel) {
+                	System.out.println("proximo nivel");
                     showPortal = false;
                     nextLevel = false;
                     CUR_LEVEL++;
                     mapName = "/map_" + CUR_LEVEL + ".png";
                     CHANGE_LEVEL = false;
-                    World.restartGame(mapName, false);
+                    World.restartGame(mapName, true);
                     System.out.println(mapName);
                 }
             }
 
-            if(Game.estado_cena == Game.jogando) {
+            if(Game.estado_cena == Game.entrada) {
+            	if(!isInScene) {
+            		Game.estado_cena = Game.comecar;
+            	}
+            	if(currentDialogue == 1 || currentDialogue == 2) {
+            		isInScene = true;
+            	}
+            }
+            else if(Game.estado_cena == Game.jogando) {
             	for (int i = 0; i < entities.size(); i++) {
                     Entity e = entities.get(i);
                     if (e instanceof Portal) {
-                        if (showPortal) {
+                        if (showPortal) 
                             e.tick();
-                        }
-                    } else {
-                        e.tick();
+                    }
+                    else {
+                    	e.tick();
                     }
                 }
-                
                 for (int i = 0; i < bullets.size(); i++) {
                     bullets.get(i).tick();
                 }
-
                 for (int i = 0; i < bulletsEn.size(); i++) {
                     bulletsEn.get(i).tick();
                 }
+                if(currentDialogue == 1) {
+                	Game.estado_cena = Game.entrada;
+                }
             }
-            else if(Game.estado_cena == Game.entrada) {
-            	if(player.getX() < 100) {
-            		player.x++;
-            	}
-            	else {
-            		System.out.println("Fim cut");
-            		Game.estado_cena = Game.comecar;
-            	}
-            }
-            else if(Game.estado_cena == Game.comecar)
-            {
+            else if(Game.estado_cena == Game.comecar) {
             	Game.estado_cena = Game.jogando;
             }
-            
         }
         // Game Over
         else if (GAME_STATE == 1) {
@@ -328,10 +384,18 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         // Menu
         else if (GAME_STATE == 2) {
             menu.tick();
-            Sound.musicGB.loop();
+            Sound.musicGB.loop(0.5f);
             if(CUR_LEVEL == 1) {
             	Sound.mp_bg_1.stop();
             }
+        }
+        else if(GAME_STATE == 3) {
+        	for(int i = 0; i < entities.size(); i++) {
+        		Entity en = entities.get(i);
+        		if(en instanceof Player || en instanceof Merchant) {
+        			en.tick();
+        		}
+        	}
         }
         angle = Math.toDegrees(Math.atan2(my, mx));
     }
@@ -375,26 +439,37 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         world.render(gfx);
 
         // Entities
-        for (int i = 0; i < entities.size(); i++) {
-            Entity e = entities.get(i);
-
-            if (e instanceof Portal || e instanceof SaveBeam) {
-                if (showPortal) {
-                    e.render(gfx);
-                }
-            } else {
-                e.render(gfx);
-            }
-
-            if (e instanceof SaveBeam) {
-                if (showPortal) {
-                    if (((SaveBeam) e).isCollidingPlayer()) {
-                        ((SaveBeam) e).renderSaveMSG(gfx);
-                        saveGame = true;
-                    } else {
-                        saveGame = false;
-                    }
-                }
+        if(GAME_STATE != 3) {
+	        for (int i = 0; i < entities.size(); i++) {
+	            Entity e = entities.get(i);
+	            
+	            if (e instanceof Portal || e instanceof SaveBeam) {
+	                if (showPortal) {
+	                    e.render(gfx);
+	                }
+	            }
+	            else {
+	            	e.render(gfx);
+	            }
+	
+	            if (e instanceof SaveBeam) {
+	                if (showPortal) {
+	                    if (((SaveBeam) e).isCollidingPlayer()) {
+	                        ((SaveBeam) e).renderSaveMSG(gfx);
+	                        saveGame = true;
+	                    } else {
+	                        saveGame = false;
+	                    }
+	                }
+	            }
+	        }
+        }
+        else {
+        	for(int i = 0; i < entities.size(); i++) {
+        		Entity en = entities.get(i);
+        		if(en instanceof Player || en instanceof Merchant) {
+        			en.render(gfx);
+        		}
             }
         }
 
@@ -408,7 +483,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             }
         }
         applyLight();
-        ui.render(gfx);
+        if(GAME_STATE != 3){
+        	ui.render(gfx);
+        }
+        
+        // Dialogos;
+        if(isInScene) {
+    		falas.get(currentDialogue).render(gfx);
+        }
+        //
+        
         gfx.dispose();
         gfx = bs.getDrawGraphics();
         gfx.drawImage(image,
@@ -456,13 +540,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             if (dDelta >= 1) {
                 tick();
                 render();
+                
                 //nFrames++;
                 dDelta--;
             }
             if (System.currentTimeMillis() - dTimer >= 1000) {
                 //System.out.println("FPS: " + nFrames);
                 //nFrames = 0;
-            	
                 dTimer += 1000;
             }
         }
@@ -476,6 +560,39 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void keyPressed(KeyEvent e) {
+    	if(isInScene) {
+    		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+    			if(falas.get(currentDialogue) instanceof HintMessage) {
+    				HintMessage mm = (HintMessage) falas.get(currentDialogue);
+        			mm.setNextPhrase(true);
+    			}
+    			else if(falas.get(currentDialogue) instanceof TextMessage) {
+    				TextMessage mm = (TextMessage) falas.get(currentDialogue);
+        			mm.setNextPhrase(true);
+    			}
+    		}
+    	}
+    	
+    	if(GAME_STATE == 3) {
+    		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+    			merchant.baixo = true;
+    		}
+    		else if(e.getKeyCode() == KeyEvent.VK_UP) {
+    			merchant.cima = true;
+    		}
+    		else if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+    			merchant.hitEnter = true;
+    		}
+    		
+    		if(merchant.levelOfDeep == 2) {
+    			if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+    				merchant.right = true;
+    			}
+    			else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+    				merchant.left = true;
+    			}
+    		}
+    	}
     	
     	if(e.getKeyCode() == KeyEvent.VK_ALT) {
     		isPreparedDash = true;
@@ -535,6 +652,15 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void keyReleased(KeyEvent e) {
+    	
+    	if(GAME_STATE == 3) {
+    		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+    			merchant.baixo = false;
+    		}
+    		else if(e.getKeyCode() == KeyEvent.VK_UP) {
+    			merchant.cima = false;
+    		}
+    	}
 
     	if(e.getKeyCode() == KeyEvent.VK_ALT) {
     		isPreparedDash = false;

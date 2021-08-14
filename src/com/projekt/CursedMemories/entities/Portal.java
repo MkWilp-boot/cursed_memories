@@ -24,18 +24,18 @@ public class Portal extends Entity
 	{
 		if(isCollidingPlayer())
 		{
-			Game.nextLevel = true; 
+			Game.nextLevel = true;
 		}
 	}
 	
 	public void render(Graphics gfx)
 	{
-		gfx.drawImage(Entity.PORTAL_01, this.getX() - Camera.x, this.getY() - Camera.y, null);
+		gfx.drawImage(this.getSprite(), this.getX() - Camera.x, this.getY() - Camera.y, null);
 	}
 	
 	public boolean isCollidingPlayer()
 	{
-		Rectangle current_enemy = new Rectangle(this.getX(), this.getY(), 64, 103);
+		Rectangle current_enemy = new Rectangle(this.getX(), this.getY(), w, h);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), World.TILE_SIZE, World.TILE_SIZE);
 		
 		return current_enemy.intersects(player);

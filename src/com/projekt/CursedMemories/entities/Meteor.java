@@ -63,6 +63,7 @@ public class Meteor extends Bullet {
 		else {
 			Game.bullets.remove(this);
 			Game.bulletsEn.remove(this);
+			World.generateParticles(100, this.getX(), this.getY(), Color.red);
 		}
 		
 		cur_life++;

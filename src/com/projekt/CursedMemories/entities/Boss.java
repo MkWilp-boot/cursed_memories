@@ -3,18 +3,20 @@ package com.projekt.CursedMemories.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import com.projekt.CursedMemories.main.Game;
-import com.projekt.CursedMemories.world.Camera;
 import com.projekt.CursedMemories.world.World;
 
 public class Boss extends Entity
 {
+	protected Random rand = new Random();
 	protected double speed;
 	protected int x, y;
 	protected int life, damageFrame = 0, damageMaxFrame = 8;
 	protected boolean dameged = false;
 	protected int maxLife;
+	protected boolean destrocable = true;
 	
 	public Boss(int x, int y, int w, int h, double speed,int vida,BufferedImage sprite)
 	{
@@ -104,10 +106,14 @@ public class Boss extends Entity
 		}
 	}
 	
-	protected void destroyBoss()
-	{
-		Game.entities.remove(this);
-		Game.bosses.remove(this);
+	protected void animateDeath() {
+		destrocable = false;
+		dameged = true;
+		speed = 0.0;
+		
+		//Game.entities.remove(this);
+		//Game.bosses.remove(this);
+		/*
 		int bosses = Game.bosses.size();
 		if(bosses-- <= 0)
 		{
@@ -117,6 +123,16 @@ public class Boss extends Entity
 		{
 			Game.CHANGE_LEVEL = false;
 		}
+		*/
+	}
+	
+	protected void destroyBoss()
+	{
+		Integer gold = (int)(rand.nextDouble() * (140 - 70) + 70);
+		System.out.println("Voçê consegui: "+gold);
+		Game.player.setGoldAmount(Game.player.getGoldAmount() + gold);
+		
+		this.animateDeath();
 	}
 	
 	public void checkCollisionBullet()

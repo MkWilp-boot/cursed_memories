@@ -52,12 +52,9 @@ public class Bullet extends Entity
 			
 			//this.dx = Math.cos(Math.toDegrees(angleRadian));
 			//this.dy = Math.sin(Math.toDegrees(angleRadian));
-			
 			Game.bullets.remove(this);
 			Game.bulletsEn.remove(this);
-			
 		}
-		
 		cur_life++;
 		if(cur_life >= lifeTime)
 		{

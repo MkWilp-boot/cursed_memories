@@ -12,8 +12,10 @@ import com.projekt.CursedMemories.entities.Ammo;
 import com.projekt.CursedMemories.entities.Boss;
 import com.projekt.CursedMemories.entities.Boss01;
 import com.projekt.CursedMemories.entities.Bullet;
+import com.projekt.CursedMemories.entities.Darker;
 import com.projekt.CursedMemories.entities.Enemy;
 import com.projekt.CursedMemories.entities.Entity;
+import com.projekt.CursedMemories.entities.ExplosionParticle;
 import com.projekt.CursedMemories.entities.LifePack;
 import com.projekt.CursedMemories.entities.Player;
 import com.projekt.CursedMemories.entities.Portal;
@@ -26,6 +28,8 @@ import com.projekt.CursedMemories.main.Game;
 public class World {
 	
 	public static Tile[] tiles;
+	
+	public static Integer[] coordsToRemove = new Integer[2];
 	
 	public static int HEIGHT;
 	public static int WIDTH;
@@ -42,9 +46,12 @@ public class World {
 	{
 		Game.entities = new ArrayList < Entity > ();
 		Game.GAME_STATE = 0;
+		Game.nextLevel = false;
+		Game.CHANGE_LEVEL = false;
     	Game.enemies = new ArrayList< Enemy >();
     	Game.bullets = new ArrayList< Bullet >();
     	Game.bulletsEn = new ArrayList< Bullet >();
+    	Game.weapon = new ArrayList< Weapon > ();
     	Game.bosses = new ArrayList< Boss >();
     	Game.spritesheet = new Spritesheet("/spr.png");
     	Game.ui = new UI();
@@ -63,10 +70,9 @@ public class World {
 			HEIGHT = map.getHeight();
 			WIDTH = map.getWidth();
 			
-			MAX_MAP_X = ((WIDTH * HEIGHT) * 2) - 96;
-			MAX_MAP_Y = ((WIDTH * HEIGHT) * 2) - 96;
+			MAX_MAP_X = ((WIDTH * HEIGHT) * 2) - 128;
+			MAX_MAP_Y = ((WIDTH * HEIGHT) * 2) - 128;
 			
-			//int[] pixel = new int[WIDTH * HEIGHT];
 			tiles = new Tile[WIDTH * HEIGHT];
 			
 			for(int x = 0; x < WIDTH; x++)
@@ -124,15 +130,21 @@ public class World {
 					break;
 					*/
 					case "7f006e":
-						if(!showBoss) {
-							Game.showPortal = true;
-							Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL_01));
+						if(showBoss) {
+							Game.showPortal = false;
 						}
 						else {
-							Game.showPortal = false;
-							Game.entities.add(new Portal(x * 32, y * 32, 64, 64, Entity.PORTAL_01));
+							Game.showPortal = true;
 						}
+						Game.entities.add(new Portal(x * 32, y * 32, 64, 103, Entity.PORTAL_01));
 					break;
+					
+					case "007f7f":
+						Game.CHANGE_LEVEL = true;
+						Game.showPortal = true;
+						Game.entities.add(new Portal(x * 32, y * 32, 96, 96, Entity.PORTAL_00));
+					break;
+					
 					case "ffbb5b":
 						Game.showPortal = false;
 						px = x * 32;
@@ -182,77 +194,235 @@ public class World {
 					// BOSSES
 					case "a6ff72":
 						if(showBoss) {
-							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 200, Entity.BOSS_01);
+							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 1, Entity.BOSS_01_defaultR);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
 						}
 					break;
+					case "43ff00":
+						Darker darker = new Darker(x * 32, y * 32, 64, 64, 0.0, 1, Darker.IDLE_IMG);
+						Game.entities.add(darker);
+						Game.bosses.add(darker);
+						break;
+					// Merchant
+					case "0094ff":
+						Game.merchant.setX(x * 32);
+						Game.merchant.setY(y * 32);
+					break;
+					
 					
 					// Inicio MAP_0
 					
 					//Gate, Wall TILE
-					case "00ff90":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_0);
-					break;
-					case "00d374":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_1);
-					break;
-					case "00c46b":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_2);
-					break;
-					case "00a859":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_GATE_M_0_3);
-					break;
-					
-					// Gate, Bottom TILE
 					case "00994c":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_4);
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_0);
 					break;
 					case "00964b":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_5);
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_1);
 					break;
 					case "009148":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_6);
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_2);
 					break;
 					case "008743":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_3);
+					break;
+					case "00ff90":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_4);
+					break;
+					case "00d374":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_5);
+					break;
+					case "00c46b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_6);
+					break;
+					case "00a859":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_GATE_M_0_7);
 					break;
 					
-					// FloorTiles
-					case "717271":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
+					case "85bf94":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_LION_TOP_LEFT);
 					break;
+					case "7cb28a":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_LION_TOP_RIGHT);
+					break;
+					case "74a580":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_LION_MIDDLE_LEFT);
+					break;
+					case "6b9976":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_LION_MIDDLE_RIGHT);
+					break;
+					case "628c6c":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_LION_BOTTOM_LEFT);
+					break;
+					case "597f62":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_LION_BOTTOM_RIGHT);
+					break;
+					
+					// FloorTiles
 					case "004a7f":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_1);
 					break;
-					case "00477a":
+					case "19679f":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_2);
 					break;
-					case "004475":
+					case "3f8bc1":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_3);
 					break;
 					case "00355b":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_4);
 					break;
+					case "717271":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
+					break;
 					
-					// Fim MAP_0
-					// WallTiles
+					//Wall Tiles
+					case "22b2f4":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_BLOCK);
+					break;
 					case "722815":
-						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_0);
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_BOTTOM);
 					break;
 					case "70131c":
-						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_1);
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_RIGHT);
 					break;
 					case "6b1d25":
-						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_2);
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_TOP);
 					break;
 					case "6d2e3b":
-						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_3);
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_LEFT);
 					break;
-					case "6d1836":
-						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_4);
+					
+					// Boxes
+					case "9707ff":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STAIR_BOX_TOP_LEFT);
+					break;
+					case "8506e5":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STAIR_BOX_TOP_CENTER);
+					break;
+					case "7606cc":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STAIR_BOX_TOP_RIGHT);
+					break;
+					
+					case "390366":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STAIR_BOX_BOTTOM_LEFT);
+					break;
+					case "2b024c":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STAIR_BOX_BOTTOM_CENTER);
+					break;
+					case "1c0133":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STAIR_BOX_BOTTOM_RIGHT);
+					break;
+					
+					case "4c4c4c":
+						tiles[x + y * WIDTH] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_0_BLACK);
+					break;
+
+					// Main Stairs
+					case "ff006e":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S0);
+					break;
+					case "f20068":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S1);
+					break;
+					case "e50063":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S2);
+					break;
+					
+					case "d8005d":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S3);
+					break;
+					case "cc0058":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S4);
+					break;
+					case "bf0052":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S5);
+					break;
+					
+					
+					case "b2004d":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S6);
+					break;
+					case "a50047":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S7);
+					break;
+					case "990042":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S8);
+					break;
+					
+					
+					case "8c003c":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S9);
+					break;
+					case "7f0037":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S10);
+					break;
+					case "720031":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S11);
+					break;
+					
+					
+					case "ff0c75":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S12);
+					break;
+					case "ff197c":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S13);
+					break;
+					case "ff2684":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S14);
+					break;
+					
+					case "ff328b":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S15);
+					break;
+					case "ff3f92":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S16);
+					break;
+					case "ff4c99":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S17);
+					break;
+					
+					case "ff0098":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S18);
+					break;
+					case "ff0c9e":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S19);
+					break;
+					case "ff19a3":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S20);
+					break;
+					case "ff26a8":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S21);
+					break;
+					case "ff32ad":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S22);
+					break;
+					case "ff3fb2":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S23);
+					break;
+					
+					
+					
+					
+					case "ff0061":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S24);
+					break;
+					case "ff0c69":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S25);
+					break;
+					case "ff1971":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S26);
+					break;
+					case "ff2679":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S27);
+					break;
+					case "ff3281":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S28);
+					break;
+					case "ff3f89":
+						tiles[x + y * WIDTH] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_STAIR_S29);
 					break;
 					// Fim WallTiles
+					// Fim MAP_0
 					
 					
 					
@@ -381,19 +551,16 @@ public class World {
 		}
 	}
 	
-	public float reverseSQRT( float number ) {
-		long i;
-		float x2, y;
-		float threehalfs = 1.5F;
-		
-		x2 = number * 0.5F;
-		y = number;
-		i = ( long ) y;
-		i = 0x5f3759df - ( i >> 1 );
-		y = ( float ) i;
-		y = y * (threehalfs - (x2 * y * y));
-		
-		return y;
+	public static void generateParticles(Integer amount, Integer x, Integer y) {
+		for(var count = 0; count < amount; count++) {
+			Game.entities.add(new ExplosionParticle(x, y, 5, 5, null));
+		}
+	}
+	
+	public static void generateParticles(Integer amount, Integer x, Integer y, Color color) {
+		for(var count = 0; count < amount; count++) {
+			Game.entities.add(new ExplosionParticle(x, y, 5, 5, null, color));
+		}
 	}
 	
 	public static boolean isFree(int xNext, int yNext)
@@ -409,6 +576,17 @@ public class World {
 		
 		int x4 = (xNext + TILE_SIZE -1) / TILE_SIZE;
 		int y4 = (yNext + TILE_SIZE -1) / TILE_SIZE;
+		
+		if(tiles[x1 + (y1 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT ||
+		   tiles[x2 + (y2 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT ||
+		   tiles[x3 + (y3 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT ||
+		   tiles[x4 + (y4 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT) {
+			if(!Game.player.invulnerable) {
+				Game.player.isDameged = true;
+				Game.player.setLife(Game.player.getLife() - 3);
+				Game.player.invulnerable = true;
+			}
+		}
 		
 		return !(tiles[x1 + (y1 * World.WIDTH)] instanceof WallTile ||
 				tiles[x2 + (y2 * World.WIDTH)] instanceof WallTile ||
@@ -454,8 +632,19 @@ public class World {
 				}
 				Tile tile = tiles[x  + (y * WIDTH)];
 				tile.render(gfx);
-				
+				coordsToRemove[0] = x;
+				coordsToRemove[1] = y;
 			}
 		}
 	}
+	public static void setTileTo(Tile tile) {
+		if(!(tiles[tile.getX()  + (tile.getY() * WIDTH)] instanceof WallTile)) {
+			tiles[tile.getX()  + (tile.getY() * WIDTH)].setTexture(tile.getTexture());
+			System.out.println("Mudou");
+		}
+		else {
+			System.out.println("Parede");
+		}
+	}
+	
 }

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import com.projekt.CursedMemories.entities.Boss;
 import com.projekt.CursedMemories.entities.Entity;
+import com.projekt.CursedMemories.entities.Weapon;
 import com.projekt.CursedMemories.main.Game;
 
 public class UI
@@ -76,6 +77,28 @@ public class UI
 				
 				gfx.drawRect(20, Game.HEIGHT - 45, b.getMaxLife() + 1, 20);
 				gfx.fillRect(21, Game.HEIGHT - 44, b.getLife(), 19);
+			}
+		}
+		if(Game.weapon.size() > 0) {
+			int xPos = Game.WIDTH - 70;
+			for(Weapon w : Game.weapon) {
+				gfx.setColor(new Color(100, 100, 100, 100));
+				gfx.fillRect(xPos, Game.HEIGHT - 50, 32, 32);
+				gfx.setColor(new Color(255, 255, 255, 255));
+				
+				if(Game.player.getGunLeft() == Entity.GUN_LEFT) {
+					if(w.getSprite() == Entity.WEAPON_ENT_RIFLE_NON_AUTO) {
+						gfx.drawRect(xPos - 1, Game.HEIGHT - 51, 33, 33);
+					}
+				}
+				else if(Game.player.getGunLeft() == Entity.GUN_SHOTGUN_LEFT) { 
+					if(w.getSprite() == Entity.WEAPON_ENT_SHOTGUN) {
+						gfx.drawRect(xPos - 1, Game.HEIGHT - 51, 33, 33);
+					}
+				}
+				
+				gfx.drawImage(w.getSprite(), xPos, Game.HEIGHT - 50, null);
+				xPos-=35;
 			}
 		}
 	}

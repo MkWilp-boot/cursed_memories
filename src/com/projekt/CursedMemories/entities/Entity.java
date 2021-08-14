@@ -15,6 +15,12 @@ public class Entity {
     public int x, y, w, h;
     protected List<Node> path;
     
+    // Chars
+    public static BufferedImage MerchantIdle = Game.spritesheet.getSprite(768, 768, 32, 32);
+    
+    // Misce
+    public static BufferedImage LION_HALL = Game.spr_map0.getSprite(0, 416, 64, 96);
+    
     // Projectals
     public static BufferedImage FIRE_BALL_LEFT = Game.spritesheet.getSprite(320, 160, 32, 32);
     public static BufferedImage FIRE_BALL_RIGHT = Game.spritesheet.getSprite(352, 160, 32, 32);
@@ -44,7 +50,7 @@ public class Entity {
     public static BufferedImage GUN_LEFT =  Game.spritesheet.getSprite(256, 32, 32, 32);
     public static BufferedImage GUN_RIGHT =  Game.spritesheet.getSprite(224, 32, 32, 32);
     
-    public static BufferedImage WEAPON_ENT_SHOTGUN =  Game.spritesheet.getSprite(256, 128, 32, 32);
+    public static BufferedImage WEAPON_ENT_SHOTGUN =  Game.spritesheet.getSprite(256, 160, 32, 32);
     public static BufferedImage GUN_SHOTGUN_LEFT = Game.spritesheet.getSprite(288, 128, 32, 32);
     public static BufferedImage GUN_SHOTGUN_RIGHT = Game.spritesheet.getSprite(256, 128, 32, 32);
     
@@ -53,6 +59,7 @@ public class Entity {
     public static BufferedImage PORTAL = Game.spritesheet.getSprite(320, 0, 64, 64);
     
     public static BufferedImage PORTAL_01 = Game.spritesheet.getSprite(416, 0, 64, 103);
+    public static BufferedImage PORTAL_00 = Game.spr_map0.getSprite(160, 352, 96, 96);
     
     // SAVE GAME
     public static BufferedImage SAVE_BEAM = Game.spritesheet.getSprite(384, 0, 32, 64);
@@ -61,8 +68,14 @@ public class Entity {
     public static BufferedImage PLAYER_AVATAR =  Game.spritesheet.getSprite(0, 768, 32, 32);
     
     // STAGE 1, FIRE BOSS
-    public static BufferedImage BOSS_01 = Game.spritesheet.getSprite(0, 128, 128, 128);
-    public static BufferedImage BOSS_01_DAM = Game.spritesheet.getSprite(128, 128, 128, 128);
+    public static BufferedImage BOSS_01_DAM = Game.spr_b001.getSprite(256, 256, 128, 128);
+    public static BufferedImage BOSS_01_ATT_1 = Game.spr_b001.getSprite(0, 256, 128, 128);
+    
+    public static BufferedImage BOSS_01_defaultL = Game.spr_b001.getSprite(0, 0, 128, 128);
+    public static BufferedImage BOSS_01_defaultR = Game.spr_b001.getSprite(0, 128, 128, 128);
+   
+    public static BufferedImage[] rightBoss_01 = new BufferedImage[5];
+    public static BufferedImage[] leftBoss_01 = new BufferedImage[5];
     
     
     private BufferedImage sprite;

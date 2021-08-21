@@ -23,6 +23,12 @@ public class Tile {
 	public static final BufferedImage TILE_FLOOR_LGRAY = Game.spritesheet.getSprite(224, 64, 32, 32);
 	*/
 	
+	// Mapa Vulcao
+    public static final BufferedImage TILE_FLOOR_VULCAO_DIRT = Game.spr_vulcao.getSprite(32, 0, 32, 32);
+    public static final BufferedImage TILE_FLOOR_VULCAO_LAVADIRT = Game.spr_vulcao.getSprite(96, 0, 32, 32);
+    public static final BufferedImage TILE_WALL_VULCAO_LAVA = Game.spr_vulcao.getSprite(0, 0, 32, 32);
+    public static final BufferedImage TILE_WALL_VULCAO_LAVAROCK = Game.spr_vulcao.getSprite(64, 0, 32, 32);
+	
 	public static final BufferedImage TILE_WALL_RIGHT = Game.spritesheet.getSprite(160, 64, 32, 32);
 	public static final BufferedImage TILE_FLOOR_GENERIC = Game.spritesheet.getSprite(96, 64, 32, 32);
 	
@@ -184,6 +190,29 @@ public class Tile {
 	
 	
 	// Fim MAP_1
+	
+	
+	// Mapa lobby
+	public static final BufferedImage TILE_FLOOR_HUB_GRASS = Game.spr_hub.getSprite(32, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_HUB_DIRT = Game.spr_hub.getSprite(96, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_WATER = Game.spr_hub.getSprite(0, 96, 32, 32);
+	
+	public static final BufferedImage TILE_WALL_HUB_GRASS_BOTTOM = Game.spr_hub.getSprite(32, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_RIGHT = Game.spr_hub.getSprite(64, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_TOP = Game.spr_hub.getSprite(32, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_LEFT = Game.spr_hub.getSprite(0, 32, 32, 32);
+	
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_RB = Game.spr_hub.getSprite(64, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_RT = Game.spr_hub.getSprite(64, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_LB = Game.spr_hub.getSprite(0, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_LT = Game.spr_hub.getSprite(0, 0, 32, 32);
+	
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_IRB = Game.spr_hub.getSprite(128, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_IRT = Game.spr_hub.getSprite(128, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_ILB = Game.spr_hub.getSprite(96, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_ILT = Game.spr_hub.getSprite(96, 0, 32, 32);
+	
+	//Fim mapa lobby
 	
 	private BufferedImage sprite;
 	

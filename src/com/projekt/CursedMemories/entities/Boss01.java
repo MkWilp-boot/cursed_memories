@@ -198,15 +198,14 @@ public class Boss01 extends Boss
 		}
 		if(curTime >= maxTime)
 		{
-			//attack_animation = true;
+			attack_animation = true;
 			curTime = 0;
-			/*
 			int chance = this.rand.nextInt(100);
 			if(this.rand.nextInt(100) > 50) {
-				Sound.mp_bs_1.play();
+				Sound.mp_bs_1.play(0.5f);
 			}
 			else {
-				Sound.mp_bs_2.play();
+				Sound.mp_bs_2.play(0.5f);
 			}
 			if(chance < 50) {
 				attack_circ();
@@ -215,7 +214,6 @@ public class Boss01 extends Boss
 				createEnemy();
 			}
 			rainning();
-			*/
 		}
 		if(!this.isCollidingPlayer())
 		{

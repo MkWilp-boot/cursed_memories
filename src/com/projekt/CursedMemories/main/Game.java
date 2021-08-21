@@ -52,6 +52,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static Spritesheet spr_map0;
     public static SpriteSheet spr_b001;
     public static Spritesheet spr_bDarker;
+    public static Spritesheet spr_hub;
+    public static Spritesheet spr_vulcao;
     
     private Thread thread;
 
@@ -71,7 +73,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static final int HEIGHT_SCALE = HEIGHT * SCALE;
     
     public static int GAME_STATE = 2;
-    public static int CUR_LEVEL = 0, MAX_LEVEL = 6;
+    public static int CUR_LEVEL = 3, MAX_LEVEL = 6;
     public static String mapName = "/map_"+ CUR_LEVEL +".png";
 
     private BufferedImage image;
@@ -164,6 +166,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         spr_map0 = new Spritesheet("/spr_map_0.png");
         spr_b001 = new SpriteSheet("/b001_spr.png");
         spr_bDarker = new Spritesheet("/spr_boss_darker.png");
+        spr_hub = new Spritesheet("/spr_hub.png");
+        spr_vulcao = new Spritesheet("/spr_vulcao.png");
         
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         try {
@@ -594,7 +598,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     		}
     	}
     	
-    	if(e.getKeyCode() == KeyEvent.VK_ALT) {
+    	if(e.getKeyCode() == KeyEvent.VK_SHIFT) {
     		isPreparedDash = true;
     	}
     	

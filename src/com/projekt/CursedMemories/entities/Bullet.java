@@ -36,22 +36,28 @@ public class Bullet extends Entity
 		Particle p = new Particle(this.x, this.y, 4, 4, null, this.pColor);
 		Particle underP = new Particle(this.x, this.y + 10, 4, 4, null, new Color(0,0,0,100));
 		
-		if(World.isFreeDynamic( (int)(x + (dx * spd)), (int)(y + (dy * spd)), this.w, this.h) )
-		{
-			if(this.build) {
-				Game.entities.add(p);
-				Game.entities.add(underP);
+		try {
+			if(World.isFreeDynamic( (int)(x + (dx * spd)), (int)(y + (dy * spd)), this.w, this.h) )
+			{
+				if(this.build) {
+					Game.entities.add(p);
+					Game.entities.add(underP);
+				}
+				x += dx * spd;
+				y += dy * spd;
 			}
-			x += dx * spd;
-			y += dy * spd;
-		}
-		else
-		{
-			//double angleRadian = (dy > 0) ? Math.acos(dx) : -Math.acos(dx);
-			//double angleDegrees = angleRadian * 180 / Math.PI;
-			
-			//this.dx = Math.cos(Math.toDegrees(angleRadian));
-			//this.dy = Math.sin(Math.toDegrees(angleRadian));
+			else
+			{
+				//double angleRadian = (dy > 0) ? Math.acos(dx) : -Math.acos(dx);
+				//double angleDegrees = angleRadian * 180 / Math.PI;
+				
+				//this.dx = Math.cos(Math.toDegrees(angleRadian));
+				//this.dy = Math.sin(Math.toDegrees(angleRadian));
+				Game.bullets.remove(this);
+				Game.bulletsEn.remove(this);
+			}
+		} catch(IndexOutOfBoundsException e) {
+			cur_life = 0;
 			Game.bullets.remove(this);
 			Game.bulletsEn.remove(this);
 		}

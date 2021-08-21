@@ -56,14 +56,20 @@ public class Meteor extends Bullet {
 	}
 	
 	public void tick() {
-		if(World.isFreeDynamic( (int)(x + (dx * spd)), (int)(y + (dy * spd)), this.w, this.h)) {
-			x += dx * spd;
-			y += dy * spd;
-		}
-		else {
+		try {
+			if(World.isFreeDynamic( (int)(x + (dx * spd)), (int)(y + (dy * spd)), this.w, this.h)) {
+				x += dx * spd;
+				y += dy * spd;
+			}
+			else {
+				Game.bullets.remove(this);
+				Game.bulletsEn.remove(this);
+				World.generateParticles(100, this.getX(), this.getY(), Color.red);
+			}
+		} catch(IndexOutOfBoundsException e) {
+			cur_life = 0;
 			Game.bullets.remove(this);
 			Game.bulletsEn.remove(this);
-			World.generateParticles(100, this.getX(), this.getY(), Color.red);
 		}
 		
 		cur_life++;

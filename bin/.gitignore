@@ -2,11 +2,14 @@
 /BATTLE_1.wav
 /com/
 /BG_0.png
+/BG_1.png
+/BG_1.png_original
 /BG_M_0.wav
 /Background.png
 /Fogo.wav
 /Fogo_2.wav
 /HID.png
+/HUD Menus.png
 /MENU_BG.wav
 /b001_spr.png
 /bkp_spr.png
@@ -21,9 +24,10 @@
 /map_0.png
 /map_1.png
 /map_2.png
+/map_3.png
 /spr.png
 /spr_boss_darker.png
+/spr_hub.png
 /spr_map_0.png
-/BG_1.png
-/BG_1.png_original
-/HUD Menus.png
+/spr_vulcao.png
+/map_vulcao.png

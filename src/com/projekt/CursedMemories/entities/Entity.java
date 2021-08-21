@@ -77,6 +77,9 @@ public class Entity {
     public static BufferedImage[] rightBoss_01 = new BufferedImage[5];
     public static BufferedImage[] leftBoss_01 = new BufferedImage[5];
     
+    // Construções mapa hub
+    public static BufferedImage VULCAO = Game.spr_hub.getSprite(192, 304, 256, 224);
+    public static BufferedImage TEMPLO = Game.spr_hub.getSprite(192, 0, 288, 256);
     
     private BufferedImage sprite;
 

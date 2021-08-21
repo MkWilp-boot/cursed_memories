@@ -12,6 +12,7 @@ import com.projekt.CursedMemories.entities.Ammo;
 import com.projekt.CursedMemories.entities.Boss;
 import com.projekt.CursedMemories.entities.Boss01;
 import com.projekt.CursedMemories.entities.Bullet;
+import com.projekt.CursedMemories.entities.Construction;
 import com.projekt.CursedMemories.entities.Darker;
 import com.projekt.CursedMemories.entities.Enemy;
 import com.projekt.CursedMemories.entities.Entity;
@@ -89,6 +90,9 @@ public class World {
 					break;
 					case "/map_1.png":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
+					break;
+					case "/map_3.png":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_HUB_GRASS);
 					break;
 					default:
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
@@ -194,7 +198,7 @@ public class World {
 					// BOSSES
 					case "a6ff72":
 						if(showBoss) {
-							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 0.0, 1, Entity.BOSS_01_defaultR);
+							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 2.0, 100, Entity.BOSS_01_defaultR);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
 						}
@@ -210,6 +214,20 @@ public class World {
 						Game.merchant.setY(y * 32);
 					break;
 					
+					// Mapa Vulcao
+
+                    case "ff6600":
+                        tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_VULCAO_LAVA);
+                    break;
+                    case "472a1c":
+                        tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_VULCAO_DIRT);
+                    break;
+                    case "f7d11a":
+                        tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_VULCAO_LAVAROCK);
+                    break;
+                    case "e56520":
+                        tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_VULCAO_LAVADIRT);
+                    break;
 					
 					// Inicio MAP_0
 					
@@ -540,6 +558,67 @@ public class World {
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_M_1_18);
 					break;
 					// Fim MAPA_1
+					
+					// Mapa Lobby
+					case "747474":
+						Game.entities.add(new Construction(x * 32, y * 32, 256, 224, Entity.VULCAO, 1));
+					break;
+					case "838383":
+						Game.entities.add(new Construction(x * 32, y * 32, 288, 240, Entity.TEMPLO, 2));
+					break;
+					
+					
+					case "85d155":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_HUB_GRASS);
+					break;
+					case "874134":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_HUB_DIRT);
+					break;
+					case "78d5e1":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_WATER);
+					break;
+					
+					
+					case "437841":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_BOTTOM);
+					break;
+					case "89b852":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_RIGHT);
+					break;
+					case "308c35":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_TOP);
+					break;
+					case "306c35":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_LEFT);
+					break;
+					
+					
+					case "539648":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_RB);
+					break;
+					case "588c35":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_RT);
+					break;
+					case "538a48":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_LB);
+					break;
+					case "578c35":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_LT);
+					break;
+					
+					
+					case "416235":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_IRB);
+					break;
+					case "415e3d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_IRT);
+					break;
+					case "305135":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_ILB);
+					break;
+					case "417135":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_ILT);
+					break;
 					
 					}
 				}

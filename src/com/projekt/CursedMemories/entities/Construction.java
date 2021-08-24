@@ -1,6 +1,5 @@
 package com.projekt.CursedMemories.entities;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -36,7 +35,11 @@ public class Construction extends Entity{
 	@SuppressWarnings("static-access")
 	public void tick() {
 		if(this.IDmap == 1) {
-			if(this.isColliding(this, this.getW(), this.getH() - 50)) {
+			if(this.isColliding(this, this.getW(), this.getH() - 50)) {	
+				if(Game.boss_fire_kill) {
+					Game.player.setY(Game.player.getY() + 10);
+					return;
+				}
 				Game.mapName = "/map_vulcao.png";
 				World.setLevel(Game.mapName, true);
 			}

@@ -187,6 +187,9 @@ public class Menu
 			case "reserva":
 				Game.player.setReserveAmmo(Integer.parseInt(spl2[1]));
 			break;
+			case "fire":
+				Game.boss_fire_kill = Boolean.parseBoolean(spl2[1]);
+			break;
 			case "armas":
 				if(!Game.player.hasWeapon) {
 					Game.player.hasWeapon = true;

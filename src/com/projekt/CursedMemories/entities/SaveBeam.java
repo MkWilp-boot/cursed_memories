@@ -59,7 +59,8 @@ public class SaveBeam extends Entity
 									"vida",
 									"municao",
 									"reserva",
-									"armas"
+									"armas",
+									"fire"
 								};
 					String[] opt2 = {Integer.toString(Game.CUR_LEVEL), 
 									Integer.toString(World.px),
@@ -67,7 +68,8 @@ public class SaveBeam extends Entity
 									Integer.toString(Game.player.getLife()),
 									Integer.toString((Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo()),
 									Integer.toString((Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()),
-									armas
+									armas,
+									Boolean.toString(Game.boss_fire_kill)
 								};
 					Menu.saveGame(opt1, opt2, 5);
 					System.out.println("Saved");

@@ -137,6 +137,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static int currentDialogue;
     
     public static boolean rmvSetToBlack = false;
+    
+    public static boolean boss_fire_kill = false;
+    public static boolean boss_clock_kill = false;
+    public static boolean boss_final_kill = false;
 
     public Game() {
     	

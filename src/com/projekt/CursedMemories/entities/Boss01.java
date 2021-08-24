@@ -105,6 +105,8 @@ public class Boss01 extends Boss
 		World.generateParticles(100, this.getX() + 32, this.getY() + 32);
 		World.generateParticles(100, this.getX() + 64, this.getY() + 64);
 		
+		Game.boss_fire_kill = true;
+		
 		Game.entities.remove(this);
 		Game.bosses.remove(this);
 		

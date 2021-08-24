@@ -6,23 +6,6 @@ import java.awt.image.BufferedImage;
 import com.projekt.CursedMemories.main.Game;
 
 public class Tile {
-	// Provavel mapa, citado em World.java
-	/*
-	public static final BufferedImage TILE_FLOOR = Game.spritesheet.getSprite(0, 0, 32, 32);
-	public static final BufferedImage TILE_WALL = Game.spritesheet.getSprite(32, 0, 32, 32);
-	public static final BufferedImage TILE_CRUZ_FLOOR = Game.spritesheet.getSprite(0, 64, 32, 32);
-	public static final BufferedImage TILE_LEFT_WALL = Game.spritesheet.getSprite(32, 64, 32, 32);
-	public static final BufferedImage TILE_LEFT_CONT_WALL = Game.spritesheet.getSprite(64, 64, 32, 32);
-	public static final BufferedImage TILE_FLOOR_GENERIC = Game.spritesheet.getSprite(96, 64, 32, 32);
-	public static final BufferedImage TILE_FLOOR_TOP = Game.spritesheet.getSprite(128, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_RIGHT = Game.spritesheet.getSprite(160, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_TOP_RIGHT = Game.spritesheet.getSprite(192, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_RIGHT_SHA = Game.spritesheet.getSprite(224, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_STD_COL = Game.spritesheet.getSprite(256, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_STD_ROW = Game.spritesheet.getSprite(288, 64, 32, 32);
-	public static final BufferedImage TILE_FLOOR_LGRAY = Game.spritesheet.getSprite(224, 64, 32, 32);
-	*/
-	
 	// Mapa Vulcao
     public static final BufferedImage TILE_FLOOR_VULCAO_DIRT = Game.spr_vulcao.getSprite(32, 0, 32, 32);
     public static final BufferedImage TILE_FLOOR_VULCAO_LAVADIRT = Game.spr_vulcao.getSprite(96, 0, 32, 32);

@@ -24,7 +24,14 @@ public class Portal extends Entity
 	{
 		if(isCollidingPlayer())
 		{
-			Game.nextLevel = true;
+			if(Game.mapName == "/map_vulcao.png") {
+				System.out.println("MAPA DO VULCAO");
+				Game.mapName = "/map_1.png";
+				World.setLevel(Game.mapName, false);
+			}
+			else {
+				Game.nextLevel = true;
+			}
 		}
 	}
 	

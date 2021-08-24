@@ -69,7 +69,7 @@ public class SaveBeam extends Entity
 									Integer.toString((Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()),
 									armas
 								};
-					Menu.saveGame(opt1, opt2, 1);
+					Menu.saveGame(opt1, opt2, 5);
 					System.out.println("Saved");
     			}
     			else

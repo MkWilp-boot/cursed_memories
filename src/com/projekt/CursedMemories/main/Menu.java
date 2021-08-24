@@ -145,7 +145,7 @@ public class Menu
 				file = new File("save.txt");
 				if(file.exists()) 
 				{
-					String saver = loadSave(1);
+					String saver = loadSave(5);
 					applyLoadLevel(saver);
 				}
 			}
@@ -162,6 +162,8 @@ public class Menu
 		for(int i = 0; i < spl.length; i++)
 		{
 			String[] spl2 = spl[i].split(";");
+			
+			System.out.println(spl2[0]);
 			
 			switch(spl2[0])
 			{

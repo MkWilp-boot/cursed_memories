@@ -48,6 +48,7 @@ public class TextMessage implements UIMessages{
 		else if(closeDialogue) {
 			Game.isInScene = false;
 			Game.currentDialogue++;
+			Game.rmvSetToBlack = false;
 		}
 	}
 	
@@ -55,22 +56,21 @@ public class TextMessage implements UIMessages{
 	public void render(Graphics gfx) {
 		update();
 		// Borda
-		/*
 		gfx.setColor(Color.DARK_GRAY);
 		gfx.fillRect(0, Game.HEIGHT - 75, Game.WIDTH, 70);
 		
 		// Retangulo marrom
 		gfx.setColor(new Color(124, 63, 12));
 		gfx.fillRect(5, Game.HEIGHT - 70, Game.WIDTH - 15, 60);
-		*/
-		gfx.drawImage(Game.spritesheet.getSprite(256, 715, 513, 85), 10, 230, null);
+		
+		//gfx.drawImage(Game.spritesheet.getSprite(256, 715, 513, 85), 10, 230, null);
 		// Texto
 		gfx.setColor(Color.WHITE);
 		gfx.setFont(Game.main_font.deriveFont(17f));
-		gfx.drawString(this.falante, 40, 260);
+		gfx.drawString(this.falante, 40, 275);
 		
 		gfx.setFont(Game.main_font.deriveFont(13f));
-		gfx.drawString(palavras[lastFrase], 40, 280);
+		gfx.drawString(palavras[lastFrase], 40, 295);
 		
 		Graphics2D g2d = (Graphics2D) gfx.create();
 		

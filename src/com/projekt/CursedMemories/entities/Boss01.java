@@ -175,7 +175,7 @@ public class Boss01 extends Boss
 	}
 	
 	public void createEnemy() {
-		Enemy en = new Enemy(Game.player.getX() - 96, Game.player.getY(), 32, 32, Entity.ENEMY_ENT);
+		Enemy en = new Enemy(this.getX(), this.getY(), 32, 32, Entity.ENEMY_ENT);
 		Game.entities.add(en);
 		Game.enemies.add(en);
 	}
@@ -283,6 +283,7 @@ public class Boss01 extends Boss
 		
 		if(dameged)
 		{
+			attack_animation = false;
 			if(destrocable)
 			{
 				damageFrame++;

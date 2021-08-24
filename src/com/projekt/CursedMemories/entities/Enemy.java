@@ -102,7 +102,7 @@ public class Enemy extends Entity
     		if(!Game.player.invulnerable)
     		{
     		Game.player.setLife(Game.player.getLife() - 1);
-    		Sound.playerHurt.play(50f);
+    		Sound.playerHurt.play(0.7f);
     		Game.player.isDameged = true;
     		Game.player.invulnerable = true;
     		}

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -42,6 +43,28 @@ public class World {
 	
 	public static int MAX_MAP_Y;
 	public static int MAX_MAP_X;
+	
+	public static void setLevel(String level, boolean showBoss)
+	{
+		Player player = Game.player;
+		player.setLife(Game.player.getLife());
+		List<Weapon> ws = Game.weapon;
+		Game.entities = new ArrayList < Entity > ();
+		Game.GAME_STATE = 0;
+		Game.nextLevel = false;
+		Game.CHANGE_LEVEL = false;
+    	Game.enemies = new ArrayList< Enemy >();
+    	Game.bullets = new ArrayList< Bullet >();
+    	Game.bulletsEn = new ArrayList< Bullet >();
+    	Game.bosses = new ArrayList< Boss >();
+    	Game.spritesheet = new Spritesheet("/spr.png");
+    	Game.ui = new UI();
+    	Game.player = player;
+    	Game.weapon = ws;
+    	Game.entities.add(Game.player);
+    	Game.world = new World(level, showBoss);
+		return;
+	}
 	
 	public static void restartGame(String level, boolean showBoss)
 	{
@@ -89,10 +112,10 @@ public class World {
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_1);
 					break;
 					case "/map_1.png":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_1_0);
-					break;
-					case "/map_3.png":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_HUB_GRASS);
+					break;
+					case "/map_vulcao.png":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_VULCAO_DIRT);
 					break;
 					default:
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
@@ -104,42 +127,12 @@ public class World {
 						// chão
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL);
 					break;
-					// PROVAVEL MAPA, DEIXAR
-					/*
-					case "000000":
-						// chão
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_GENERIC);
-					break;
-					case "ff006e":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_CRUZ_FLOOR);
-					break;
-					case "70ff8a":
-						// lava
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_RIGHT);
-					break;
-					case "93713e":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STD_ROW);
-					break;
-					///
-					case "968470":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_STD_COL);
-					break;
-					///
-					case "b2698b":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_RIGHT);
-					break;
 					
-					case "b200ff":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_LGRAY);
-					break;
-					*/
 					case "7f006e":
-						if(showBoss) {
+						if(showBoss)
 							Game.showPortal = false;
-						}
-						else {
+						else
 							Game.showPortal = true;
-						}
 						Game.entities.add(new Portal(x * 32, y * 32, 64, 103, Entity.PORTAL_01));
 					break;
 					
@@ -150,9 +143,9 @@ public class World {
 					break;
 					
 					case "ffbb5b":
-						Game.showPortal = false;
 						px = x * 32;
 						py = y * 32;
+						System.out.println("BEAM");
 						Game.entities.add(new SaveBeam(x * 32, y * 32, 32, 64, Entity.SAVE_BEAM));
 					break;
 					
@@ -198,9 +191,10 @@ public class World {
 					// BOSSES
 					case "a6ff72":
 						if(showBoss) {
-							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 2.0, 100, Entity.BOSS_01_defaultR);
+							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 2.0, 1, Entity.BOSS_01_defaultR);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
+							System.out.println("Boss gerado");
 						}
 					break;
 					case "43ff00":

@@ -29,7 +29,7 @@ public class Construction extends Entity{
 
 	public void render(Graphics gfx) {
 		gfx.drawImage(this.getSprite(), this.getX() - Camera.x, this.getY() - Camera.y, null);
-		gfx.setColor(Color.RED);
+		//gfx.setColor(Color.RED);
 		//gfx.drawRect(this.getX() - Camera.x, this.getY() + 50 - Camera.y, this.getW(), this.getH() - 50);
 	}
 
@@ -37,7 +37,8 @@ public class Construction extends Entity{
 	public void tick() {
 		if(this.IDmap == 1) {
 			if(this.isColliding(this, this.getW(), this.getH() - 50)) {
-				World.restartGame("/map_vulcao.png", true);
+				Game.mapName = "/map_vulcao.png";
+				World.setLevel(Game.mapName, true);
 			}
 		} else if(this.IDmap == 2) {
 			if(this.isColliding(this, this.getW(), this.getH() - 50)) {

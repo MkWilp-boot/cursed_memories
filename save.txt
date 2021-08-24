@@ -1,0 +1,7 @@
+mapa:6
+PlayerX:>;5
+PlayerY:66=9
+vida:=
+municao:655
+reserva:5
+armas:W1

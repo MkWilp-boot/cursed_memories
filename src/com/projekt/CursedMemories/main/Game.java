@@ -73,7 +73,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static final int HEIGHT_SCALE = HEIGHT * SCALE;
     
     public static int GAME_STATE = 2;
-    public static int CUR_LEVEL = 3, MAX_LEVEL = 6;
+    public static int CUR_LEVEL = 0, MAX_LEVEL = 2;
     public static String mapName = "/map_"+ CUR_LEVEL +".png";
 
     private BufferedImage image;
@@ -135,6 +135,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     
     // Dialogos
     public static int currentDialogue;
+    
+    public static boolean rmvSetToBlack = false;
 
     public Game() {
     	
@@ -199,12 +201,21 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 					"Ainda há o que ser feito.",
 					"Então acorde, meu filho, acorde e....",
 					"Cumpra seu dever"};
-        UIMessages M_0_INTROCUCAO_HALL = new TextMessage(M_0_INTROCUCAO_HALL_MSG, "???");
-        
+        UIMessages M_0_INTROCUCAO_HALL = new TextMessage(M_0_INTROCUCAO_HALL_MSG, "???:");
         
         String[] M_0_FALAPLAYER_00_MSG = {"????",
         							  "Onde estou?"};
-        UIMessages M_0_FALAPLAYER_00 = new TextMessage(M_0_FALAPLAYER_00_MSG, "Jogador");
+        UIMessages M_0_FALAPLAYER_00 = new TextMessage(M_0_FALAPLAYER_00_MSG, "Jogador:");
+        
+        String[] M_0_FVOZ_DESCONHECIDA = 
+        	{"Não . . .",
+        	"Você . . . não pode",
+        	"Não está pronto . . .",
+        	"Seu lugar não é aqui",
+        	". . . . .",
+        	"Não ainda !"
+        };
+        UIMessages M_0_FVOZ_DESCONHECIDA_00 = new TextMessage(M_0_FVOZ_DESCONHECIDA, "Alguém:");
         
         UIMessages HINT_BASICS = new HintMessage(new String[] {"Mova-se pelo mapa usando W A S D"}, "");
         
@@ -212,6 +223,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         	falas.add(M_0_INTROCUCAO_HALL);	
         	falas.add(M_0_FALAPLAYER_00);
         	falas.add(HINT_BASICS);
+        	falas.add(M_0_FVOZ_DESCONHECIDA_00);
         }).run();
     }
 
@@ -315,7 +327,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             }
         	
             if(CUR_LEVEL == 1) {
-            	Sound.mp_bg_1.loop(0.5f);
+            	if(!rmvSetToBlack)
+            		Sound.mp_bg_1.loop(0.5f);
             }
             else {
             	Sound.mp_bg_1.stop();
@@ -328,9 +341,19 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                     showPortal = false;
                     nextLevel = false;
                     CUR_LEVEL++;
+                    // só pq n tem a luta feita ainda
+                    // logo, esse bloco será removido
+                    // na proxima versão
                     mapName = "/map_" + CUR_LEVEL + ".png";
                     CHANGE_LEVEL = false;
-                    World.restartGame(mapName, true);
+                    if(CUR_LEVEL == 1) {
+                    	rmvSetToBlack = true;
+                    	World.restartGame(mapName, true);
+                    }
+                    else {
+                    	World.setLevel(mapName, true);
+                    }
+                    
                     System.out.println(mapName);
                 }
             }
@@ -424,7 +447,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         //Graphics gfx = bs.getDrawGraphics();
 
         Graphics gfx = image.getGraphics();
-        // B
         
         switch (CUR_LEVEL) {
         case 0:
@@ -436,7 +458,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         default:
             gfx.setColor(new Color(0, 0, 0));
         }
-        
         gfx.fillRect(0, 0, 
         		WIDTH_SCALE, 
         		HEIGHT_SCALE);
@@ -447,24 +468,21 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	        for (int i = 0; i < entities.size(); i++) {
 	            Entity e = entities.get(i);
 	            
-	            if (e instanceof Portal || e instanceof SaveBeam) {
-	                if (showPortal) {
-	                    e.render(gfx);
-	                }
+	            if (e instanceof Portal) {
+	                if (showPortal) {e.render(gfx);}
 	            }
 	            else {
 	            	e.render(gfx);
 	            }
 	
 	            if (e instanceof SaveBeam) {
-	                if (showPortal) {
-	                    if (((SaveBeam) e).isCollidingPlayer()) {
-	                        ((SaveBeam) e).renderSaveMSG(gfx);
-	                        saveGame = true;
-	                    } else {
-	                        saveGame = false;
-	                    }
-	                }
+	            	e.render(gfx);
+                    if (((SaveBeam) e).isCollidingPlayer()) {
+                        ((SaveBeam) e).renderSaveMSG(gfx);
+                        saveGame = true;
+                    } else {
+                        saveGame = false;
+                    }
 	            }
 	        }
         }
@@ -491,6 +509,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         	ui.render(gfx);
         }
         
+        if(rmvSetToBlack) {
+        	gfx.setColor(Color.BLACK);
+        	isInScene = true;
+	    	gfx.fillRect(0, 0, 
+	          		WIDTH_SCALE, 
+	          		HEIGHT_SCALE);
+	    	Sound.mp_bg_1.stop();
+        }
         // Dialogos;
         if(isInScene) {
     		falas.get(currentDialogue).render(gfx);
@@ -598,7 +624,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     		}
     	}
     	
-    	if(e.getKeyCode() == KeyEvent.VK_SHIFT) {
+    	if(e.getKeyCode() == KeyEvent.VK_SPACE) {
     		isPreparedDash = true;
     	}
     	

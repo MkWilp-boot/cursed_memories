@@ -637,7 +637,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     		}
     	}
     	
-    	if(e.getKeyCode() == KeyEvent.VK_F) {
+    	if(e.getKeyCode() == KeyEvent.VK_SPACE) {
     		isPreparedDash = true;
     	}
     	
@@ -706,7 +706,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     		}
     	}
 
-    	if(e.getKeyCode() == KeyEvent.VK_ALT) {
+    	if(e.getKeyCode() == KeyEvent.VK_SPACE) {
     		isPreparedDash = false;
     	}
     	

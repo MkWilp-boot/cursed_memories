@@ -3,6 +3,6 @@ PlayerX:>;5
 PlayerY:66=9
 vida:=
 municao:655
-reserva:655
-armas:X1W1
-fire:ywzj
+reserva:5
+armas:W1X1
+fire:kfqxj

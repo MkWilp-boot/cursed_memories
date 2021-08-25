@@ -16,14 +16,13 @@ public class Enemy extends Entity
 {
 	
 	//private double speed = 1.0;
-	private int frames, index = 0, maxFrames = 20, maxIndex = 1, maxTime = 200, curTime = 0, life = 10;
+	private int frames, index = 0, maxFrames = 20, maxIndex = 1, maxTime = 200, curTime = 0, life = 5;
 	private boolean moved = true;
 	
 	private BufferedImage[] spritesEn = new BufferedImage[2];
 	
 	public Enemy(int x, int y, int w, int h, BufferedImage sprite) 
 	{
-		
 		super(x, y, w, h, null);
 		spritesEn[0] = Game.spritesheet.getSprite(128, 32, World.TILE_SIZE, World.TILE_SIZE);
 		spritesEn[1] = Game.spritesheet.getSprite(96, 32, World.TILE_SIZE, World.TILE_SIZE);
@@ -65,19 +64,19 @@ public class Enemy extends Entity
     			Bullet bullet;
     			if(i == 0)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
     			}
     			else if(i == 1)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
     			}
     			else if(i == 2)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
     			}
     			else
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 5.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
     			}
     	    	Game.bulletsEn.add(bullet);
     		}

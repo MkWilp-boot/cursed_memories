@@ -305,7 +305,7 @@ public class Player extends Entity {
 			Entity e = Game.bulletsEn.get(i);
 			if(Entity.isColliding(e, Game.player))
 			{
-				//this.setLife(this.getLife() - 1);
+				this.setLife(this.getLife() - 1);
 				Sound.playerHurt.play(0.7f);
 				Game.bulletsEn.remove(i);
 				return;

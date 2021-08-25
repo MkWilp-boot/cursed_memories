@@ -184,128 +184,128 @@ public class Boss01 extends Boss
 	
 	public void tick()
 	{
-		curTime++;
-		
-		if(attack_animation) {
-			cur_animation_fr++;
-			if(cur_animation_fr >= animation_max_fr) {
-				cur_animation_fr = 0;
-				attack_animation = false;
-			}
-		}
-		
-		if(curTime == 100) {
-			Tile tile = new FloorTile(World.coordsToRemove[0], World.coordsToRemove[1], Tile.TILE_WALL_RIGHT);
-			World.setTileTo(tile);
-		}
-		if(curTime >= maxTime)
-		{
-			attack_animation = true;
-			curTime = 0;
-			int chance = this.rand.nextInt(100);
-			if(this.rand.nextInt(100) > 50) {
-				Sound.mp_bs_1.play(0.5f);
-			}
-			else {
-				Sound.mp_bs_2.play(0.5f);
-			}
-			if(chance < 50) {
-				attack_circ();
-			}
-			else if(chance >= 50) {
-				createEnemy();
-			}
-			rainning();
-		}
-		if(!this.isCollidingPlayer())
-		{
-			movement = false;
-			moveLeft = false;
-			moveRight = false;
-			
-			if(x < Game.player.getX() && 
-					World.isFreeDynamic(this.getX() + (int)speed, this.getY(), this.getW(), this.getH()))
-			{
-				x += speed;
-				movement = true;
-				moveLeft = false;
-				moveRight = true;
-			}
-			else if(x > Game.player.getX() &&
-					World.isFreeDynamic(this.getX() - (int)speed, this.getY(), this.getW(), this.getH()))
-			{
-				x -= speed;
-				movement = true;
-				moveRight = false;
-				moveLeft = true;
-			}
-			
-			if(y < Game.player.getY() && 
-					World.isFreeDynamic(this.getX(), this.getY() + (int)speed, this.getW(), this.getH()))
-			{
-				y += speed;
-				movement = true;
-				
-				if(x < Game.player.getX())
-					moveRight = true;
-				else 
-					moveLeft = false;
-			}
-			else if(y > Game.player.getY() && 
-					World.isFreeDynamic(this.getX(), this.getY() - (int)speed, this.getW(), this.getH()))
-			{
-				y -= speed;
-				movement = true;
-				
-				if(x < Game.player.getX())
-					moveRight = true;
-				else 
-					moveLeft = false;
-			}
-		}
-		else
-		{
-			if(Game.rand.nextInt(100) < 5)
-			{
-				if(!Game.player.invulnerable) {
-					Game.player.isDameged = true;
-					Game.player.setLife(Game.player.getLife() - 1);
-					Game.player.invulnerable = true;
-				}
-			}
-		}
-		
 		this.checkCollisionBullet();
-		
-		if(this.life <= 0)
-		{
-			if(destrocable)
-				destroyBoss();
-		}
-		
-		if(dameged)
-		{
-			attack_animation = false;
-			if(destrocable)
-			{
-				damageFrame++;
-				if(damageFrame >= damageMaxFrame)
-				{
-					dameged = false;
-					damageFrame = 0;
+		if(life != maxLife) {
+			curTime++;
+			
+			if(attack_animation) {
+				cur_animation_fr++;
+				if(cur_animation_fr >= animation_max_fr) {
+					cur_animation_fr = 0;
+					attack_animation = false;
 				}
 			}
+			
+			if(curTime == 100) {
+				Tile tile = new FloorTile(World.coordsToRemove[0], World.coordsToRemove[1], Tile.TILE_WALL_RIGHT);
+				World.setTileTo(tile);
+			}
+			if(curTime >= maxTime)
+			{
+				attack_animation = true;
+				curTime = 0;
+				int chance = this.rand.nextInt(100);
+				if(this.rand.nextInt(100) > 50) {
+					Sound.mp_bs_1_v.play(0.8f);
+				}
+				else {
+					Sound.mp_bs_2_v.play(0.8f);
+				}
+				if(chance < 50) {
+					attack_circ();
+				}
+				else if(chance >= 50) {
+					createEnemy();
+				}
+				rainning();
+			}
+			if(!this.isCollidingPlayer())
+			{
+				movement = false;
+				moveLeft = false;
+				moveRight = false;
+				
+				if(x < Game.player.getX() && 
+						World.isFreeDynamic(this.getX() + (int)speed, this.getY(), this.getW(), this.getH()))
+				{
+					x += speed;
+					movement = true;
+					moveLeft = false;
+					moveRight = true;
+				}
+				else if(x > Game.player.getX() &&
+						World.isFreeDynamic(this.getX() - (int)speed, this.getY(), this.getW(), this.getH()))
+				{
+					x -= speed;
+					movement = true;
+					moveRight = false;
+					moveLeft = true;
+				}
+				
+				if(y < Game.player.getY() && 
+						World.isFreeDynamic(this.getX(), this.getY() + (int)speed, this.getW(), this.getH()))
+				{
+					y += speed;
+					movement = true;
+					
+					if(x < Game.player.getX())
+						moveRight = true;
+					else 
+						moveLeft = false;
+				}
+				else if(y > Game.player.getY() && 
+						World.isFreeDynamic(this.getX(), this.getY() - (int)speed, this.getW(), this.getH()))
+				{
+					y -= speed;
+					movement = true;
+					
+					if(x < Game.player.getX())
+						moveRight = true;
+					else 
+						moveLeft = false;
+				}
+			}
+			else
+			{
+				if(Game.rand.nextInt(100) < 5)
+				{
+					if(!Game.player.invulnerable) {
+						Game.player.isDameged = true;
+						Game.player.setLife(Game.player.getLife() - 1);
+						Game.player.invulnerable = true;
+					}
+				}
+			}
+			if(this.life <= 0)
+			{
+				if(destrocable)
+					destroyBoss();
+			}
+			
+			if(dameged)
+			{
+				attack_animation = false;
+				if(destrocable)
+				{
+					damageFrame++;
+					if(damageFrame >= damageMaxFrame)
+					{
+						dameged = false;
+						damageFrame = 0;
+					}
+				}
+			}
+			
+			if (movement) {
+	            frames++;
+	            if (frames >= maxFrames) {
+	                frames = 0;
+	                index++;
+	                if(index > maxIndex) {
+	                	index = 0;
+	                }
+	            }
+	        }
 		}
-		
-		if (movement) {
-            frames++;
-            if (frames >= maxFrames) {
-                frames = 0;
-                index++;
-                if(index > maxIndex) {
-                	index = 0;
-                }
-            }
-        }
 	}
 }

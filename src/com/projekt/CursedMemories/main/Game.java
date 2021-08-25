@@ -72,6 +72,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static final int WIDTH_SCALE = WIDTH * SCALE;
     public static final int HEIGHT_SCALE = HEIGHT * SCALE;
     
+    public static final String ROOT_DIR = System.getProperty("user.dir");
+    
     public static int GAME_STATE = 2;
     public static int CUR_LEVEL = 0, MAX_LEVEL = 2;
     public static String mapName = "/map_"+ CUR_LEVEL +".png";
@@ -172,7 +174,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         spr_map0 = new Spritesheet("/spr_map_0.png");
         spr_b001 = new SpriteSheet("/b001_spr.png");
         spr_bDarker = new Spritesheet("/spr_boss_darker.png");
-        spr_hub = new Spritesheet("/spr_hub.png");
+        spr_hub = new Spritesheet("/bkp_hub.png");
         spr_vulcao = new Spritesheet("/spr_vulcao.png");
         
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -321,21 +323,28 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         }
         // Normal gameplay
         if (GAME_STATE == 0) {
-        	
         	Sound.musicGB.stop();
-        	if(CUR_LEVEL == 0 && Game.estado_cena == Game.jogando) {
-            	Sound.mp_bg_0.loop(0.5f);
-            }
-            else {
-            	Sound.mp_bg_0.stop();
-            }
-        	
-            if(CUR_LEVEL == 1) {
-            	if(!rmvSetToBlack)
-            		Sound.mp_bg_1.loop(0.5f);
+        	// MAPA 0 (hall)
+        	if(mapName.contains("0") && Game.estado_cena == Game.jogando) {
+        		Sound.mp_bg_0.loop(0.5f);
+        	}
+        	else {
+        		Sound.mp_bg_0.stop();
+        	}
+        	// MAPA 1 (lobby)
+        	if(mapName.contains("1")) {
+        		if(!rmvSetToBlack) 
+        			Sound.mp_bg_1.loop(0.5f);
             }
             else {
             	Sound.mp_bg_1.stop();
+            }
+        	// MAPA VULCAO (boss de fogo)
+            if(mapName.contains("vulcao")) {
+            	Sound.mp_bg_v.loop(0.5f);
+            }
+            else {
+            	Sound.mp_bg_v.stop();
             }
             
             if (bosses.size() == 0 && CHANGE_LEVEL && CUR_LEVEL <= MAX_LEVEL) {
@@ -628,7 +637,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     		}
     	}
     	
-    	if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+    	if(e.getKeyCode() == KeyEvent.VK_F) {
     		isPreparedDash = true;
     	}
     	
@@ -655,6 +664,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         if (GAME_STATE == 1) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            	Game.mapName = "/map_1.png";
                 resetAble = true;
             }
         }

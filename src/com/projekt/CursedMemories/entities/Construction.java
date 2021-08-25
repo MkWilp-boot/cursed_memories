@@ -41,7 +41,7 @@ public class Construction extends Entity{
 					return;
 				}
 				Game.mapName = "/map_vulcao.png";
-				World.setLevel(Game.mapName, true);
+				World.setLevel("/map_vulcao.png", true);
 			}
 		} else if(this.IDmap == 2) {
 			if(this.isColliding(this, this.getW(), this.getH() - 50)) {

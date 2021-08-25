@@ -7,15 +7,18 @@ import javax.sound.sampled.FloatControl;
 
 public class Sound implements AudioInternal {
     private Clip clip;
-    public static final Sound musicGB = new Sound("/MENU_BG.wav");
-    public static final Sound playerHurt = new Sound("/hurt.wav");
+    public static final Sound musicGB = new Sound("/BG_MENU.wav");
+    public static final Sound playerHurt = new Sound("/PLAYER_HURT.wav");
     // MAP 0
     public static final Sound mp_bg_0 = new Sound("/BG_M_0.wav");
 
-    // MAP 1	
-    public static final Sound mp_bg_1 = new Sound("/BATTLE_1.wav");
-    public static final Sound mp_bs_1 = new Sound("/Fogo.wav");
-    public static final Sound mp_bs_2 = new Sound("/Fogo_2.wav");
+    // MAP 1
+    public static final Sound mp_bg_1 = new Sound("/BG_M_1.wav");
+    
+    // MAP VULCAO	
+    public static final Sound mp_bg_v = new Sound("/BATTLE_VULCAO.wav");
+    public static final Sound mp_bs_1_v = new Sound("/Fogo.wav");
+    public static final Sound mp_bs_2_v = new Sound("/Fogo_2.wav");
 
     Sound(String name) {
         try {

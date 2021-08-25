@@ -48,7 +48,7 @@ public class Menu
 		lstBackGroundNames
 			.stream()
 			.forEach(e -> {
-				File f = new File("D:\\ECLIPSE_WORK\\CURSED_MEMORIES\\res\\"+e);
+				File f = new File(Game.ROOT_DIR+"\\res\\"+e);
 				try { this.lstBackGrounds.add(ImageIO.read(f)); }
 				catch (IOException e1) { e1.printStackTrace(); }
 			});

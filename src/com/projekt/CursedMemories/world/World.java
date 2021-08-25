@@ -145,7 +145,6 @@ public class World {
 					case "ffbb5b":
 						px = x * 32;
 						py = y * 32;
-						System.out.println("BEAM");
 						Game.entities.add(new SaveBeam(x * 32, y * 32, 32, 64, Entity.SAVE_BEAM));
 					break;
 					
@@ -176,6 +175,7 @@ public class World {
 						}
 					break;
 					// FIM ARMAS
+					
 					case "ffd800":
 						// munição
 						if(showBoss) {
@@ -191,7 +191,7 @@ public class World {
 					// BOSSES
 					case "a6ff72":
 						if(showBoss) {
-							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 2.0, 1, Entity.BOSS_01_defaultR);
+							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 1.0, 100, Entity.BOSS_01_defaultR);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
 							System.out.println("Boss gerado");
@@ -656,7 +656,7 @@ public class World {
 		   tiles[x4 + (y4 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT) {
 			if(!Game.player.invulnerable) {
 				Game.player.isDameged = true;
-				Game.player.setLife(Game.player.getLife() - 3);
+				Game.player.setLife(Game.player.getLife() - 1);
 				Game.player.invulnerable = true;
 			}
 		}
@@ -713,11 +713,6 @@ public class World {
 	public static void setTileTo(Tile tile) {
 		if(!(tiles[tile.getX()  + (tile.getY() * WIDTH)] instanceof WallTile)) {
 			tiles[tile.getX()  + (tile.getY() * WIDTH)].setTexture(tile.getTexture());
-			System.out.println("Mudou");
-		}
-		else {
-			System.out.println("Parede");
 		}
 	}
-	
 }

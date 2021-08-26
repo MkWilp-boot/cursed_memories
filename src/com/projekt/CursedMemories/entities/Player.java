@@ -17,7 +17,7 @@ public class Player extends Entity {
     public int cur_dir = 0;
     private boolean keepShooting = false;
     private int goldAmount = 100; 
-    private int life = 8;
+    private int life = 7;
 	public int maxLife = 8;
 	//varial de controle, para checar se o player pode tomar dano ou não, false = pode toma dano, true = não pode
 	public boolean invulnerable = false;
@@ -305,10 +305,14 @@ public class Player extends Entity {
 			Entity e = Game.bulletsEn.get(i);
 			if(Entity.isColliding(e, Game.player))
 			{
-				this.setLife(this.getLife() - 1);
-				Sound.playerHurt.play(0.7f);
-				Game.bulletsEn.remove(i);
-				return;
+				if(!Game.player.invulnerable) {
+					Game.player.isDameged = true;
+					Sound.playerHurt.play(0.7f);
+					Game.bulletsEn.remove(i);
+					Game.player.setLife(Game.player.getLife() - 1);
+					Game.player.invulnerable = true;
+					return;
+				}
 			}
 		}
 	}
@@ -445,7 +449,7 @@ public class Player extends Entity {
 	}
 
 	public int getLife() {
-		return life;
+		return this.life;
 	}
 
 	public void setLife(int life) {

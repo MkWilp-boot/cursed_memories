@@ -19,6 +19,7 @@ import com.projekt.CursedMemories.entities.Enemy;
 import com.projekt.CursedMemories.entities.Entity;
 import com.projekt.CursedMemories.entities.ExplosionParticle;
 import com.projekt.CursedMemories.entities.LifePack;
+import com.projekt.CursedMemories.entities.Merchant;
 import com.projekt.CursedMemories.entities.Player;
 import com.projekt.CursedMemories.entities.Portal;
 import com.projekt.CursedMemories.entities.SaveBeam;
@@ -46,10 +47,19 @@ public class World {
 	
 	public static void setLevel(String level, boolean showBoss)
 	{
+		Merchant m = null;
+		
+		for(Entity e : Game.entities) {
+			if (e instanceof Merchant) {
+				m = (Merchant) e;
+			}
+		}
+		
 		Player player = Game.player;
 		player.setLife(Game.player.getLife());
 		List<Weapon> ws = Game.weapon;
 		Game.entities = new ArrayList < Entity > ();
+		Game.entities.add(m);
 		Game.GAME_STATE = 0;
 		Game.nextLevel = false;
 		Game.CHANGE_LEVEL = false;
@@ -68,7 +78,16 @@ public class World {
 	
 	public static void restartGame(String level, boolean showBoss)
 	{
+		Merchant m = null;
+		
+		for(Entity e : Game.entities) {
+			if (e instanceof Merchant) {
+				m = (Merchant) e;
+			}
+		}
+		
 		Game.entities = new ArrayList < Entity > ();
+		Game.entities.add(m);
 		Game.GAME_STATE = 0;
 		Game.nextLevel = false;
 		Game.CHANGE_LEVEL = false;
@@ -194,7 +213,6 @@ public class World {
 							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 1.0, 100, Entity.BOSS_01_defaultR);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
-							System.out.println("Boss gerado");
 						}
 					break;
 					case "43ff00":
@@ -207,9 +225,7 @@ public class World {
 						Game.merchant.setX(x * 32);
 						Game.merchant.setY(y * 32);
 					break;
-					
 					// Mapa Vulcao
-
                     case "ff6600":
                         tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_VULCAO_LAVA);
                     break;
@@ -656,7 +672,7 @@ public class World {
 		   tiles[x4 + (y4 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT) {
 			if(!Game.player.invulnerable) {
 				Game.player.isDameged = true;
-				Game.player.setLife(Game.player.getLife() - 1);
+				Game.player.setLife(Game.player.getLife() - 3);
 				Game.player.invulnerable = true;
 			}
 		}

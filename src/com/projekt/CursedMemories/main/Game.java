@@ -174,7 +174,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         spr_map0 = new Spritesheet("/spr_map_0.png");
         spr_b001 = new SpriteSheet("/b001_spr.png");
         spr_bDarker = new Spritesheet("/spr_boss_darker.png");
-        spr_hub = new Spritesheet("/bkp_hub.png");
+        spr_hub = new Spritesheet("/spr_hub.png");
         spr_vulcao = new Spritesheet("/spr_vulcao.png");
         
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -502,7 +502,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         else {
         	for(int i = 0; i < entities.size(); i++) {
         		Entity en = entities.get(i);
-        		if(en instanceof Player || en instanceof Merchant) {
+        		if(en instanceof Merchant) {
         			en.render(gfx);
         		}
             }
@@ -583,7 +583,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             if (dDelta >= 1) {
                 tick();
                 render();
-                
                 //nFrames++;
                 dDelta--;
             }

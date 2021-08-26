@@ -64,19 +64,19 @@ public class Enemy extends Entity
     			Bullet bullet;
     			if(i == 0)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
     			}
     			else if(i == 1)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
     			}
     			else if(i == 2)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
     			}
     			else
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 3.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
     			}
     	    	Game.bulletsEn.add(bullet);
     		}
@@ -86,38 +86,38 @@ public class Enemy extends Entity
     	
     	if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 200 )
     	{
-    	if(path == null || path.size() == 0)
-    	{
-    		Vector2i start = new Vector2i( (int)(x / World.TILE_SIZE),
-    								       (int)(y / World.TILE_SIZE));
-    		
-    		Vector2i end   = new Vector2i( (int)(Game.player.x / World.TILE_SIZE), 
-    									   (int)(Game.player.y / World.TILE_SIZE));
-    		
-    		path = APointer.findPath(Game.world, start, end);
-    	}
-    	if(this.isCollidingPlayer())
-    	{
-    		if(!Game.player.invulnerable)
-    		{
-    		Game.player.setLife(Game.player.getLife() - 1);
-    		Sound.playerHurt.play(0.7f);
-    		Game.player.isDameged = true;
-    		Game.player.invulnerable = true;
-    		}
-    	}
-    	followPath(path);
-    	
-		if (moved) {
-            frames++;
-            if (frames == maxFrames) {
-                frames = 0;
-                index++;
-                if(index > maxIndex) {
-                	index = 0;
-                }
-            }
-        }
+	    	if(path == null || path.size() == 0)
+	    	{
+	    		Vector2i start = new Vector2i( (int)(x / World.TILE_SIZE),
+	    								       (int)(y / World.TILE_SIZE));
+	    		
+	    		Vector2i end   = new Vector2i( (int)(Game.player.x / World.TILE_SIZE), 
+	    									   (int)(Game.player.y / World.TILE_SIZE));
+	    		
+	    		path = APointer.findPath(Game.world, start, end);
+	    	}
+	    	if(this.isCollidingPlayer())
+	    	{
+	    		if(!Game.player.invulnerable)
+	    		{
+		    		Game.player.setLife(Game.player.getLife() - 1);
+		    		Sound.playerHurt.play(0.7f);
+		    		Game.player.isDameged = true;
+		    		Game.player.invulnerable = true;
+	    		}
+	    	}
+	    	followPath(path);
+	    	
+			if (moved) {
+	            frames++;
+	            if (frames == maxFrames) {
+	                frames = 0;
+	                index++;
+	                if(index > maxIndex) {
+	                	index = 0;
+	                }
+	            }
+	        }
     	}
 		this.checkCollisionBullet();
 		if(life <= 0)

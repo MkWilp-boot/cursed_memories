@@ -163,8 +163,6 @@ public class Menu
 		{
 			String[] spl2 = spl[i].split(";");
 			
-			System.out.println(spl2[0]);
-			
 			switch(spl2[0])
 			{
 			case "mapa":
@@ -179,7 +177,10 @@ public class Menu
 				Game.player.setY(Integer.parseInt(spl2[1]));
 			break;
 			case "vida":
-				Game.player.setLife(Integer.parseInt(spl2[1]));
+				if(spl2.length == 1)
+					Game.player.setLife(8);
+				else
+					Game.player.setLife(Integer.parseInt(spl2[1]));
 			break;
 			case "municao":
 				Game.player.setAmmo(Integer.parseInt(spl2[1]));
@@ -189,6 +190,9 @@ public class Menu
 			break;
 			case "fire":
 				Game.boss_fire_kill = Boolean.parseBoolean(spl2[1]);
+			break;
+			case "gold":
+				Game.player.setGoldAmount(Integer.valueOf(spl2[1]));
 			break;
 			case "armas":
 				if(!Game.player.hasWeapon) {

@@ -42,54 +42,54 @@ public class Boss01 extends Boss
 			{
 			// inicio padrao inteiro
 			case 0:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_DIR, 1, 1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_DIR, 1, 1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 1:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_ESQ, -1, -1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_ESQ, -1, -1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 2:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_ESQ, -1, 1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_ESQ, -1, 1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 3:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_DIR, 1, -1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_DIR, 1, -1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 4:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_BAIXO, 0, 1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_BAIXO, 0, 1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 5:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_RIGHT, 1.1, 0, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_RIGHT, 1.1, 0, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 6:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_LEFT, -1, 0, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_LEFT, -1, 0, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 7:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_CIMA, 0, -1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_CIMA, 0, -1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			// Fim padrao inteiro
 			// inicio padrao real
 			case 8:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_DIR, 0.5, 1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_DIR, 0.5, 1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 9:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_DIR, 1, 0.5, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_DIR, 1, 0.5, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 10:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_ESQ, -1, 0.5, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_ESQ, -1, 0.5, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 11:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_DIR, 0.5, -1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_DIR, 0.5, -1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 12:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_DIR, 1, -0.5, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_DIR, 1, -0.5, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 13:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_ESQ, -0.5, 1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_INFERIOR_ESQ, -0.5, 1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 14:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_ESQ, -0.5, -1, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_ESQ, -0.5, -1, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			case 15:
-				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_ESQ, -1, -0.5, Color.RED, 2.0, new Color(137,137,137, 100), false, "big");
+				bullet = new Meteor(this.getX() + 32  + 16, this.getY() + 32  + 24, 28, 20, Entity.FIRE_BALL_SUPERIOR_ESQ, -1, -0.5, Color.RED, 3.0, new Color(137,137,137, 100), false, "big");
 				break;
 			}
 			// fim padrao real
@@ -134,7 +134,7 @@ public class Boss01 extends Boss
 					Entity.FIRE_BALL_BAIXO,
 					0, 1,
 					new Color(244,36,36, 255), 
-					2.0, 
+					3.0, 
 					new Color(137,137,137, 100),
 					false,
 					"small",
@@ -214,7 +214,7 @@ public class Boss01 extends Boss
 				if(chance < 50) {
 					attack_circ();
 				}
-				else if(chance >= 50) {
+				else if(chance >= 30) {
 					createEnemy();
 				}
 				rainning();

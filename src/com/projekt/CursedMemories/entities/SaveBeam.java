@@ -53,6 +53,7 @@ public class SaveBeam extends Entity
     						armas += "S,";
     					}
     				}
+    				System.out.println(armas);
     				String[] opt1 = {"mapa",
 									"PlayerX",
 									"PlayerY",
@@ -60,7 +61,8 @@ public class SaveBeam extends Entity
 									"municao",
 									"reserva",
 									"armas",
-									"fire"
+									"fire",
+									"gold"
 								};
 					String[] opt2 = {Integer.toString(Game.CUR_LEVEL), 
 									Integer.toString(World.px),
@@ -69,8 +71,13 @@ public class SaveBeam extends Entity
 									Integer.toString((Game.player.getAmmo() == 0) ? 0 : Game.player.getAmmo()),
 									Integer.toString((Game.player.getReserveAmmo() == 0) ? 0 : Game.player.getReserveAmmo()),
 									armas,
-									Boolean.toString(Game.boss_fire_kill)
+									Boolean.toString(Game.boss_fire_kill),
+									Integer.toString(Game.player.getGoldAmount())
 								};
+
+					for(int i = 0; i < opt2.length; i++) {
+						System.out.println(opt1[i] + ": " + opt2[i]);
+					}
 					Menu.saveGame(opt1, opt2, 5);
 					System.out.println("Saved");
     			}

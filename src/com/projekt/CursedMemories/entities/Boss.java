@@ -110,20 +110,6 @@ public class Boss extends Entity
 		destrocable = false;
 		dameged = true;
 		speed = 0.0;
-		
-		//Game.entities.remove(this);
-		//Game.bosses.remove(this);
-		/*
-		int bosses = Game.bosses.size();
-		if(bosses-- <= 0)
-		{
-			Game.CHANGE_LEVEL = true;
-		}
-		else
-		{
-			Game.CHANGE_LEVEL = false;
-		}
-		*/
 	}
 	
 	protected void destroyBoss()

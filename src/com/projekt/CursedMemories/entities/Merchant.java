@@ -10,13 +10,12 @@ import com.projekt.CursedMemories.world.Camera;
 
 public class Merchant extends Entity{
 
-	
 	private String[] options = {"Comprar", "Sair"};
 	private String[] optionsDeep1 = {"Armas", "Powerups"};
-	
+
 	public HashMap<Integer, BufferedImage> mapperGuns = new HashMap<Integer, BufferedImage>();
 	public static HashMap<Integer, Boolean> mapperSold = new HashMap<Integer, Boolean>();
-	
+
 	private int cur_option = 0;
 	private int cur_option_deep1 = 0;
 	private int cur_option_deep2GUN = 0;
@@ -135,7 +134,7 @@ public class Merchant extends Entity{
 	}
 	
 	public void render(Graphics gfx) {
-		gfx.drawImage(this.getSprite(),
+		gfx.drawImage(Entity.MerchantIdle,
 				      this.getX() - Camera.x,
 				      this.getY() - Camera.y,
 				      null);
@@ -284,14 +283,27 @@ public class Merchant extends Entity{
 		}
 	}
 	private void tellSoldItem() {
+		//
 		bought = false;
-		mapperSold.put(cur_option_deep2GUN, true);
-		Weapon w = new Weapon(0, 0, 32, 32, mapperGuns.get(cur_option_deep2GUN), cur_option_deep2GUN);
-		Game.weapon.add(w);
-		Game.player.hasWeapon = true;
-		Game.player.max_weapon++;
-		if(Game.player.getGunLeft() == null) {
-			Game.player.setWeapon(w);
+		Integer total = 99999999; // :)
+		if (cur_option_deep2GUN == 1) {
+			total = 150;
+			
+			Integer subtotal = Game.player.getGoldAmount() - total;
+			System.out.println("total: " + total);
+			System.out.println("getAmmo: " + Game.player.getGoldAmount());
+			System.out.println("Sobrou: " + subtotal);
+			if (subtotal >= 0) {
+				mapperSold.put(cur_option_deep2GUN, true);
+				Game.player.setGoldAmount(subtotal);
+				Weapon w = new Weapon(0, 0, 32, 32, mapperGuns.get(cur_option_deep2GUN), cur_option_deep2GUN);
+				Game.weapon.add(w);
+				Game.player.hasWeapon = true;
+				Game.player.max_weapon++;
+				if(Game.player.getGunLeft() == null) {
+					Game.player.setWeapon(w);
+				}
+			}
 		}
 	}
 }

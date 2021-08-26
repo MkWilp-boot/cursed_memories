@@ -1,8 +1,9 @@
 mapa:6
 PlayerX:>;5
 PlayerY:66=9
-vida:=
-municao:655
+vida:<
+municao:>=
 reserva:5
 armas:W1X1
-fire:kfqxj
+fire:ywzj
+gold:9>

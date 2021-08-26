@@ -33,8 +33,8 @@ public class Merchant extends Entity{
 	
 	public Merchant(int x, int y, int w, int h, BufferedImage sprite) {
 		super(x, y, w, h, sprite);
-        mapperGuns.put(0, Entity.WEAPON_ENT_RIFLE_NON_AUTO);
-		mapperGuns.put(1, Entity.WEAPON_ENT_SHOTGUN);
+        //mapperGuns.put(0, Entity.WEAPON_ENT_RIFLE_NON_AUTO);
+		mapperGuns.put(0, Entity.WEAPON_ENT_SHOTGUN);
 	}
 	
 	public void tick() {
@@ -240,6 +240,7 @@ public class Merchant extends Entity{
 				
 				if(cur_option_deep2GUN == 0) {
 					// Price
+					/*
 					gfx.fillOval(350, 105, 30, 30);
 					gfx.setColor(Color.WHITE);
 					gfx.drawString("$50", 355, 125);
@@ -258,8 +259,7 @@ public class Merchant extends Entity{
 					gfx.fillRect(376, 198, 15, 6);
 					gfx.drawRect(375, 197, 45, 7);
 					gfx.drawString("Cadencia", 425, 205);
-				}
-				else if(cur_option_deep2GUN == 1) {
+					*/
 					// Price
 					gfx.fillOval(350, 105, 35, 30);
 					gfx.setColor(Color.WHITE);
@@ -279,6 +279,27 @@ public class Merchant extends Entity{
 					gfx.drawRect(375, 197, 45, 7);
 					gfx.drawString("Cadencia", 425, 205);
 				}
+				/*
+				else if(cur_option_deep2GUN == 1) {
+					// Price
+					gfx.fillOval(350, 105, 35, 30);
+					gfx.setColor(Color.WHITE);
+					gfx.drawString("$150", 355, 125);
+					gfx.setColor(Color.BLACK);
+					
+					gfx.drawString("Shotgun", 400, 165);
+					gfx.setFont(Game.main_font.deriveFont(13f));
+					
+					//
+					gfx.drawRect(375, 177, 45, 7);
+					gfx.fillRect(376, 178, 20, 6);
+					gfx.drawString("Dano", 425, 185);
+					
+					//
+					gfx.fillRect(376, 198, 10, 6);
+					gfx.drawRect(375, 197, 45, 7);
+					gfx.drawString("Cadencia", 425, 205);
+				}*/
 			}
 		}
 	}
@@ -286,7 +307,7 @@ public class Merchant extends Entity{
 		//
 		bought = false;
 		Integer total = 99999999; // :)
-		if (cur_option_deep2GUN == 1) {
+		if (cur_option_deep2GUN == 0) {
 			total = 150;
 			
 			Integer subtotal = Game.player.getGoldAmount() - total;

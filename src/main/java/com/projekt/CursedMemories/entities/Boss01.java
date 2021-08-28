@@ -110,7 +110,7 @@ public class Boss01 extends Boss
 		Game.entities.remove(this);
 		Game.bosses.remove(this);
 		
-		var bosses = Game.bosses.size();
+		int bosses = Game.bosses.size();
 		if(bosses <= 0)
 			Game.CHANGE_LEVEL = true;
 	}

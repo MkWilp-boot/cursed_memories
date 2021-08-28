@@ -16,7 +16,7 @@ public class Player extends Entity {
     public double speed = 3.0;
     public int cur_dir = 0;
     private boolean keepShooting = false;
-    private int goldAmount = 50; 
+    private int goldAmount = 100; 
     private int life = 8;
 	public int maxLife = 8;
 	//varial de controle, para checar se o player pode tomar dano ou não, false = pode toma dano, true = não pode

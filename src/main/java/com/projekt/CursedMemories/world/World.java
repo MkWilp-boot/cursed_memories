@@ -720,7 +720,12 @@ public class World {
 					continue;
 				}
 				Tile tile = tiles[x  + (y * WIDTH)];
-				tile.render(gfx);
+				try {
+					tile.render(gfx);
+				}
+				catch(NullPointerException e) {
+				
+				}
 				coordsToRemove[0] = x;
 				coordsToRemove[1] = y;
 			}

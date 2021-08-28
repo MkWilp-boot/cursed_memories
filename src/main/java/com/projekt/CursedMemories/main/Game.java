@@ -207,11 +207,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 					"Ainda há o que ser feito.",
 					"Então acorde, meu filho, acorde e....",
 					"Cumpra seu dever"};
-        UIMessages M_0_INTROCUCAO_HALL = new TextMessage(M_0_INTROCUCAO_HALL_MSG, "???:");
+        final UIMessages M_0_INTROCUCAO_HALL = new TextMessage(M_0_INTROCUCAO_HALL_MSG, "???:");
         
         String[] M_0_FALAPLAYER_00_MSG = {"????",
         							  "Onde estou?"};
-        UIMessages M_0_FALAPLAYER_00 = new TextMessage(M_0_FALAPLAYER_00_MSG, "Jogador:");
+        final UIMessages M_0_FALAPLAYER_00 = new TextMessage(M_0_FALAPLAYER_00_MSG, "Jogador:");
         
         String[] M_0_FVOZ_DESCONHECIDA = 
         	{"Não . . .",
@@ -221,9 +221,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         	". . . . .",
         	"Não ainda !"
         };
-        UIMessages M_0_FVOZ_DESCONHECIDA_00 = new TextMessage(M_0_FVOZ_DESCONHECIDA, "Alguém:");
+        final UIMessages M_0_FVOZ_DESCONHECIDA_00 = new TextMessage(M_0_FVOZ_DESCONHECIDA, "Alguém:");
         
-        UIMessages HINT_BASICS = new HintMessage(new String[] {"Mova-se pelo mapa usando W A S D"}, "");
+        final UIMessages HINT_BASICS = new HintMessage(new String[] {"Mova-se pelo mapa usando W A S D"}, "");
         
         new Thread(() -> {
         	falas.add(M_0_INTROCUCAO_HALL);	
@@ -724,15 +724,23 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         // Menu
         if (GAME_STATE == 2) {
+    		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+    			Menu.selectSaveGame = false;
+    		}
+        	
             if (e.getKeyCode() == KeyEvent.VK_UP) {
                 menu.up = false;
             } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 menu.down = false;
             }
 
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && !Menu.selectSaveGame) {
                 Menu.context = true;
             }
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && Menu.selectSaveGame) {
+            	Menu.selectSave();
+            }
+            
         } else if (GAME_STATE == 0) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 Menu.paused = true;

@@ -5,7 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
+import com.projekt.CursedMemories.main.Encryptor;
 import com.projekt.CursedMemories.main.Game;
 import com.projekt.CursedMemories.main.Menu;
 import com.projekt.CursedMemories.world.Camera;
@@ -54,6 +56,27 @@ public class SaveBeam extends Entity
     					}
     				}
     				System.out.println(armas);
+    				try {
+						Encryptor enc = new Encryptor();
+						var hm = new HashMap<String, String>();
+						
+						// definindo valores a serem salvos
+						hm.put("mapa"	, enc.encrypt(Integer.toString(Game.CUR_LEVEL)));
+						hm.put("PlayerX", enc.encrypt(Integer.toString(World.px)));
+						hm.put("PlayerY", enc.encrypt(Integer.toString(World.py)));
+						hm.put("vida"	, enc.encrypt(Integer.toString(Game.player.getLife())));
+						hm.put("municao", enc.encrypt(Integer.toString(Game.player.getAmmo())));
+						hm.put("reserva", enc.encrypt(Integer.toString(Game.player.getReserveAmmo())));
+						hm.put("armas"	, enc.encrypt(armas));
+						hm.put("fire"	, enc.encrypt(Boolean.toString(Game.boss_fire_kill)));
+						hm.put("gold"	, enc.encrypt(Integer.toString(Game.player.getGoldAmount())));
+						hm.put("dialogos", enc.encrypt(Integer.toString(Game.currentDialogue)));
+						Menu.saveGameHM(hm);
+					}
+    				catch (Exception e) {
+						e.printStackTrace();
+					}
+    				/*
     				String[] opt1 = {"mapa",
 									"PlayerX",
 									"PlayerY",
@@ -79,11 +102,8 @@ public class SaveBeam extends Entity
 						System.out.println(opt1[i] + ": " + opt2[i]);
 					}
 					Menu.saveGame(opt1, opt2, 5);
+					*/
 					System.out.println("Saved");
-    			}
-    			else
-    			{
-    				System.out.println("O mapa não cumpre os requesitos para salvar o jogo!\n(Existe um Boss ou Inimigos vivos)");
     			}
 			}
 		}

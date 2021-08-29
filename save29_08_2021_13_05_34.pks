@@ -1,10 +1,11 @@
 gold->zNij3XKaaMI=
 armas->u/r8uqObzcI=
-municao->g8jnkt0oArE=
+municao->zNij3XKaaMI=
 dialogos->eCSzNAqgcXM=
 PlayerY->Z+JZcMqPsKk=
 mapa->1x+8vcq3v1w=
 vida->ZcAznLmal7A=
 fire->ouGpNoD/rag=
+isInScene->ouGpNoD/rag=
 PlayerX->P30UNjQyay8=
-reserva->g8jnkt0oArE=
+reserva->zNij3XKaaMI=

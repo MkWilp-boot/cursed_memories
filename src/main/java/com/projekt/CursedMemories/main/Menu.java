@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,6 +47,8 @@ public class Menu
 	public BufferedImage logo, bg;
 	public static boolean paused = false, saveExists = false, saveGame = false, context = false;
 	public static boolean selectSaveGame = false;
+	public static boolean excededSaveLimit = false;
+	// public static boolean selectDifficult = false;
 	
 	public Menu(String path, String bg)
 	{
@@ -102,7 +106,7 @@ public class Menu
 		gfx.fillRect(0, 0, Game.WIDTH_SCALE, Game.HEIGHT_SCALE);
 	}
 	
-	private static int numOfSaves() {
+	private static File [] numOfSaves() {
 		File dir = new File(".");
 		File [] files = dir.listFiles(new FileFilter() {
 			@Override
@@ -111,11 +115,12 @@ public class Menu
 			}
 		});
 
-		return files.length;
+		return files;
 	}
 	
 	public static void selectSave() {
-		var file = new File("save" + curOption + ".pks");
+		var save = numOfSaves();
+		var file = new File(save[curOption].toString());
 		if(file.exists())
 		{
 			var saver = loadSave(file);
@@ -129,10 +134,13 @@ public class Menu
 	}
 	
 	public static void saveGameHM(HashMap<String, String> hm) throws IOException {
-		var numFiles = numOfSaves();
+		var numFiles = numOfSaves().length;
 		
 		if(numFiles < 3) {
-			var file = new File("save"+ numFiles + ".pks");
+			LocalDateTime now = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_HH_mm_ss");
+
+			var file = new File("save"+ now.format(formatter) + ".pks");
 			
 			var writer = new BufferedWriter(new FileWriter(file));
 			
@@ -152,6 +160,10 @@ public class Menu
 				e.printStackTrace();
 			}
 			SaveBeam.bShowSavedMessage = true;
+			excededSaveLimit = false;
+		}
+		else {
+			excededSaveLimit = true;
 		}
 	}
 	
@@ -187,7 +199,7 @@ public class Menu
 			}
 			else if(curOption == 1)
 			{
-				if(numOfSaves() > 0) {
+				if(numOfSaves().length > 0) {
 					selectSaveGame = true;
 				}
 			}
@@ -202,7 +214,7 @@ public class Menu
 	public static void applyLoadLevel(HashMap<String, String> map) throws Exception {
 		var enc = new Encryptor();
 		String mapa = enc.decrypt(map.get("mapa"));
-		
+
 		World.restartGame("/map_"+ mapa +".png", false);
 		
 		Game.CUR_LEVEL = Integer.valueOf(mapa.trim());
@@ -220,7 +232,7 @@ public class Menu
 				Game.player.setY(Integer.valueOf(decrypted.trim()));
 			}
 			else if (key.contains("municao")) {
-				Game.player.setAmmo(100);
+				Game.player.setAmmo(Integer.valueOf(decrypted.trim()));
 			}
 			else if (key.contains("gold")) {
 				Game.player.setGoldAmount(Integer.valueOf(decrypted.trim()));
@@ -233,6 +245,9 @@ public class Menu
 			}
 			else if(key.contains("dialogos")) {
 				Game.currentDialogue = Integer.valueOf(decrypted.trim());
+			}
+			else if(key.contains("isInScene")) {
+				Game.isInScene = Boolean.valueOf(decrypted.trim());
 			}
 			else if(key.contains("armas")) {
 				System.out.println("armas");
@@ -331,16 +346,20 @@ public class Menu
 		}
 		else {
 			if(curOption == 0) {
-				gfx.drawString(">", W / 2 - 110, 270);
+				gfx.drawString(">", W / 2 - 290, 270);
+				gfx.drawString("<", W / 2 + 320, 270);
 			}
 			else if(curOption == 1) {
-				gfx.drawString(">", W / 2 - 110, 330);
+				gfx.drawString(">", W / 2 - 290, 330);
+				gfx.drawString("<", W / 2 + 320, 330);
 			}
 			else if(curOption == 2) {
-				gfx.drawString(">", W / 2 - 110, 390);
+				gfx.drawString(">", W / 2 - 290, 390);
+				gfx.drawString("<", W / 2 + 320, 390);
 			}
 			else if(curOption == 3) {
-				gfx.drawString(">", W / 2 - 110, 450);
+				gfx.drawString(">", W / 2 - 290, 450);
+				gfx.drawString("<", W / 2 + 320, 450);
 			}
 			
 			File dir = new File(".");
@@ -352,7 +371,7 @@ public class Menu
 			});
 			int lastPost = 270;
 			for(var f : files) {
-				gfx.drawString(f.getName(), W / 2 - 70, lastPost);
+				gfx.drawString(f.getName(), W / 2 - 250, lastPost);
 				lastPost += 60;
 			}
 		}

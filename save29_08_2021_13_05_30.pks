@@ -6,5 +6,6 @@ PlayerY->Z+JZcMqPsKk=
 mapa->1x+8vcq3v1w=
 vida->ZcAznLmal7A=
 fire->ouGpNoD/rag=
+isInScene->ouGpNoD/rag=
 PlayerX->P30UNjQyay8=
 reserva->g8jnkt0oArE=

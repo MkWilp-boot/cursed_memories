@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -21,7 +23,6 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -60,8 +61,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     private boolean bIsRunning;
     public static boolean isInScene;
 
-    public static final int WIDTH = 540; //540
-    public static final int HEIGHT = 330; // 330
+    public static final int WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width / 2; //540
+    public static final int HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height / 2; // 330
     
     private int framdesRestart = 0, maxFramesRestart = 200;
     public final static int SCALE = 2;
@@ -114,6 +115,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public Menu menu;
     
+    public static Boolean isGameStarded = false;
+    
     public static Merchant merchant;
 
     public boolean saveGame = false;
@@ -143,6 +146,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static boolean boss_fire_kill = false;
     public static boolean boss_clock_kill = false;
     public static boolean boss_final_kill = false;
+    
+    public static String difficult = null;
 
     public Game() {
     	
@@ -267,25 +272,31 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         frame = new JFrame("Cursed Memories");
         frame.add(this);
         frame.setResizable(false);
-        //frame.setUndecorated(true);
+        frame.setUndecorated(true);
         frame.pack();
+        
+        GraphicsEnvironment graphics =
+		GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice device = graphics.getDefaultScreenDevice();
+        
         Image icon = null;
 
         try {
-            //icon = ImageIO.read(getClass().getResource("/icon.png"));
-        	icon = ImageIO.read(new FileInputStream("res/icon.png"));
+            icon = ImageIO.read(getClass().getResource("/icon.png"));
+        	//icon = ImageIO.read(new FileInputStream("res/icon.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image cross = toolkit.getImage(getClass().getResource("/cross.png"));
+        Image cross = toolkit.getImage(getClass().getResource("/crosshair.png"));
         Cursor cursor = toolkit.createCustomCursor(cross, new Point(0, 0), "img");
 
         frame.setCursor(cursor);
         frame.setIconImage(icon);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        device.setFullScreenWindow(frame);
         frame.setVisible(true);
     }
 
@@ -517,7 +528,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 bulletsEn.get(i).render(gfx);
             }
         }
-        applyLight();
+        // applyLight();
         if(GAME_STATE != 3){
         	ui.render(gfx);
         }
@@ -530,6 +541,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	          		HEIGHT_SCALE);
 	    	Sound.mp_bg_1.stop();
         }
+        
+        if(currentDialogue == 0) {
+        	gfx.setColor(Color.BLACK);
+        	gfx.fillRect(0, 0, 
+        		WIDTH_SCALE, 
+        		HEIGHT_SCALE);
+    	}
+        
         // Dialogos;
         if(isInScene) {
     		falas.get(currentDialogue).render(gfx);
@@ -726,6 +745,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         if (GAME_STATE == 2) {
     		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
     			Menu.selectSaveGame = false;
+    			Menu.selectDifficult = false;
     		}
         	
             if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -740,7 +760,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             if (e.getKeyCode() == KeyEvent.VK_ENTER && Menu.selectSaveGame) {
             	Menu.selectSave();
             }
-            
+            if (e.getKeyCode() == KeyEvent.VK_ENTER && Menu.selectDifficult) {
+            	Menu.selectDifficultSet();
+            }
+
         } else if (GAME_STATE == 0) {
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                 Menu.paused = true;

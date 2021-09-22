@@ -2,6 +2,7 @@ package com.projekt.CursedMemories.main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,8 +32,8 @@ public class Menu
 	
 	public static int curOption = 0;
 	
-	//private final int W = Toolkit.getDefaultToolkit().getScreenSize().width;
-	private final int W = Game.WIDTH * Game.SCALE;
+	private final int W = Toolkit.getDefaultToolkit().getScreenSize().width;
+	//private final int W = Game.WIDTH * Game.SCALE;
 	
 	private Boolean topDown = true;
 	private Integer R = 0, A = 0;
@@ -47,6 +48,7 @@ public class Menu
 	public BufferedImage logo, bg;
 	public static boolean paused = false, saveExists = false, saveGame = false, context = false;
 	public static boolean selectSaveGame = false;
+	public static boolean selectDifficult = false;
 	public static boolean excededSaveLimit = false;
 	// public static boolean selectDifficult = false;
 	
@@ -132,6 +134,21 @@ public class Menu
 			}
 		}
 	}
+
+	public static void selectDifficultSet() {
+		switch(curOption) {
+		case 0:
+			Game.difficult = "Dificil";
+			break;
+		case 1:
+			Game.difficult = "Normal";
+			break;
+		case 2:
+			Game.difficult = "Facil";
+			break;
+		}
+		gameNormalFlow();
+	}
 	
 	public static void saveGameHM(HashMap<String, String> hm) throws IOException {
 		var numFiles = numOfSaves().length;
@@ -167,6 +184,15 @@ public class Menu
 		}
 	}
 	
+	private static void gameNormalFlow() {
+		paused = false;
+		Game.GAME_STATE = 0;
+		Game.isGameStarded = true;
+		curOption = 0;
+		selectDifficult = false;
+		selectSaveGame = false;
+	}
+	
 	public void tick()
 	{
 		if(up)
@@ -194,16 +220,18 @@ public class Menu
 			context = false;
 			if(Menu.curOption == 0)
 			{
-				paused = false;
-				Game.GAME_STATE = 0;	
+				if(!Game.isGameStarded)
+					selectDifficult = true;
+				else
+					gameNormalFlow();
 			}
-			else if(curOption == 1)
+			else if(curOption == 1 && !selectDifficult)
 			{
 				if(numOfSaves().length > 0) {
 					selectSaveGame = true;
 				}
 			}
-			else if(curOption == 2)
+			else if(curOption == 2 && !selectDifficult && !selectSaveGame)
 			{
 				System.exit(0);
 			}
@@ -214,10 +242,13 @@ public class Menu
 	public static void applyLoadLevel(HashMap<String, String> map) throws Exception {
 		var enc = new Encryptor();
 		String mapa = enc.decrypt(map.get("mapa"));
+		String diff = enc.decrypt(map.get("difficult"));
 
 		World.restartGame("/map_"+ mapa +".png", false);
+		Game.difficult = diff;
 		
 		Game.CUR_LEVEL = Integer.valueOf(mapa.trim());
+		
 		
 		map.forEach((key, value) -> {
 			final var decrypted = enc.decrypt(value);
@@ -265,6 +296,7 @@ public class Menu
 				}
 			}
 		});
+		gameNormalFlow();
 	}
 	
 	public static HashMap<String, String> loadSave(File file)
@@ -272,7 +304,7 @@ public class Menu
 		var hm = new HashMap<String, String>();
 		if(file.exists())
 		{
-			try 
+			try
 			{
 				String singleLine = null;
 				BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -304,12 +336,6 @@ public class Menu
 		
 		this.changeBG(gfx);
 		
-		/*
-		gfx.setColor(new Color(0,0,0,100));
-		
-		gfx.fillRect(0,0,Game.WIDTH * Game.SCALE, Game.HEIGHT * Game.SCALE);
-		
-		*/
 		gfx.setColor(new Color(255, 255, 255, 255));
 		
 		gfx.setFont(Game.main_font);
@@ -317,14 +343,13 @@ public class Menu
 		gfx.drawImage(logo, W / 2 - 250, -130, null);
 
 		// opções
-		if(!selectSaveGame) {
+		if(!selectSaveGame && !selectDifficult) {
 			if(!paused) {
 				gfx.drawString("Novo Jogo", W / 2 - 90, 250);
 			}
 			else {
 				gfx.drawString("Retomar", W / 2 - 80, 250);
 			}
-			
 			gfx.drawString("Carregar Jogo", W / 2 - 130, 300);
 			gfx.drawString("Sair", W / 2 - 45, 350);
 			
@@ -338,30 +363,31 @@ public class Menu
 				gfx.drawString(">", W / 2 - 165, 300);
 				gfx.drawString("<", W / 2 + 145, 300);
 			}
-			else if(options[curOption] == "Sair")
-			{
+			else if(options[curOption] == "Sair") {
 				gfx.drawString(">", W / 2 - 85, 350);
 				gfx.drawString("<", W / 2 + 50, 350);
 			}
 		}
-		else {
+		
+		else if(selectDifficult && !Game.isGameStarded) {
+			gfx.drawString("Difícil", W / 2 - 60, 270);
+			gfx.drawString("Normal", W / 2 - 70, 320);
+			gfx.drawString("Fácil", W / 2 - 50, 370);
+			
 			if(curOption == 0) {
-				gfx.drawString(">", W / 2 - 290, 270);
-				gfx.drawString("<", W / 2 + 320, 270);
+				gfx.drawString(">", W / 2 - 90, 270);
+				gfx.drawString("<", W / 2 + 60, 270);
 			}
 			else if(curOption == 1) {
-				gfx.drawString(">", W / 2 - 290, 330);
-				gfx.drawString("<", W / 2 + 320, 330);
+				gfx.drawString(">", W / 2 - 100, 320);
+				gfx.drawString("<", W / 2 + 70, 320);
 			}
 			else if(curOption == 2) {
-				gfx.drawString(">", W / 2 - 290, 390);
-				gfx.drawString("<", W / 2 + 320, 390);
+				gfx.drawString(">", W / 2 - 90, 370);
+				gfx.drawString("<", W / 2 + 50, 370);
 			}
-			else if(curOption == 3) {
-				gfx.drawString(">", W / 2 - 290, 450);
-				gfx.drawString("<", W / 2 + 320, 450);
-			}
-			
+		}
+		else if(selectSaveGame) {
 			File dir = new File(".");
 			File [] files = dir.listFiles(new FileFilter() {
 				@Override
@@ -369,6 +395,33 @@ public class Menu
 					return pathname.getName().contains(".pks");
 				}
 			});
+
+			if(curOption == 0) {
+				gfx.drawString(">", W / 2 - 290, 270);
+				gfx.drawString("<", W / 2 + 320, 270);
+			}
+			if(curOption == 1) {
+				gfx.drawString(">", W / 2 - 290, 330);
+				gfx.drawString("<", W / 2 + 320, 330);
+			}
+			if(curOption == 2) {
+				gfx.drawString(">", W / 2 - 290, 390);
+				gfx.drawString("<", W / 2 + 320, 390);
+			}
+			
+			if (files.length == 0) {
+				gfx.drawString("-------Vazio-------", W / 2 - 250, 270);
+				gfx.drawString("-------Vazio-------", W / 2 - 160, 330);
+				gfx.drawString("-------Vazio-------", W / 2 - 160, 390);
+			}
+			else if (files.length == 1) {
+				gfx.drawString("-------Vazio-------", W / 2 - 160, 330);
+				gfx.drawString("-------Vazio-------", W / 2 - 160, 390);
+			}
+			else if (files.length == 2) {
+				gfx.drawString("-------Vazio-------", W / 2 - 160, 390);
+			}
+			
 			int lastPost = 270;
 			for(var f : files) {
 				gfx.drawString(f.getName(), W / 2 - 250, lastPost);

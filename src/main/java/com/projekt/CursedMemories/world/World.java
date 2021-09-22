@@ -671,8 +671,16 @@ public class World {
 		   tiles[x3 + (y3 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT ||
 		   tiles[x4 + (y4 * World.WIDTH)].getTexture() == Tile.TILE_WALL_RIGHT) {
 			if(!Game.player.invulnerable) {
+				var vida = 0;
+				if (Game.difficult == "Dificil")
+					vida = 3;
+				else if(Game.difficult == "Dificil")
+					vida = 2;
+				else
+					vida = 1;
+				
 				Game.player.isDameged = true;
-				Game.player.setLife(Game.player.getLife() - 3);
+				Game.player.setLife(Game.player.getLife() - vida);
 				Game.player.invulnerable = true;
 			}
 		}

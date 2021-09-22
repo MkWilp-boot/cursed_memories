@@ -73,6 +73,7 @@ public class SaveBeam extends Entity
 						hm.put("gold"		, enc.encrypt(Integer.toString(Game.player.getGoldAmount())));
 						hm.put("dialogos"	, enc.encrypt(Integer.toString(Game.currentDialogue)));
 						hm.put("isInScene"	, enc.encrypt(Boolean.toString(Game.isInScene)));
+						hm.put("difficult"	, enc.encrypt(Game.difficult));
 						Menu.saveGameHM(hm);
 					}
     				catch (Exception e) {

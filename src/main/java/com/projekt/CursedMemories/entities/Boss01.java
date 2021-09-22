@@ -271,7 +271,7 @@ public class Boss01 extends Boss
 				{
 					if(!Game.player.invulnerable) {
 						Game.player.isDameged = true;
-						Game.player.setLife(Game.player.getLife() - 1);
+						Game.player.setLife(Game.player.getLife() - this.removePlayerLife);
 						Game.player.invulnerable = true;
 					}
 				}

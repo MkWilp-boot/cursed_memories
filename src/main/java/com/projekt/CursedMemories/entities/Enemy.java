@@ -20,12 +20,20 @@ public class Enemy extends Entity
 	private boolean moved = true;
 	
 	private BufferedImage[] spritesEn = new BufferedImage[2];
+	private Integer removePlayerLife;
 	
 	public Enemy(int x, int y, int w, int h, BufferedImage sprite) 
 	{
 		super(x, y, w, h, null);
 		spritesEn[0] = Game.spritesheet.getSprite(128, 32, World.TILE_SIZE, World.TILE_SIZE);
 		spritesEn[1] = Game.spritesheet.getSprite(96, 32, World.TILE_SIZE, World.TILE_SIZE);
+		
+		if (Game.difficult == "Dificil")
+			this.removePlayerLife = 3;
+		else if(Game.difficult == "Dificil")
+			this.removePlayerLife = 2;
+		else
+			this.removePlayerLife = 1;
 	}
 	
 	public boolean isCollidingPlayer()
@@ -100,7 +108,7 @@ public class Enemy extends Entity
 	    	{
 	    		if(!Game.player.invulnerable)
 	    		{
-		    		Game.player.setLife(Game.player.getLife() - 1);
+		    		Game.player.setLife(Game.player.getLife() - this.removePlayerLife);
 		    		Sound.playerHurt.play(0.7f);
 		    		Game.player.isDameged = true;
 		    		Game.player.invulnerable = true;

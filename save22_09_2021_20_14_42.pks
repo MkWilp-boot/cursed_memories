@@ -7,5 +7,6 @@ mapa->1x+8vcq3v1w=
 vida->ZcAznLmal7A=
 fire->ouGpNoD/rag=
 isInScene->ouGpNoD/rag=
+difficult->yIO5X04M+0I=
 PlayerX->P30UNjQyay8=
 reserva->g8jnkt0oArE=

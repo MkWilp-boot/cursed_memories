@@ -37,6 +37,7 @@ public class Player extends Entity {
 	private boolean reload;
 	
 	private boolean changeWeapon = false;
+	private Integer removePlayerLife;
 
     public Player(int x, int y, int w, int h, BufferedImage sprite) {
         super(x, y, w, h, sprite);
@@ -61,6 +62,13 @@ public class Player extends Entity {
         leftPlayer[2] = Game.spritesheet.getSprite(160, 96, 32, 32);
         leftPlayer[3] = Game.spritesheet.getSprite(96, 96, 32, 32);
         leftPlayer[4] = Game.spritesheet.getSprite(65, 96, 32, 32);
+        
+        if (Game.difficult == "Dificil")
+			this.removePlayerLife = 3;
+		else if(Game.difficult == "Dificil")
+			this.removePlayerLife = 2;
+		else
+			this.removePlayerLife = 1;
     }
 
     public void render(Graphics gfx) 
@@ -309,7 +317,7 @@ public class Player extends Entity {
 					Game.player.isDameged = true;
 					Sound.playerHurt.play(0.7f);
 					Game.bulletsEn.remove(i);
-					Game.player.setLife(Game.player.getLife() - 1);
+					Game.player.setLife(Game.player.getLife() - this.removePlayerLife);
 					Game.player.invulnerable = true;
 					return;
 				}

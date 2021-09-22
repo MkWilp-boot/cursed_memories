@@ -17,6 +17,7 @@ public class Boss extends Entity
 	protected boolean dameged = false;
 	protected int maxLife;
 	protected boolean destrocable = true;
+	protected Integer removePlayerLife;
 	
 	public Boss(int x, int y, int w, int h, double speed,int vida,BufferedImage sprite)
 	{
@@ -26,6 +27,13 @@ public class Boss extends Entity
 		this.life = vida;
 		this.maxLife = vida;
 		this.speed = speed;
+		
+		if (Game.difficult == "Dificil")
+			this.removePlayerLife = 3;
+		else if(Game.difficult == "Dificil")
+			this.removePlayerLife = 2;
+		else
+			this.removePlayerLife = 1;
 	}
 	
 	public int getX() {
@@ -82,8 +90,10 @@ public class Boss extends Entity
 			if(Game.rand.nextInt(100) < 5)
 			{
 				if(!Game.player.invulnerable) {
+					
+					
 					Game.player.isDameged = true;
-					Game.player.setLife(Game.player.getLife() - 1);
+					Game.player.setLife(Game.player.getLife() - this.removePlayerLife);
 					Game.player.invulnerable = true;
 				}
 			}

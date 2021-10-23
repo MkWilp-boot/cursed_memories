@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
-public class TextMessage implements UIMessages{
+public class TextMessage implements UIMessages {
 	
 	private String[] palavras;
 	private String falante;
@@ -22,9 +22,7 @@ public class TextMessage implements UIMessages{
 		this.lastFrase = 0;
 		this.setNextPhrase(false);
 		this.closeDialogue = false;
-		triangleShape = 
-				new TriangleShape(new Point2D.Double(420, 180),
-		        new Point2D.Double(430, 190), new Point2D.Double(420, 200));
+		
 		
 	}
 	
@@ -55,22 +53,28 @@ public class TextMessage implements UIMessages{
 	@Override
 	public void render(Graphics gfx) {
 		update();
+		gfx.drawImage(Menu.DialogueBG, 0, Game.HEIGHT - Menu.DialogueBG.getHeight(null), null);
 		// Borda
-		gfx.setColor(Color.DARK_GRAY);
-		gfx.fillRect(0, Game.HEIGHT - 75, Game.WIDTH, 70);
+		//gfx.setColor(Color.DARK_GRAY);
+		//gfx.fillRect(0, Game.HEIGHT - 75, Game.WIDTH, 70);
 		
 		// Retangulo marrom
-		gfx.setColor(new Color(124, 63, 12));
-		gfx.fillRect(5, Game.HEIGHT - 70, Game.WIDTH - 15, 60);
+		//gfx.setColor(new Color(124, 63, 12));
+		//gfx.fillRect(5, Game.HEIGHT - 70, Game.WIDTH - 15, 60);
+		
 		
 		//gfx.drawImage(Game.spritesheet.getSprite(256, 715, 513, 85), 10, 230, null);
 		// Texto
 		gfx.setColor(Color.WHITE);
 		gfx.setFont(Game.main_font.deriveFont(17f));
-		gfx.drawString(this.falante, 40, 275);
+		gfx.drawString(this.falante, 80, Game.HEIGHT - 50);
+		
+		triangleShape = 
+				new TriangleShape(new Point2D.Double(Game.WIDTH - 160, Game.HEIGHT - 150),
+		        new Point2D.Double(Game.WIDTH - 150, Game.HEIGHT - 140), new Point2D.Double(Game.WIDTH - 160, Game.HEIGHT - 130));
 		
 		gfx.setFont(Game.main_font.deriveFont(13f));
-		gfx.drawString(palavras[lastFrase], 40, 295);
+		gfx.drawString(palavras[lastFrase], 80, Game.HEIGHT -25);
 		
 		Graphics2D g2d = (Graphics2D) gfx.create();
 		

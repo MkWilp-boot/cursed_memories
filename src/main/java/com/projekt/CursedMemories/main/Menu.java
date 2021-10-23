@@ -2,6 +2,7 @@ package com.projekt.CursedMemories.main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -50,6 +51,7 @@ public class Menu
 	public static boolean selectSaveGame = false;
 	public static boolean selectDifficult = false;
 	public static boolean excededSaveLimit = false;
+	public static Image DialogueBG;
 	// public static boolean selectDifficult = false;
 	
 	public Menu(String path, String bg)
@@ -62,10 +64,14 @@ public class Menu
 				catch (IOException e1) { e1.printStackTrace(); }
 			});
 		this.numberOfBackGrounds = lstBackGrounds.size() - 1;
-		try 
+		try
 		{
 			this.logo = ImageIO.read(getClass().getResource(path));
 			this.bg = ImageIO.read(getClass().getResource(bg));
+			
+			Image image = ImageIO.read(new File(Game.ROOT_DIR+"\\res\\dialogueBG.png"));
+			DialogueBG = image.getScaledInstance(Game.WIDTH, 75, Image.SCALE_DEFAULT);
+			//DialogueBG = ImageIO.read(new File(Game.ROOT_DIR+"\\res\\dialogueBG.png"));
 		}
 		catch (IOException e) 
 		{

@@ -68,7 +68,7 @@ public class World {
     	Game.bulletsEn = new ArrayList< Bullet >();
     	Game.bosses = new ArrayList< Boss >();
     	Game.spritesheet = new Spritesheet("/spr.png");
-    	Game.ui = new UI();
+    	Game.ui = new UI("/HUD_HEALTH_PLAYER.png");
     	Game.player = player;
     	Game.weapon = ws;
     	Game.entities.add(Game.player);
@@ -97,7 +97,7 @@ public class World {
     	Game.weapon = new ArrayList< Weapon > ();
     	Game.bosses = new ArrayList< Boss >();
     	Game.spritesheet = new Spritesheet("/spr.png");
-    	Game.ui = new UI();
+    	Game.ui = new UI("/HUD_HEALTH_PLAYER.png");
     	Game.player = new Player(0, 0, 32, 32, Game.spritesheet.getSprite(64, 0, 32, 32));
     	Game.player.setLife(Game.player.maxLife);
     	Game.entities.add(Game.player);

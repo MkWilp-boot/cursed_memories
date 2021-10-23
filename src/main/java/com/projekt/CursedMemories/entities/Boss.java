@@ -121,13 +121,13 @@ public class Boss extends Entity
 		dameged = true;
 		speed = 0.0;
 	}
-	
+
 	protected void destroyBoss()
 	{
 		Integer gold = (int)(rand.nextDouble() * (140 - 70) + 70);
-		System.out.println("Voçê consegui: "+gold);
 		Game.player.setGoldAmount(Game.player.getGoldAmount() + gold);
-		
+		Game.bossDestroyed = true;
+		Game.enemies.clear();
 		this.animateDeath();
 	}
 	

@@ -13,6 +13,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -23,6 +25,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.awt.image.RescaleOp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 import com.projekt.CursedMemories.entities.Boss;
 import com.projekt.CursedMemories.entities.Bullet;
@@ -41,6 +45,7 @@ import com.projekt.CursedMemories.entities.Player;
 import com.projekt.CursedMemories.entities.Portal;
 import com.projekt.CursedMemories.entities.SaveBeam;
 import com.projekt.CursedMemories.entities.Weapon;
+import com.projekt.CursedMemories.graficos.ContinousSequences;
 import com.projekt.CursedMemories.graficos.Pixel;
 import com.projekt.CursedMemories.graficos.Spritesheet;
 import com.projekt.CursedMemories.graficos.UI;
@@ -76,7 +81,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static final String ROOT_DIR = System.getProperty("user.dir");
     
     public static int GAME_STATE = 2;
-    public static int CUR_LEVEL = 0, MAX_LEVEL = 2;
+    public static int CUR_LEVEL = 1, MAX_LEVEL = 2;
     public static String mapName = "/map_"+ CUR_LEVEL +".png";
 
     private BufferedImage image;
@@ -96,6 +101,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static List < Bullet > bullets;
     public static List < Bullet > bulletsEn;
     public static List < Weapon > weapon;
+    public List < BufferedImage > gameOverSequence;
+    public List < BufferedImage > bossBestroyedSequence;
     public static Player player;
 
     public static World world;
@@ -147,7 +154,18 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static boolean boss_clock_kill = false;
     public static boolean boss_final_kill = false;
     
+    public Integer maxFramesGameOver = 300;
+    public Integer currentFrameOfGameOver = 0;
+    
+    public Integer maxFramesBossDestroyed = 300;
+    public Integer currentFrameOfBossDestroyed = 0;
+    
     public static String difficult = null;
+    public static Boolean bossDestroyed = false;
+    public Integer maxBossDisp = 200;
+    public Integer currentBossStepDisp = 0;
+    public Integer destroyedBossAplhaChannel = 200;
+    private Timer timer;
 
     public Game() {
     	
@@ -165,8 +183,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         addMouseMotionListener(this);
         addMouseWheelListener(this);
 
-        this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-        //this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+        //this.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
+        this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
         initFrame();
         entities = new ArrayList < Entity > ();
         enemies = new ArrayList < Enemy > ();
@@ -200,11 +218,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         entities.add(merchant);
         
         world = new World(mapName, true);
-        ui = new UI();
+        ui = new UI("/HUD_HEALTH_PLAYER.png");
         menu = new Menu("/logo.png", "/BG_0.png");
         currentDialogue = 0;
         isInScene = true;
-        
+
         String[] M_0_INTROCUCAO_HALL_MSG = {". . .",". . .",
 					"Acorde.",
 					"Você esteve fora por tanto tempo que. . . Bem. . . você verá.",
@@ -301,11 +319,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     }
 
     public synchronized void start() {
-    	
         thread = new Thread(this);
         bIsRunning = true;
         thread.start();
-        
     }
 
     public synchronized void stop() {
@@ -319,12 +335,28 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public static void main(String[] args) {
         Game game = new Game();
-        
-        //Game.inScene = true;
+        var generators = new ContinousSequences();
+        game.gameOverSequence = generators.GetsGnerateion(1);
+        game.bossBestroyedSequence = generators.GetsGnerateion(2);
         game.start();
     }
 
     public void tick() {
+    	/*if (bossDestroyed) {
+    		if (currentBossStepDisp <= maxBossDisp) {
+    			currentBossStepDisp++;
+    		}
+    		else if (currentBossStepDisp >= maxBossDisp) {
+    			if (destroyedBossAplhaChannel > 0) {
+    				destroyedBossAplhaChannel--;
+    			}
+    			else
+    			{
+    				destroyedBossAplhaChannel = 0;
+    				bossDestroyed = false;
+    			}
+    		}
+    	}*/
     	if(currentCooldownStep > 0) {
     		currentCooldownStep--;
     	}
@@ -492,22 +524,27 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	        for (int i = 0; i < entities.size(); i++) {
 	            Entity e = entities.get(i);
 	            
-	            if (e instanceof Portal) {
-	                if (showPortal) {e.render(gfx);}
+	            if (!(e instanceof Boss)) {
+	            	if (e instanceof Portal) {
+		                if (showPortal) {e.render(gfx);}
+		            }
+		            else {
+		            	e.render(gfx);
+		            }
+
+		            if (e instanceof SaveBeam) {
+		            	e.render(gfx);
+	                    if (((SaveBeam) e).isCollidingPlayer()) {
+	                        ((SaveBeam) e).renderSaveMSG(gfx);
+	                        saveGame = true;
+	                    } else {
+	                        saveGame = false;
+	                    }
+		            }
 	            }
-	            else {
-	            	e.render(gfx);
-	            }
-	
-	            if (e instanceof SaveBeam) {
-	            	e.render(gfx);
-                    if (((SaveBeam) e).isCollidingPlayer()) {
-                        ((SaveBeam) e).renderSaveMSG(gfx);
-                        saveGame = true;
-                    } else {
-                        saveGame = false;
-                    }
-	            }
+	        }
+	        for (var b : bosses) {
+	        	b.render(gfx);
 	        }
         }
         else {
@@ -528,11 +565,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 bulletsEn.get(i).render(gfx);
             }
         }
-        // applyLight();
+
         if(GAME_STATE != 3){
         	ui.render(gfx);
         }
-        
+
         if(rmvSetToBlack) {
         	gfx.setColor(Color.BLACK);
         	isInScene = true;
@@ -541,19 +578,48 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	          		HEIGHT_SCALE);
 	    	Sound.mp_bg_1.stop();
         }
-        
+
         if(currentDialogue == 0) {
         	gfx.setColor(Color.BLACK);
         	gfx.fillRect(0, 0, 
         		WIDTH_SCALE, 
         		HEIGHT_SCALE);
     	}
-        
+     
         // Dialogos;
         if(isInScene) {
     		falas.get(currentDialogue).render(gfx);
         }
-        //
+        
+        if (bossDestroyed) {
+        	gfx.setColor(new Color( 0, 0, 0, 140 ));
+        	gfx.fillRect(0, 0, WIDTH_SCALE, HEIGHT_SCALE);
+        	currentFrameOfBossDestroyed++;
+            if (currentFrameOfBossDestroyed >= maxFramesBossDestroyed) {
+            	currentFrameOfBossDestroyed = 0;
+            	bossDestroyed = false;
+            }
+            var img = bossBestroyedSequence.get(currentFrameOfBossDestroyed);
+            var w = img.getWidth();
+            var h = img.getHeight();
+            gfx.drawImage(img, (WIDTH / 2) - (w / 2), (HEIGHT / 2) - (h / 2), null);
+            
+            gfx.setColor(new Color(255, 255, 255, 100));
+            gfx.setFont(main_font.deriveFont(20f));
+        	gfx.drawString("Você agora possui: " + player.getGoldAmount() + " Moedas!", WIDTH / 2 - 110, HEIGHT / 2 + 110);
+            
+            /*
+        	gfx.setColor(new Color(0,0,0, destroyedBossAplhaChannel));
+        	var scaleY = (int)(HEIGHT / 2) -50;
+        	var scaleX = (int)(WIDTH / 2) - 90;
+        	
+        	gfx.fillRect(0, scaleY, WIDTH, 125);
+        	gfx.setFont(main_font.deriveFont(50f));
+        	gfx.setColor(new Color(255,255,255, destroyedBossAplhaChannel));
+        	gfx.drawString("Sala limpa", scaleX, scaleY + 50);
+        	
+        	*/
+        }
         
         gfx.dispose();
         gfx = bs.getDrawGraphics();
@@ -567,15 +633,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         if (GAME_STATE == 1) {
             Graphics2D gfx2 = (Graphics2D) gfx;
-            gfx2.setColor(new Color(0, 0, 0, 130));
-            gfx2.fillRect(0, 0, WIDTH_SCALE, HEIGHT_SCALE);
-            gfx2.setColor(new Color(255,255,255,230));
-            gfx2.setFont(main_font.deriveFont(90f));
-            gfx2.drawString("Game Over", WIDTH_SCALE / 2 - 160, HEIGHT_SCALE / 2);
-            gfx2.setFont(main_font.deriveFont(40f));
-            if (showRestart) {
-                gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH_SCALE / 2 - 300, HEIGHT_SCALE / 2 + 60);
+            currentFrameOfGameOver++;
+            if (currentFrameOfGameOver >= maxFramesGameOver) {
+            	currentFrameOfGameOver = 0;
             }
+            gfx2.setColor(new Color(0,0,0,140));
+            gfx2.fillRect(0, 0, Game.WIDTH_SCALE, Game.HEIGHT_SCALE);
+            gfx2.drawImage(this.gameOverSequence.get(currentFrameOfGameOver), Game.WIDTH / 2 + 30, Game.HEIGHT / 2 + 50, null);
+            gfx2.setColor(new Color(255, 255, 255, 190));
+            gfx2.setFont(main_font.deriveFont(35f));
+            gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH_SCALE / 2 - 260, HEIGHT_SCALE / 2 + 60);
         } else if (GAME_STATE == 2) {
             menu.render(gfx);
         }
@@ -779,22 +846,39 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-    }
-// 256 128
-    @Override
-    public void mousePressed(MouseEvent e) {
     	
-        if (e.getButton() == 1) {
-            player.shoot = true;
-            player.mx = e.getX() / SCALE;
-            player.my = e.getY() / SCALE;
+    }
+
+    @Override
+    public void mousePressed(MouseEvent me) {
+
+        if (me.getButton() == 1) {
+        	var arma = player.getGunLeft();
+        	if (arma == Entity.GUN_LEFT) {
+        		timer = new Timer(100, new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                    	player.shoot = true;
+                        player.mx = me.getX() / SCALE;
+                        player.my = me.getY() / SCALE;
+                    }
+                });
+                timer.start();
+        	}
+        	else {
+        		if (!player.isWeaponCooldown()) {
+        			player.shoot = true;
+                    player.mx = me.getX() / SCALE;
+                    player.my = me.getY() / SCALE;
+        		}
+        	}
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-
+    	if (timer != null) {
+            timer.stop();
+        }
     }
 
     @Override

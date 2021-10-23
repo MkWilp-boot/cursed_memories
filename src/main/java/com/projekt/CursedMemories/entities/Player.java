@@ -17,8 +17,8 @@ public class Player extends Entity {
     public int cur_dir = 0;
     private boolean keepShooting = false;
     private int goldAmount = 100; 
-    private int life = 8;
-	public int maxLife = 8;
+    private int life = 10;
+	public int maxLife = 10;
 	//varial de controle, para checar se o player pode tomar dano ou não, false = pode toma dano, true = não pode
 	public boolean invulnerable = false;
 	
@@ -38,6 +38,9 @@ public class Player extends Entity {
 	
 	private boolean changeWeapon = false;
 	private Integer removePlayerLife;
+	private boolean IsWeaponCooldown = false;
+	private int currentWeaponCooldown = 0;
+	private int maxWeaponCooldown = 100;
 
     public Player(int x, int y, int w, int h, BufferedImage sprite) {
         super(x, y, w, h, sprite);
@@ -92,7 +95,7 @@ public class Player extends Entity {
     		}
     	}
     }
-    
+
     public void drawPlayer(Graphics gfx) 
     {
     	gfx.setColor(Color.CYAN);
@@ -101,7 +104,7 @@ public class Player extends Entity {
     	if(Game.GAME_STATE != 1) {
 	    	if (right || left || up || down) 
 	        {
-	        	if(Game.mx > 270)
+	        	if(Game.mx > (Game.WIDTH / 2))
 	        		gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
 	        	
 	        	else
@@ -110,7 +113,7 @@ public class Player extends Entity {
 	        
 	        else 
 	        {
-	        	if(Game.mx > 270)
+	        	if(Game.mx > (Game.WIDTH / 2))
 	        		gfx.drawImage(defPlayerR, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
 	        	
 	        	else
@@ -154,6 +157,17 @@ public class Player extends Entity {
     }
 
     public void tick() {
+    	
+    	// cooldown weapon
+    	if (this.isWeaponCooldown()) {
+    		for (int i = 0; i < maxWeaponCooldown; i++) {
+    			currentWeaponCooldown++;
+    			if (currentWeaponCooldown >= maxWeaponCooldown) {
+    				currentWeaponCooldown = 0;
+    				this.setIsWeaponCooldown(false);
+    			}
+    		}
+    	}
     	
     	// reload
     	if(this.isReload()) {
@@ -277,6 +291,7 @@ public class Player extends Entity {
         		Game.bullets.add(b1);
         		Game.bullets.add(b2);
         		Game.bullets.add(b3);
+        		this.setIsWeaponCooldown(true);
         	}
         	this.setAmmo(this.getAmmo() - 1);
         	shoot = false;
@@ -486,6 +501,14 @@ public class Player extends Entity {
 
 	public void setGoldAmount(int goldAmount) {
 		this.goldAmount = goldAmount;
+	}
+
+	public boolean isWeaponCooldown() {
+		return IsWeaponCooldown;
+	}
+
+	public void setIsWeaponCooldown(boolean isWeaponCooldown) {
+		IsWeaponCooldown = isWeaponCooldown;
 	}
 	
 }

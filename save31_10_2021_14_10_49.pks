@@ -1,0 +1,12 @@
+gold->x5vf/x5DxWM=
+armas->HyDTUnz4uMk=
+municao->zNij3XKaaMI=
+dialogos->07F2tNW3HOM=
+PlayerY->0ArhAr3jTJw=
+mapa->CMk65HUB4xU=
+vida->ZcAznLmal7A=
+fire->6wJEaxDQXB4=
+isInScene->ouGpNoD/rag=
+difficult->yIO5X04M+0I=
+PlayerX->bEn+JmfXaII=
+reserva->eEpn5+1//xc=

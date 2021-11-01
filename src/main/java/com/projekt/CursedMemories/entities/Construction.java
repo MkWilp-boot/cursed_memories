@@ -1,5 +1,6 @@
 package com.projekt.CursedMemories.entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -22,14 +23,12 @@ public class Construction extends Entity{
 	public static boolean isColliding(Entity e2, int w, int h)
     {
     	Rectangle rectE1 = new Rectangle(Game.player.getX(), Game.player.getY(), World.TILE_SIZE, World.TILE_SIZE);
-    	Rectangle rectE2 = new Rectangle(e2.getX(), e2.getY() + 50, w, h);
+    	Rectangle rectE2 = new Rectangle(e2.getX(), e2.getY(), w, h);
     	return rectE1.intersects(rectE2);
     }
 
 	public void render(Graphics gfx) {
 		gfx.drawImage(this.getSprite(), this.getX() - Camera.x, this.getY() - Camera.y, null);
-		//gfx.setColor(Color.RED);
-		//gfx.drawRect(this.getX() - Camera.x, this.getY() + 50 - Camera.y, this.getW(), this.getH() - 50);
 	}
 
 	@SuppressWarnings("static-access")
@@ -44,8 +43,10 @@ public class Construction extends Entity{
 				World.setLevel("/map_vulcao.png", true);
 			}
 		} else if(this.IDmap == 2) {
-			if(this.isColliding(this, this.getW(), this.getH() - 50)) {
+			if(this.isColliding(this, this.getW() - 128, this.getH() - 50)) {
 				System.out.println("Colidindo templo");
+				Game.mapName = "/map_caveira.png";
+				World.setLevel("/map_caveira.png", true);
 			}
 		}
 	}

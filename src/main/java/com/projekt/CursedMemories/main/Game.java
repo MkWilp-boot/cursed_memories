@@ -25,7 +25,6 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.awt.image.RescaleOp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -56,10 +55,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public static Spritesheet spritesheet;
     public static Spritesheet spr_map0;
+    public static Spritesheet spr_b_caveira;
     public static SpriteSheet spr_b001;
     public static Spritesheet spr_bDarker;
     public static Spritesheet spr_hub;
     public static Spritesheet spr_vulcao;
+    public static Spritesheet spr_fires;
     
     private Thread thread;
 
@@ -81,7 +82,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static final String ROOT_DIR = System.getProperty("user.dir");
     
     public static int GAME_STATE = 2;
-    public static int CUR_LEVEL = 1, MAX_LEVEL = 2;
+    public static int CUR_LEVEL = 0, MAX_LEVEL = 3;
     public static String mapName = "/map_"+ CUR_LEVEL +".png";
 
     private BufferedImage image;
@@ -102,7 +103,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static List < Bullet > bulletsEn;
     public static List < Weapon > weapon;
     public List < BufferedImage > gameOverSequence;
-    public List < BufferedImage > bossBestroyedSequence;
+    public List < BufferedImage > bossDestroyedSequence;
     public static Player player;
 
     public static World world;
@@ -166,6 +167,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public Integer currentBossStepDisp = 0;
     public Integer destroyedBossAplhaChannel = 200;
     private Timer timer;
+    
+    public static boolean diedLevel0 = false;
+    public static boolean died0 = false;
 
     public Game() {
     	
@@ -196,9 +200,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         spritesheet = new Spritesheet("/spr.png");
         spr_map0 = new Spritesheet("/spr_map_0.png");
         spr_b001 = new SpriteSheet("/b001_spr.png");
+        spr_b_caveira = new Spritesheet("/spr_b_caveira.png");
         spr_bDarker = new Spritesheet("/spr_boss_darker.png");
         spr_hub = new Spritesheet("/spr_hub.png");
         spr_vulcao = new Spritesheet("/spr_vulcao.png");
+        spr_fires = new Spritesheet("/Small_Fireball.png");
         
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         try {
@@ -301,7 +307,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         try {
             icon = ImageIO.read(getClass().getResource("/icon.png"));
-        	//icon = ImageIO.read(new FileInputStream("res/icon.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -316,6 +321,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         device.setFullScreenWindow(frame);
         frame.setVisible(true);
+        frame.requestFocus();
     }
 
     public synchronized void start() {
@@ -335,28 +341,18 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public static void main(String[] args) {
         Game game = new Game();
-        var generators = new ContinousSequences();
+        ContinousSequences generators = new ContinousSequences();
         game.gameOverSequence = generators.GetsGnerateion(1);
-        game.bossBestroyedSequence = generators.GetsGnerateion(2);
+        game.bossDestroyedSequence = generators.GetsGnerateion(2);
         game.start();
     }
 
     public void tick() {
-    	/*if (bossDestroyed) {
-    		if (currentBossStepDisp <= maxBossDisp) {
-    			currentBossStepDisp++;
-    		}
-    		else if (currentBossStepDisp >= maxBossDisp) {
-    			if (destroyedBossAplhaChannel > 0) {
-    				destroyedBossAplhaChannel--;
-    			}
-    			else
-    			{
-    				destroyedBossAplhaChannel = 0;
-    				bossDestroyed = false;
-    			}
-    		}
-    	}*/
+    	if(Game.mapName != "/map_2.png") {
+    		merchant.setX(0);
+    		merchant.setY(0);
+    	}
+    	
     	if(currentCooldownStep > 0) {
     		currentCooldownStep--;
     	}
@@ -383,7 +379,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             	Sound.mp_bg_1.stop();
             }
         	// MAPA VULCAO (boss de fogo)
-            if(mapName.contains("vulcao")) {
+            if(mapName.contains("vulcao") && GAME_STATE == 0) {
             	Sound.mp_bg_v.loop(0.5f);
             }
             else {
@@ -402,13 +398,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                     // na proxima versão
                     mapName = "/map_" + CUR_LEVEL + ".png";
                     CHANGE_LEVEL = false;
-                    if(CUR_LEVEL == 1) {
-                    	rmvSetToBlack = true;
-                    	World.restartGame(mapName, true);
-                    }
-                    else {
-                    	World.setLevel(mapName, true);
-                    }
+                    World.setLevel(mapName, true);
                     
                     System.out.println(mapName);
                 }
@@ -468,6 +458,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         else if (GAME_STATE == 2) {
             menu.tick();
             Sound.musicGB.loop(0.5f);
+            Sound.mp_bg_v.stop();
             if(CUR_LEVEL == 1) {
             	Sound.mp_bg_1.stop();
             }
@@ -543,7 +534,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		            }
 	            }
 	        }
-	        for (var b : bosses) {
+	        for (Boss b : bosses) {
 	        	b.render(gfx);
 	        }
         }
@@ -599,26 +590,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             	currentFrameOfBossDestroyed = 0;
             	bossDestroyed = false;
             }
-            var img = bossBestroyedSequence.get(currentFrameOfBossDestroyed);
-            var w = img.getWidth();
-            var h = img.getHeight();
+            BufferedImage img = bossDestroyedSequence.get(currentFrameOfBossDestroyed);
+            Integer w = img.getWidth();
+            Integer h = img.getHeight();
             gfx.drawImage(img, (WIDTH / 2) - (w / 2), (HEIGHT / 2) - (h / 2), null);
             
             gfx.setColor(new Color(255, 255, 255, 100));
             gfx.setFont(main_font.deriveFont(20f));
         	gfx.drawString("Você agora possui: " + player.getGoldAmount() + " Moedas!", WIDTH / 2 - 110, HEIGHT / 2 + 110);
-            
-            /*
-        	gfx.setColor(new Color(0,0,0, destroyedBossAplhaChannel));
-        	var scaleY = (int)(HEIGHT / 2) -50;
-        	var scaleX = (int)(WIDTH / 2) - 90;
-        	
-        	gfx.fillRect(0, scaleY, WIDTH, 125);
-        	gfx.setFont(main_font.deriveFont(50f));
-        	gfx.setColor(new Color(255,255,255, destroyedBossAplhaChannel));
-        	gfx.drawString("Sala limpa", scaleX, scaleY + 50);
-        	
-        	*/
         }
         
         gfx.dispose();
@@ -642,7 +621,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             gfx2.drawImage(this.gameOverSequence.get(currentFrameOfGameOver), Game.WIDTH / 2 + 30, Game.HEIGHT / 2 + 50, null);
             gfx2.setColor(new Color(255, 255, 255, 190));
             gfx2.setFont(main_font.deriveFont(35f));
-            gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH_SCALE / 2 - 260, HEIGHT_SCALE / 2 + 60);
+            if(!died0)
+            	gfx2.drawString(">> Pressione \"ENTER\" para seguir <<", WIDTH_SCALE / 2 - 260, HEIGHT_SCALE / 2 + 60);
+            else
+            	gfx2.drawString(">> Pressione \"ENTER\" para reiniciar <<", WIDTH_SCALE / 2 - 260, HEIGHT_SCALE / 2 + 60);
         } else if (GAME_STATE == 2) {
             menu.render(gfx);
         }
@@ -749,7 +731,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         if (GAME_STATE == 1) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            	Game.mapName = "/map_1.png";
+        		Game.mapName = "/map_2.png";
+        		if(diedLevel0) {
+        			rmvSetToBlack = true;
+        			isInScene = true;
+        			died0 = true;
+        		}
                 resetAble = true;
             }
         }
@@ -817,17 +804,22 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         	
             if (e.getKeyCode() == KeyEvent.VK_UP) {
                 menu.up = false;
+                Sound.mn_0.play(1.0f);
             } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 menu.down = false;
+                Sound.mn_0.play(1.0f);
             }
 
             if (e.getKeyCode() == KeyEvent.VK_ENTER && !Menu.selectSaveGame) {
                 Menu.context = true;
+                Sound.mn_1.play(1.0f);
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER && Menu.selectSaveGame) {
+            	Sound.mn_1.play(1.0f);
             	Menu.selectSave();
             }
             if (e.getKeyCode() == KeyEvent.VK_ENTER && Menu.selectDifficult) {
+            	Sound.mn_1.play(1.0f);
             	Menu.selectDifficultSet();
             }
 
@@ -853,7 +845,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public void mousePressed(MouseEvent me) {
 
         if (me.getButton() == 1) {
-        	var arma = player.getGunLeft();
+        	BufferedImage arma = player.getGunLeft();
         	if (arma == Entity.GUN_LEFT) {
         		timer = new Timer(100, new ActionListener() {
                     public void actionPerformed(ActionEvent e) {

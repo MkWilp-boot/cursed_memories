@@ -26,7 +26,7 @@ public class Portal extends Entity
 		{
 			if(Game.mapName == "/map_vulcao.png") {
 				System.out.println("MAPA DO VULCAO");
-				Game.mapName = "/map_1.png";
+				Game.mapName = "/map_2.png";
 				World.setLevel(Game.mapName, false);
 			}
 			else {

@@ -17,9 +17,16 @@ public class Sound implements AudioInternal {
     
     // MAP VULCAO	
     public static final Sound mp_bg_v = new Sound("/BATTLE_VULCAO.wav");
-    public static final Sound mp_bs_1_v = new Sound("/Fogo.wav");
-    public static final Sound mp_bs_2_v = new Sound("/Fogo_2.wav");
-
+    public static final Sound mp_bs_1_v = new Sound("/Flame_Attack1.wav");
+    public static final Sound mp_bs_2_v = new Sound("/Flame_Attack2.wav");
+    
+    //public static final Sound mp_bs_3_v = new Sound("/Flame_Impact1.wav");
+    //public static final Sound mp_bs_4_v = new Sound("/Flame_Impact3.wav");
+    
+    // sons menu
+    public static final Sound mn_0 = new Sound("/cursor_style_5.wav");
+    public static final Sound mn_1 = new Sound("/confirm_style_6_001.wav");
+    
     Sound(String name) {
         try {
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource(name));

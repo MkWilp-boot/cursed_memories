@@ -72,19 +72,19 @@ public class Enemy extends Entity
     			Bullet bullet;
     			if(i == 0)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 1, 0, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false, true);
     			}
     			else if(i == 1)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, 1, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false, true);
     			}
     			else if(i == 2)
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, -1, 0, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false, true);
     			}
     			else
     			{
-    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false);
+    				bullet = new Bullet(this.getX() + 8, this.getY() + 16, 8, 8, null, 0, -1, Color.LIGHT_GRAY, 4.0, new Color(137,137,137, 100), false, true);
     			}
     	    	Game.bulletsEn.add(bullet);
     		}
@@ -96,13 +96,13 @@ public class Enemy extends Entity
     	{
 	    	if(path == null || path.size() == 0)
 	    	{
-	    		Vector2i start = new Vector2i( (int)(x / World.TILE_SIZE),
-	    								       (int)(y / World.TILE_SIZE));
+	    		//Vector2i start = new Vector2i( (int)(x / World.TILE_SIZE),
+	    		//						       (int)(y / World.TILE_SIZE));
 	    		
-	    		Vector2i end   = new Vector2i( (int)(Game.player.x / World.TILE_SIZE), 
-	    									   (int)(Game.player.y / World.TILE_SIZE));
+	    		//Vector2i end   = new Vector2i( (int)(Game.player.x / World.TILE_SIZE), 
+	    		//							   (int)(Game.player.y / World.TILE_SIZE));
 	    		
-	    		path = APointer.findPath(Game.world, start, end);
+	    		//path = APointer.findPath(Game.world, start, end);
 	    	}
 	    	if(this.isCollidingPlayer())
 	    	{
@@ -114,7 +114,7 @@ public class Enemy extends Entity
 		    		Game.player.invulnerable = true;
 	    		}
 	    	}
-	    	followPath(path);
+	    	//followPath(path);
 	    	
 			if (moved) {
 	            frames++;

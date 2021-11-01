@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import com.projekt.CursedMemories.entities.Ammo;
 import com.projekt.CursedMemories.entities.Boss;
 import com.projekt.CursedMemories.entities.Boss01;
+import com.projekt.CursedMemories.entities.Boss2;
 import com.projekt.CursedMemories.entities.Bullet;
 import com.projekt.CursedMemories.entities.Construction;
 import com.projekt.CursedMemories.entities.Darker;
@@ -127,14 +128,15 @@ public class World {
 					// padrão (chão)
 					switch(path)
 					{
+					case "/map_1.png":
 					case "/map_0.png":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_1);
 					break;
-					case "/map_1.png":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_HUB_GRASS);
+					case "/map_2.png":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A3);
 					break;
 					case "/map_vulcao.png":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_VULCAO_DIRT);
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_DRY_LAVA);
 					break;
 					default:
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
@@ -215,6 +217,13 @@ public class World {
 							Game.bosses.add(bs);
 						}
 					break;
+					case "689647":
+						if(showBoss) {
+							Boss2 bs = new Boss2(x * 32, y * 32, 64, 96, 1.0, 600, null);
+							Game.entities.add(bs);
+							Game.bosses.add(bs);
+						}
+					break;
 					case "43ff00":
 						Darker darker = new Darker(x * 32, y * 32, 64, 64, 0.0, 1, Darker.IDLE_IMG);
 						Game.entities.add(darker);
@@ -226,18 +235,26 @@ public class World {
 						Game.merchant.setY(y * 32);
 					break;
 					// Mapa Vulcao
-                    case "ff6600":
-                        tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_VULCAO_LAVA);
-                    break;
-                    case "472a1c":
-                        tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_VULCAO_DIRT);
-                    break;
-                    case "f7d11a":
-                        tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_VULCAO_LAVAROCK);
-                    break;
-                    case "e56520":
-                        tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_VULCAO_LAVADIRT);
-                    break;
+					case "ff6a00":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_LAVA01);
+					break;
+					case "930238":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_FLOOR_BRICK);
+					break;
+					case "963103":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_DRY_LAVA);
+					break;
+					
+					
+					case "934961":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_LAVA_RED);
+					break;
+					case "890000":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_BRICK_RED);
+					break;
+					case "960000":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_BRICK_RED_TOP);
+					break;
 					
 					// Inicio MAP_0
 					
@@ -577,59 +594,325 @@ public class World {
 						Game.entities.add(new Construction(x * 32, y * 32, 288, 240, Entity.TEMPLO, 2));
 					break;
 					
-					
-					case "85d155":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_HUB_GRASS);
+					case "5fcde4":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_A1);
 					break;
-					case "874134":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_HUB_DIRT);
+					case "895a45":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A2);
 					break;
-					case "78d5e1":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_WATER);
+					case "427f3b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A3);
 					break;
-					
-					
-					case "437841":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_BOTTOM);
+					case "428b3b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A4);
 					break;
-					case "89b852":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_RIGHT);
+					case "5b7f3b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A5);
 					break;
-					case "308c35":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_TOP);
+					case "80a53f":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A6);
 					break;
-					case "306c35":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_LEFT);
+					case "80bf3f":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A7);
 					break;
-					
-					
-					case "539648":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_RB);
+					case "a7acba":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A8);
 					break;
-					case "588c35":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_RT);
-					break;
-					case "538a48":
-						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_LB);
-					break;
-					case "578c35":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_LT);
+					case "b8acba":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A9);
 					break;
 					
-					
-					case "416235":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_IRB);
-					break;
-					case "415e3d":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_IRT);
-					break;
-					case "305135":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_ILB);
-					break;
-					case "417135":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_WALL_HUB_GRASS_CORNER_ILT);
+					case "87616a":
+						// boss_fire_kill
+						if (Game.boss_fire_kill) {
+							tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_LAVA_SECA);
+						}
+						else {
+							tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_A10);
+						}
 					break;
 					
+					case "523b40":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_A10);
+					break;
+					
+					case "cd704d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A11);
+					break;
+					case "bf704d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A12);
+					break;
+					case "df704d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A13);
+					break;
+					case "9195a1":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A14);
+					break;
+					case "a895a1":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A15);
+					break;
+					case "5880cc":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_A16);
+					break;
+					
+					
+					
+					case "e6deca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_B1);
+					break;
+					case "e4deca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_B2);
+					break;
+					case "e4d1ca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C1);
+					break;
+					case "e4caca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C2);
+					break;
+					case "e4c1ca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_D1);
+					break;
+					case "e4beca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_D2);
+					break;
+					
+					
+					case "1f5836":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_B3);
+					break;
+					case "1f5436":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C3);
+					break;
+					case "1f4f36":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_B4);
+					break;
+					case "1f3736":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C4);
+					break;
+					
+					
+					case "517f3b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B5);
+					break;
+					case "5f7f3b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B6);
+					break;
+					case "51ac3b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_B7);
+					break;
+					case "51943b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_B8);
+					break;
+					case "895a28":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B9);
+					break;
+					case "895a15":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B10);
+					break;
+					
+					
+					
+					
+					case "895a07":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B11);
+					break;
+					case "894407":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B12);
+					break;
+					case "974407":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B13);
+					break;
+					case "895a0f":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B14);
+					break;
+					case "894c17":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B15);
+					break;
+					case "895a17":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_B16);
+					break;
+					case "973407":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C5);
+					break;
+					case "5d283d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C6);
+					break;
+					case "7c5a45":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C7);
+					break;
+					case "814407":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_D3);
+					break;
+					case "764407":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_D4);
+					break;
+					case "6b4407":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_D5);
+					break;
+					case "634407":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_D6);
+					break;
+					
+					
+					
+					
+					
+					
+					case "bbc44e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C8);
+					break;
+					case "aec44e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C9);
+					break;
+					case "a1c44e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_D8);
+					break;
+					case "98c44e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_D9);
+					break;
+					case "98a54e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C10);
+					break;
+					case "afb44e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_D10);
+					break;
+					case "89a524":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_D7);
+					break;
+					case "89a53b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C11);
+					break;
+					case "d5deca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C12);
+					break;
+					case "dddeca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C13);
+					break;
+					case "bfdeca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_D11);
+					break;
+					case "61a54e":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_D12);
+					break;
+					case "cadeca":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_D13);
+					break;
+					
+					
+					
+					
+					
+					
+					case "e82f44":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E1);
+					break;
+					case "e84444":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E2);
+					break;
+					case "f92f2b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F1);
+					break;
+					case "f62f2b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F2);
+					break;
+					case "606060":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E3);
+					break;
+					case "9a7f5b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E4);
+					break;
+					case "9a8571":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F3);
+					break;
+					case "9a9171":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F4);
+					break;
+					
+					
+					
+					case "f61f2b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E5);
+					break;
+					case "f6132b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E6);
+					break;
+					case "f6092b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F5);
+					break;
+					case "f6032b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F6);
+					break;
+					case "f60334":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E7);
+					break;
+					case "f60341":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_E8);
+					break;
+					case "f60349":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F7);
+					break;
+					case "f60355":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_F8);
+					break;
+					
+					
+					
+					case "7b5a45":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_E9);
+					break;
+					case "7b4c45":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_E10);
+					break;
+					case "7b5836":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_E11);
+					break;
+					case "7b4c36":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_E12);
+					break;
+					case "7b5f36":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_E13);
+					break;
+					case "7b5f43":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_E14);
+					break;
+					
+					
+					
+					case "802954":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_G1);
+					break;
+					case "a22954":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_G2);
+					break;
+					case "a23369":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_H2);
+					break;
+					case "912954":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_G3);
+					break;
+					case "a2295b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_G4);
+					break;
+					case "a22969":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_H4);
+					break;
+					case "a22269":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_G5);
+					break;
+					case "a20c69":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_G6);
+					break;
+					case "bf574d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_G7);
+					break;
+					
+					
+					case "a4704d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_G8);
+					break;
+					case "92704d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_G9);
+					break;
 					}
 				}
 			}
@@ -641,13 +924,13 @@ public class World {
 	}
 	
 	public static void generateParticles(Integer amount, Integer x, Integer y) {
-		for(var count = 0; count < amount; count++) {
+		for(int count = 0; count < amount; count++) {
 			Game.entities.add(new ExplosionParticle(x, y, 5, 5, null));
 		}
 	}
 	
 	public static void generateParticles(Integer amount, Integer x, Integer y, Color color) {
-		for(var count = 0; count < amount; count++) {
+		for(int count = 0; count < amount; count++) {
 			Game.entities.add(new ExplosionParticle(x, y, 5, 5, null, color));
 		}
 	}

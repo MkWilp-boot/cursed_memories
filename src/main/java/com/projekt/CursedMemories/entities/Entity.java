@@ -67,7 +67,10 @@ public class Entity {
     // Player face for text
     public static BufferedImage PLAYER_AVATAR =  Game.spritesheet.getSprite(0, 768, 32, 32);
     
-    // STAGE 1, FIRE BOSS
+    // caveira
+    public static BufferedImage BOSS_CAV_DAM = Game.spr_b_caveira.getSprite(0, 96, 64, 96);
+    
+    //FIRE BOSS
     public static BufferedImage BOSS_01_DAM = Game.spr_b001.getSprite(256, 256, 128, 128);
     public static BufferedImage BOSS_01_ATT_1 = Game.spr_b001.getSprite(0, 256, 128, 128);
     
@@ -78,8 +81,8 @@ public class Entity {
     public static BufferedImage[] leftBoss_01 = new BufferedImage[5];
     
     // Construções mapa hub
-    public static BufferedImage VULCAO = Game.spr_hub.getSprite(192, 304, 256, 224);
-    public static BufferedImage TEMPLO = Game.spr_hub.getSprite(192, 0, 288, 256);
+    public static BufferedImage VULCAO = Game.spr_hub.getSprite(0, 288, 255, 224);
+    public static BufferedImage TEMPLO = Game.spr_hub.getSprite(352, 320, 160, 192);
     
     private BufferedImage sprite;
 

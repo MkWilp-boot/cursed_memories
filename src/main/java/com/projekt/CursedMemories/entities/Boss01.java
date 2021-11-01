@@ -3,6 +3,9 @@ package com.projekt.CursedMemories.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.projekt.CursedMemories.main.Game;
 import com.projekt.CursedMemories.main.Sound;
@@ -13,11 +16,14 @@ import com.projekt.CursedMemories.world.World;
 
 public class Boss01 extends Boss 
 {
-	private int maxTime = 150, curTime = 0, animation_max_fr = 120, cur_animation_fr = 0;
+	private int maxTime = 100, curTime = 0, animation_max_fr = 120, cur_animation_fr = 0;
 	private int frames, index = 0, maxFrames = 15, maxIndex = 2;
+	private int indexBall = 0, maxIndexBall = 59;
 	private double speed;
 	private boolean attack_animation = false, movement = false, moveRight = false, moveLeft = false;
-	//private BufferedImage shadow;
+	private List<BufferedImage> firesDown, firesUp, firesLeft, firesRight, firesDLU, firesDLD, firesDRU, firesDRD;
+	private List<List<BufferedImage>> fires = Arrays.asList(
+    		firesDown, firesUp, firesLeft, firesRight, firesDLU, firesDLD, firesDRU, firesDRD);
 	
 	public Boss01(int x, int y, int w, int h, double speed, int vida, BufferedImage sprite) 
 	{
@@ -30,6 +36,29 @@ public class Boss01 extends Boss
 	    leftBoss_01[0] = Game.spr_b001.getSprite(0, 0, 128, 128); 
 	    leftBoss_01[1] = Game.spr_b001.getSprite(128, 0, 128, 128);
 	    leftBoss_01[2] = Game.spr_b001.getSprite(256, 0, 128, 128);
+	    
+	    firesDown = new ArrayList<>();
+	    firesUp = new ArrayList<>();
+	    firesLeft = new ArrayList<>();
+	    firesRight = new ArrayList<>();
+	    firesDLU = new ArrayList<>();
+	    firesDLD = new ArrayList<>();
+	    firesDRU = new ArrayList<>();
+	    firesDRD = new ArrayList<>();
+	    
+	    
+	    
+	    /*for(int i = 0; i < fires.size(); i++) {
+	    	for(int xx = Game.spr_fires.getSpritesheet().getMinX(); 
+		    		xx < Game.spr_fires.getSpritesheet().getWidth(); 
+		    		xx+=10) {
+		    	for(int yy = Game.spr_fires.getSpritesheet().getMinY(); 
+			    		yy < Game.spr_fires.getSpritesheet().getHeight();
+			    		yy+=26) {
+		    		fires.get(i).add(Game.spr_fires.getSprite(xx, yy, 10, 26));
+			    }
+		    }
+	    }*/
 	}
 	
 	
@@ -204,19 +233,13 @@ public class Boss01 extends Boss
 			{
 				attack_animation = true;
 				curTime = 0;
-				int chance = this.rand.nextInt(100);
 				if(this.rand.nextInt(100) > 50) {
-					Sound.mp_bs_1_v.play(0.8f);
+					Sound.mp_bs_1_v.play(1f);
 				}
 				else {
-					Sound.mp_bs_2_v.play(0.8f);
+					Sound.mp_bs_2_v.play(1f);
 				}
-				if(chance < 50) {
-					attack_circ();
-				}
-				else if(chance >= 30) {
-					createEnemy();
-				}
+				attack_circ();
 				rainning();
 			}
 			if(!this.isCollidingPlayer())

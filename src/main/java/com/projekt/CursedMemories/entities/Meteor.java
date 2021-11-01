@@ -3,8 +3,10 @@ package com.projekt.CursedMemories.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import com.projekt.CursedMemories.main.Game;
+import com.projekt.CursedMemories.main.Sound;
 import com.projekt.CursedMemories.world.Camera;
 import com.projekt.CursedMemories.world.World;
 
@@ -62,6 +64,12 @@ public class Meteor extends Bullet {
 				y += dy * spd;
 			}
 			else {
+				/*Random rand = new Random();
+				if(rand.nextInt() > 50)
+					Sound.mp_bs_3_v.play(1.0f);
+				else
+					Sound.mp_bs_4_v.play(1.0f);*/
+				
 				Game.bullets.remove(this);
 				Game.bulletsEn.remove(this);
 				World.generateParticles(100, this.getX(), this.getY(), Color.red);

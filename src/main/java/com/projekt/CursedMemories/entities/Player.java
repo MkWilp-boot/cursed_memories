@@ -2,16 +2,16 @@ package com.projekt.CursedMemories.entities;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.projekt.CursedMemories.main.Game;
+import com.projekt.CursedMemories.main.ImageUtils;
 import com.projekt.CursedMemories.main.Sound;
 import com.projekt.CursedMemories.world.Camera;
 import com.projekt.CursedMemories.world.World;
 
 public class Player extends Entity {
-
+	// 256, 192
     public boolean right, left, up, down;
     public double speed = 3.0;
     public int cur_dir = 0;
@@ -23,9 +23,10 @@ public class Player extends Entity {
 	public boolean invulnerable = false;
 	
     private int frames, index = 0, maxFrames = 5, maxIndex = 4, damageFrames = 0;
+    private int idleFrames, idleIndex = 0;
     public static boolean moved = false;
     public boolean hasWeapon = false, shoot = false, isDameged = false;
-    private BufferedImage[] rightPlayer, leftPlayer;
+    private BufferedImage[] rightPlayer, leftPlayer, idlePlayerR, idlePlayerL;
     private BufferedImage defPlayerR, defPlayerL, damegedPlayer, GUN_LEFT, GUN_RIGHT;
     private int ammo = 0;
 	public int maxAmmo = 100;
@@ -51,27 +52,41 @@ public class Player extends Entity {
         damegedPlayer = Game.spritesheet.getSprite(256, 0, 32, 32);
         
      
-        rightPlayer = new BufferedImage[5];
-        leftPlayer = new BufferedImage[5];
+        rightPlayer = new BufferedImage[4];
+        leftPlayer = new BufferedImage[4];
+        idlePlayerR = new BufferedImage[4];
+        idlePlayerL = new BufferedImage[4];
+        
+        idlePlayerR[0] = Game.spritesheet.getSprite(256, 192, 32, 32);
+        idlePlayerR[1] = Game.spritesheet.getSprite(288, 192, 32, 32);
+        idlePlayerR[2] = Game.spritesheet.getSprite(320, 192, 32, 32);
+        idlePlayerR[3] = Game.spritesheet.getSprite(352, 192, 32, 32);
+        
+        idlePlayerL[0] = Game.spritesheet.getSprite(256, 224, 32, 32);
+        idlePlayerL[1] = Game.spritesheet.getSprite(288, 224, 32, 32);
+        idlePlayerL[2] = Game.spritesheet.getSprite(320, 224, 32, 32);
+        idlePlayerL[3] = Game.spritesheet.getSprite(352, 224, 32, 32);
 
         rightPlayer[0] = Game.spritesheet.getSprite(65, 0, 32, 32); 
         rightPlayer[1] = Game.spritesheet.getSprite(96, 0, 32, 32);
-        rightPlayer[2] = Game.spritesheet.getSprite(160, 0, 32, 32);
-        rightPlayer[3] = Game.spritesheet.getSprite(192, 0, 32, 32);
-        rightPlayer[4] = Game.spritesheet.getSprite(224, 0, 32, 32);
+        rightPlayer[2] = Game.spritesheet.getSprite(128, 0, 32, 32);
+        rightPlayer[3] = Game.spritesheet.getSprite(160, 0, 32, 32);
+        
 
-        leftPlayer[0] = Game.spritesheet.getSprite(224, 96, 32, 32); 
-        leftPlayer[1] = Game.spritesheet.getSprite(192, 96, 32, 32);
+        leftPlayer[3] = Game.spritesheet.getSprite(160, 96, 32, 32);
         leftPlayer[2] = Game.spritesheet.getSprite(160, 96, 32, 32);
-        leftPlayer[3] = Game.spritesheet.getSprite(96, 96, 32, 32);
-        leftPlayer[4] = Game.spritesheet.getSprite(65, 96, 32, 32);
+        leftPlayer[1] = Game.spritesheet.getSprite(128, 96, 32, 32);
+        leftPlayer[0] = Game.spritesheet.getSprite(65, 96, 32, 32);
         
         if (Game.difficult == "Dificil")
 			this.removePlayerLife = 3;
-		else if(Game.difficult == "Dificil")
+		else if(Game.difficult == "Normal")
 			this.removePlayerLife = 2;
 		else
 			this.removePlayerLife = 1;
+        
+        if(!Game.died0)
+        	this.removePlayerLife = 300;
     }
 
     public void render(Graphics gfx) 
@@ -102,59 +117,42 @@ public class Player extends Entity {
     	gfx.fillRect(this.getX() - Camera.x - 10, this.getY() - Camera.y + 34, (int)Game.currentCooldownStep / 8, 2);
     	
     	if(Game.GAME_STATE != 1) {
-	    	if (right || left || up || down) 
-	        {
-	        	if(Game.mx > (Game.WIDTH / 2))
-	        		gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-	        	
+	    	if(moved) {
+	    		if (right || left || up || down)  {
+		        	if(Game.mx > (Game.WIDTH / 2))
+		        		gfx.drawImage(rightPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+		        	else
+		        		gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+		        }
+		        else {
+		        	if(Game.mx > (Game.WIDTH / 2))
+		        		gfx.drawImage(defPlayerR, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+		        	else
+		        		gfx.drawImage(defPlayerL, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+		        }
+	    	}
+	    	else {
+	    		if(Game.mx > (Game.WIDTH / 2))
+	        		gfx.drawImage(idlePlayerR[idleIndex], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
 	        	else
-	        		gfx.drawImage(leftPlayer[index], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-	        }
-	        
-	        else 
-	        {
-	        	if(Game.mx > (Game.WIDTH / 2))
-	        		gfx.drawImage(defPlayerR, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-	        	
-	        	else
-	        		gfx.drawImage(defPlayerL, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
-	        }
-	        
-	       if(hasWeapon)
-	       {
+	        		gfx.drawImage(idlePlayerL[idleIndex], (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
+	    	}
+	    	if(hasWeapon) {
 	    	   double dangle = Math.atan2(Game.my - (this.getY() - Camera.y), Game.mx - (this.getX() - Camera.x));
 	    	   
 	    	   if(Game.mx > 270) {
-	    		   gfx.drawImage(rotate(this.GUN_RIGHT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
+	    		   gfx.drawImage(ImageUtils.rotate(this.GUN_RIGHT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 4, null);
 	    	   }
 	    	   else {
-	    		   gfx.drawImage(rotate(this.GUN_LEFT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 8, null);
+	    		   gfx.drawImage(ImageUtils.rotate(this.GUN_LEFT, Math.toDegrees(dangle)), this.getX() - Camera.x, this.getY() - Camera.y + 8, null);
 	    	   }
-	       }	
+	       }
     	}
     	else {
     		gfx.drawImage(damegedPlayer, (int)this.getX() - Camera.x, (int)this.getY() - Camera.y, null);
     	}
     }
     
-    
-    public static BufferedImage rotate(BufferedImage bimg, double angle) {
-    	
-    	if(bimg != null ) {
-    		int w = bimg.getWidth();    
-            int h = bimg.getHeight();
-
-            BufferedImage rotated = new BufferedImage(w, h, bimg.getType());  
-            Graphics2D graphic = rotated.createGraphics();
-            graphic.rotate(Math.toRadians(angle), w/2, h/2);
-            graphic.drawImage(bimg, null, 0, 0);
-            graphic.dispose();
-            return rotated;
-    	}
-    	else {
-    		return null;
-    	}
-    }
 
     public void tick() {
     	
@@ -223,14 +221,25 @@ public class Player extends Entity {
 
         if (moved) {
             frames++;
-            if (frames == maxFrames) {
+            if (frames == 8) {
                 frames = 0;
                 index++;
-                if(index > maxIndex) {
+                if(index > 3) {
                 	index = 0;
                 }
             }
         }
+        else {
+        	idleFrames++;
+            if (idleFrames == 8) {
+            	idleFrames = 0;
+                idleIndex++;
+                if(idleIndex > 3) {
+                	idleIndex = 0;
+                }
+            }
+        }
+        
         this.checkCollisionLifePack();
         this.checkCollisionAmmoPack();
         this.checkCollisionGun();
@@ -312,9 +321,10 @@ public class Player extends Entity {
         	}
         }
         
-        if(life <= 0)
-        {
+        if(life <= 0) {
         	Game.GAME_STATE = 1; //Game Over
+        	if(Game.mapName.contains("1"))
+        		Game.diedLevel0 = true;
         }
         
         Camera.x = Camera.clamp(this.getX()  - (Game.WIDTH / 2), 0, World.WIDTH * 32 - Game.WIDTH);

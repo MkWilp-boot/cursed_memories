@@ -25,4 +25,9 @@ public class Spritesheet
 	{
 		return spritesheet.getSubimage(x, y, w, h);
 	}
+
+	public BufferedImage getSpritesheet() {
+		return spritesheet;
+	}
+	
 }

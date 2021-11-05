@@ -13,6 +13,7 @@ import com.projekt.CursedMemories.entities.Ammo;
 import com.projekt.CursedMemories.entities.Boss;
 import com.projekt.CursedMemories.entities.Boss01;
 import com.projekt.CursedMemories.entities.Boss2;
+import com.projekt.CursedMemories.entities.Boss3;
 import com.projekt.CursedMemories.entities.Bullet;
 import com.projekt.CursedMemories.entities.Construction;
 import com.projekt.CursedMemories.entities.Darker;
@@ -82,11 +83,9 @@ public class World {
 		Merchant m = null;
 		
 		for(Entity e : Game.entities) {
-			if (e instanceof Merchant) {
+			if (e instanceof Merchant)
 				m = (Merchant) e;
-			}
 		}
-		
 		Game.entities = new ArrayList < Entity > ();
 		Game.entities.add(m);
 		Game.GAME_STATE = 0;
@@ -95,7 +94,7 @@ public class World {
     	Game.enemies = new ArrayList< Enemy >();
     	Game.bullets = new ArrayList< Bullet >();
     	Game.bulletsEn = new ArrayList< Bullet >();
-    	Game.weapon = new ArrayList< Weapon > ();
+    	Game.weapon = new ArrayList<Weapon>();
     	Game.bosses = new ArrayList< Boss >();
     	Game.spritesheet = new Spritesheet("/spr.png");
     	Game.ui = new UI("/HUD_HEALTH_PLAYER.png");
@@ -130,13 +129,17 @@ public class World {
 					{
 					case "/map_1.png":
 					case "/map_0.png":
-						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_1);
+					case "/map_caveira.png":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C_A1);
 					break;
 					case "/map_2.png":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A3);
 					break;
 					case "/map_vulcao.png":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_DRY_LAVA);
+					break;
+					case "/map_clock.png":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_A1);
 					break;
 					default:
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_M_0_0);
@@ -209,17 +212,24 @@ public class World {
 							Game.entities.add(new LifePack(x * 32, y * 32, 32, 32, Entity.LIFE_PACK_ENT));
 						}
 					break;
-					// BOSSES
+					// BOSSES 
 					case "a6ff72":
 						if(showBoss) {
-							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 1.0, 100, Entity.BOSS_01_defaultR);
+							Boss01 bs = new Boss01(x * 32, y * 32, 128, 128, 1.0, 150, Entity.BOSS_01_defaultR);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
 						}
 					break;
 					case "689647":
 						if(showBoss) {
-							Boss2 bs = new Boss2(x * 32, y * 32, 64, 96, 1.0, 600, null);
+							Boss2 bs = new Boss2(x * 32, y * 32, 64, 96, 1.0, 450, null);
+							Game.entities.add(bs);
+							Game.bosses.add(bs);
+						}
+					break;
+					case "ffa0b8":
+						if(showBoss) {
+							Boss3 bs = new Boss3(x * 32, y * 32, 128, 128, 1.0, 400, null);
 							Game.entities.add(bs);
 							Game.bosses.add(bs);
 						}
@@ -593,19 +603,113 @@ public class World {
 					case "838383":
 						Game.entities.add(new Construction(x * 32, y * 32, 288, 240, Entity.TEMPLO, 2));
 					break;
+					case "7c4f45":
+						Game.entities.add(new Construction(x * 32, y * 32, 64, 103, Entity.PORTAL_01, 3));
+					break;
 					
 					case "5fcde4":
 						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_A1);
 					break;
+					
 					case "895a45":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A2);
 					break;
+					
+					
+					// pontes duplas / subida
+					case "915f4a":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A20);
+					break;
+					case "8e8230":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A21);
+					break;
+					case "63400f":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A23);
+					break;
+					case "685f23":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A22);
+					break;
+					case "7a492a":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A24);
+					break;
+					
+					// horz
+					case "6b6f77":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A25);
+						break;
+					case "770531":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A26);
+						break;
+					case "cc0a54":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A27);
+						break;
+					case "91073c":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A28);
+						break;
+					case "a9b0bc":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A29);
+						break;
+						
+					case "44464c":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A30);
+						break;
+					case "3b0218":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A31);
+						break;
+					case "650429":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A32);
+						break;
+					case "48031d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A33);
+						break;
+					case "757a82":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A34);
+						break;
+					// fim
+					case "579657":
+						if (Game.boss_clock_kill) {
+							System.out.println("CLOCK DEAD");
+							tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AB);
+						}
+						else {
+							tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_AD);
+						}
+					break;
+					
 					case "427f3b":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A3);
 					break;
 					case "428b3b":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A4);
 					break;
+					
+					
+					case "31662b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AA);
+					break;
+					case "d8d8d8":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AB);
+					break;
+					case "9e9e9e":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AC);
+					break;
+					case "a0a0a0":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_AD);
+					break;
+					case "444444":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AE);
+					break;
+					case "707070":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AF);
+					break;
+					case "999999":	
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AG);
+					break;
+					case "919191":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_AH);
+					break;
+					
+					
 					case "5b7f3b":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_A5);
 					break;
@@ -913,6 +1017,147 @@ public class World {
 					case "92704d":
 						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_G9);
 					break;
+					
+// MAPA CAVEIRA
+					
+					case "40444b":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C_A1);
+					break;
+					case "8c8d93":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_A2);
+					break;
+					case "7b8d93":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_A3);
+					break;
+					case "adaeb0":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_A4);
+					break;
+					case "100f0f":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_A5);
+					break;
+					
+					
+					
+					
+					case "29261e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_B1);
+					break;
+					case "36261e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_B2);
+					break;
+					case "40261e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_B3);
+					break;
+					case "40311e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_C1);
+					break;
+					case "403a1e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_C2);
+					break;
+					case "40401e":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_C3);
+					break;
+					case "404027":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_D1);
+					break;
+					case "40402f":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_D2);
+					break;
+					case "404038":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_D3);
+					break;
+					
+					
+					
+					
+					
+					case "706b72":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_B4);
+					break;
+					case "786b72":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_B5);
+					break;
+					case "787572":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_C4);
+					break;
+					case "788272":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_C5);
+					break;
+					case "78827b":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_D4);
+					break;
+					case "788286":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_C_D5);
+					break;
+					
+					
+					
+					case "2c3038":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C_E1);
+					break;
+					case "393038":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C_E2);
+					break;
+					case "4b3038":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C_E3);
+					break;
+					case "433038":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_C_E4);
+					break;
+					
+					// FIM MAPA CAVEIRA
+					
+					// MAPA RELOGIO
+					
+					
+					case "466b87":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_A1);
+					break;
+					case "596e78":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_A2);
+					break;
+					case "ebf9ff":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_A3);
+					break;
+					case "c2be68":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_A4);
+					break;
+					case "abc5d1":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_A5);
+					break;
+					case "ffffff":
+						tiles[x + (y * WIDTH)] = new WallTile(x * 32, y * 32, Tile.TILE_WALL_R_A6);
+					break;
+					
+					
+					
+					
+					case "1d3547":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B1);
+					break;
+					case "2a3547":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B2);
+					break;
+					case "393547":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B3);
+					break;
+					case "413547":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B4);
+					break;
+					case "413f47":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B5);
+					break;
+					case "414b47":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B6);
+					break;
+					case "414b52":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B7);
+					break;
+					case "414b5d":
+						tiles[x + (y * WIDTH)] = new FloorTile(x * 32, y * 32, Tile.TILE_FLOOR_R_B8);
+					break;
+					
+					// FIM MAPA RELOGIO
 					}
 				}
 			}

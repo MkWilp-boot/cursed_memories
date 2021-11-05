@@ -44,7 +44,15 @@ public class Construction extends Entity{
 			}
 		} else if(this.IDmap == 2) {
 			if(this.isColliding(this, this.getW() - 128, this.getH() - 50)) {
-				System.out.println("Colidindo templo");
+				if(Game.boss_clock_kill) {
+					Game.player.setY(Game.player.getY() + 10);
+					return;
+				}
+				Game.mapName = "/map_clock.png";
+				World.setLevel("/map_clock.png", true);
+			}
+		} else if(this.IDmap == 3) {
+			if(this.isColliding(this, this.getW(), this.getH())) {
 				Game.mapName = "/map_caveira.png";
 				World.setLevel("/map_caveira.png", true);
 			}

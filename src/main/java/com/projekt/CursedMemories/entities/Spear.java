@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.projekt.CursedMemories.main.Game;
+import com.projekt.CursedMemories.main.ImageUtils;
 import com.projekt.CursedMemories.world.Camera;
 import com.projekt.CursedMemories.world.World;
 
@@ -46,6 +47,19 @@ public class Spear extends Bullet
 	public Spear(int x, int y, int w, int h, BufferedImage sprite, double dx, double dy, Color color, double speed,
 			Color pColor, boolean build) {
 		super(x, y, w, h, sprite, dx, dy, color, speed, pColor, build);
+		
+		if(dx < 0 && dy == 0) {
+			for(int i = 0; i < this.sprites.length; i++)
+				this.sprites[i] = ImageUtils.rotate(sprites[i], -90);
+		}
+		else if(dx > 0 && dy == 0) {
+			for(int i = 0; i < this.sprites.length; i++)
+				this.sprites[i] = ImageUtils.rotate(sprites[i], 90);
+		}
+		else if(dx == 0 && dy > 0) {
+			for(int i = 0; i < this.sprites.length; i++)
+				this.sprites[i] = ImageUtils.rotate(sprites[i], 180);
+		}
 		this.dx = dx;
 		this.dy = dy;
 		this.spd = speed;

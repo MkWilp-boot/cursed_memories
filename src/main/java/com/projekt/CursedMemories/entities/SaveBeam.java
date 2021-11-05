@@ -70,6 +70,7 @@ public class SaveBeam extends Entity
 						hm.put("reserva"	, enc.encrypt(Integer.toString(Game.player.getReserveAmmo())));
 						hm.put("armas"		, enc.encrypt(armas));
 						hm.put("fire"		, enc.encrypt(Boolean.toString(Game.boss_fire_kill)));
+						hm.put("clock"		, enc.encrypt(Boolean.toString(Game.boss_clock_kill)));
 						hm.put("gold"		, enc.encrypt(Integer.toString(Game.player.getGoldAmount())));
 						hm.put("dialogos"	, enc.encrypt(Integer.toString(Game.currentDialogue)));
 						hm.put("isInScene"	, enc.encrypt(Boolean.toString(Game.isInScene)));

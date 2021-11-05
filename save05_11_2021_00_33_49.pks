@@ -1,0 +1,13 @@
+armas->HyDTUnz4uMk=
+municao->3ZI+FhPTRLs=
+dialogos->eCSzNAqgcXM=
+vida->tyrjquxJO3g=
+isInScene->ouGpNoD/rag=
+difficult->yIO5X04M+0I=
+clock->6wJEaxDQXB4=
+gold->dJK1AvvdplE=
+PlayerY->pdacrnc7J10=
+mapa->CMk65HUB4xU=
+fire->6wJEaxDQXB4=
+PlayerX->IpPCniUJrx0=
+reserva->3ZI+FhPTRLs=

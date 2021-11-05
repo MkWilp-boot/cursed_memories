@@ -247,20 +247,21 @@ public class Menu
 	
 	public static void applyLoadLevel(HashMap<String, String> map) throws Exception {
 		var enc = new Encryptor();
-		String mapa = enc.decrypt(map.get("mapa"));
 		String diff = enc.decrypt(map.get("difficult"));
 
-		World.restartGame("/map_"+ mapa +".png", false);
+		World.restartGame("/map_2.png", false);
 		Game.difficult = diff;
 		
-		Game.CUR_LEVEL = Integer.valueOf(mapa.trim());
-		
+		Game.CUR_LEVEL = 2;
 		
 		map.forEach((key, value) -> {
 			final var decrypted = enc.decrypt(value);
 			
 			if (key.contains("fire")) {
 				Game.boss_fire_kill = Boolean.valueOf(decrypted.trim());
+			}
+			else if (key.contains("cloc")) {
+				Game.boss_clock_kill = Boolean.valueOf(decrypted.trim());
 			}
 			else if (key.contains("PlayerX")) {
 				Game.player.setX(Integer.valueOf(decrypted.trim()));

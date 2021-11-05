@@ -29,7 +29,7 @@ public class Player extends Entity {
     private BufferedImage[] rightPlayer, leftPlayer, idlePlayerR, idlePlayerL;
     private BufferedImage defPlayerR, defPlayerL, damegedPlayer, GUN_LEFT, GUN_RIGHT;
     private int ammo = 0;
-	public int maxAmmo = 100;
+	public int maxAmmo = 50;
 	public int mx;
 	public int my;
 	public int cur_weapon = 0;
@@ -85,8 +85,10 @@ public class Player extends Entity {
 		else
 			this.removePlayerLife = 1;
         
-        if(!Game.died0)
+        if(!Game.died0) {
         	this.removePlayerLife = 300;
+        }
+        this.removePlayerLife = 0;
     }
 
     public void render(Graphics gfx) 

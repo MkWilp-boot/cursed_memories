@@ -10,7 +10,7 @@ import com.projekt.CursedMemories.world.World;
 
 public class Boss2 extends Boss 
 {
-	private int maxTime = 100, curTime = 0, animation_max_fr = 120, cur_animation_fr = 0;
+	private int maxTime = 75, curTime = 0, animation_max_fr = 120, cur_animation_fr = 0;
 	private int frames, index = 0, maxFrames = 15, maxIndex = 5;
 	private int framesAtt, indexAtt = 0, maxFramesAtt = 10, maxIndexAtt = 2;
 	private double speed;
@@ -37,21 +37,73 @@ public class Boss2 extends Boss
 	}
 	
 	
-	public void attack_spear_up()
-	{
-		// -1 0 down
-		// 0 -1 up
+	public void attack_spear_up() {
 		Spear bullet = null;
-		for(int i = 0; i < 2; i++)
-		{
-			switch(i)
-			{
+		for(int i = 0; i < 2; i++) {
+			switch(i) {
 			// inicio padrao inteiro
 			case 0:
-				bullet = new Spear(this.getX(), this.getY(), 0, 0, null, 0, -1, Color.RED, 4.0, null, false);
+				bullet = new Spear(this.getX(), this.getY(), 0, 0, null, 0, -1, null, 4.0, null, false);
 				break;
 			case 1:
-				bullet = new Spear(this.getX() + 32, this.getY(), 0, 0, null, 0, -1, Color.RED, 4.0, null, false);
+				bullet = new Spear(this.getX() + 32, this.getY(), 0, 0, null, 0, -1, null, 4.0, null, false);
+				break;
+			// Fim padrao inteiro
+			}
+			Game.bulletsEn.add(bullet);
+		}
+	}
+	
+	public void attack_spear_left_right_player() {
+		Spear bullet = null;
+		for(int i = 0; i < 2; i++) {
+			switch(i) {
+			// inicio padrao inteiro
+			case 0:
+				bullet = new Spear(Game.player.getX() + 150, Game.player.getY(), 0, 0, null, -1, 0, null, 4.0, null, false);
+				break;
+			case 1:
+				bullet = new Spear(Game.player.getX() - 150, Game.player.getY(), 0, 0, null, 1, 0, null, 4.0, null, false);
+				break;
+			// Fim padrao inteiro
+			}
+			Game.bulletsEn.add(bullet);
+		}
+	}
+	
+	public void attack_spear_up_down_player() {
+		Spear bullet = null;
+		for(int i = 0; i < 2; i++) {
+			switch(i) {
+			// inicio padrao inteiro
+			case 0:
+				bullet = new Spear(Game.player.getX(), Game.player.getY() + 150, 0, 0, null, 0, -1, null, 4.0, null, false);
+				break;
+			case 1:
+				bullet = new Spear(Game.player.getX(), Game.player.getY() - 150, 0, 0, null, 0, 1, null, 4.0, null, false);
+				break;
+			// Fim padrao inteiro
+			}
+			Game.bulletsEn.add(bullet);
+		}
+	}
+	
+	public void attack_spear_four_directions() {
+		Spear bullet = null;
+		for(int i = 0; i < 4; i++) {
+			switch(i) {
+			// inicio padrao inteiro
+			case 0:
+				bullet = new Spear(this.getX(), this.getY() + 150, 0, 0, null, 0, -1, null, 4.0, null, false);
+				break;
+			case 1:
+				bullet = new Spear(this.getX(), this.getY() - 150, 0, 0, null, 0, 1, null, 4.0, null, false);
+				break;
+			case 2:
+				bullet = new Spear(this.getX(), this.getY(), 0, 0, null, -1, 0, null, 4.0, null, false);
+				break;
+			case 3:
+				bullet = new Spear(this.getX(), this.getY(), 0, 0, null, 1, 0, null, 4.0, null, false);
 				break;
 			// Fim padrao inteiro
 			}
@@ -63,18 +115,10 @@ public class Boss2 extends Boss
 		this.destrocable = false;
 		this.dameged = true;
 		this.speed = 0.0;
-		World.generateParticles(100, this.getX(), this.getY());
-		World.generateParticles(100, this.getX() + 32, this.getY() + 32);
-		World.generateParticles(100, this.getX() + 64, this.getY() + 64);
-		
-		Game.boss_fire_kill = true;
+		Game.GameEnd = true;
 		
 		Game.entities.remove(this);
 		Game.bosses.remove(this);
-		
-		int bosses = Game.bosses.size();
-		if(bosses <= 0)
-			Game.CHANGE_LEVEL = true;
 	}
 	
 	public void render(Graphics gfx) {
@@ -105,7 +149,11 @@ public class Boss2 extends Boss
 			if(curTime >= maxTime) {
 				attack_animation = true;
 				curTime = 0;
-				attack_spear_up();
+				if(Game.rand.nextInt() > 50)
+					attack_spear_left_right_player();
+				else
+					attack_spear_up_down_player();
+				attack_spear_four_directions();
 			}
 			
 			if(attack_animation) {

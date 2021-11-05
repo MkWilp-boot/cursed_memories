@@ -181,33 +181,45 @@ public class Tile {
 	
 	// Fim MAP_1
 	
-	
-	/*
-	public static final BufferedImage TILE_FLOOR_HUB_GRASS = Game.spr_hub.getSprite(32, 32, 32, 32);
-	public static final BufferedImage TILE_FLOOR_HUB_DIRT = Game.spr_hub.getSprite(96, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_WATER = Game.spr_hub.getSprite(0, 96, 32, 32);
-	
-	public static final BufferedImage TILE_WALL_HUB_GRASS_BOTTOM = Game.spr_hub.getSprite(32, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_RIGHT = Game.spr_hub.getSprite(64, 32, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_TOP = Game.spr_hub.getSprite(32, 0, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_LEFT = Game.spr_hub.getSprite(0, 32, 32, 32);
-	
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_RB = Game.spr_hub.getSprite(64, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_RT = Game.spr_hub.getSprite(64, 0, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_LB = Game.spr_hub.getSprite(0, 64, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_LT = Game.spr_hub.getSprite(0, 0, 32, 32);
-	
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_IRB = Game.spr_hub.getSprite(128, 32, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_IRT = Game.spr_hub.getSprite(128, 0, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_ILB = Game.spr_hub.getSprite(96, 32, 32, 32);
-	public static final BufferedImage TILE_WALL_HUB_GRASS_CORNER_ILT = Game.spr_hub.getSprite(96, 0, 32, 32);
-	*/
-	
 	// LOBBY / HUB
 	public static final BufferedImage TILE_WALL_A1 = Game.spr_hub.getSprite(0, 0, 32, 32);
-	public static final BufferedImage TILE_FLOOR_A2 = Game.spr_hub.getSprite(32, 0, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A2 = Game.spr_hub.getSprite(320, 224, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A20 = Game.spr_hub.getSprite(288, 224, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A21 = Game.spr_hub.getSprite(320, 224, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A22 = Game.spr_hub.getSprite(352, 160, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A23 = Game.spr_hub.getSprite(192, 256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A24 = Game.spr_hub.getSprite(256, 160, 32, 32);
+	
+	// ponte horizontal
+	public static final BufferedImage TILE_FLOOR_A25 = Game.spr_hub.getSprite(256, 192, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A26 = Game.spr_hub.getSprite(224, 256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A27 = Game.spr_hub.getSprite(256, 256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A28 = Game.spr_hub.getSprite(288, 256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A29 = Game.spr_hub.getSprite(352, 192, 32, 32);
+	
+	public static final BufferedImage TILE_FLOOR_A30 = Game.spr_hub.getSprite(256, 224, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A31 = Game.spr_hub.getSprite(224, 288, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A32 = Game.spr_hub.getSprite(256, 288, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A33 = Game.spr_hub.getSprite(288, 288, 32, 32);
+	public static final BufferedImage TILE_FLOOR_A34 = Game.spr_hub.getSprite(352, 224, 32, 32);
+	
+	
 	public static final BufferedImage TILE_FLOOR_A3 = Game.spr_hub.getSprite(64, 0, 32, 32);
 	public static final BufferedImage TILE_FLOOR_A4 = Game.spr_hub.getSprite(96, 0, 32, 32);
+	
+	public static final BufferedImage TILE_FLOOR_AA = Game.spr_hub.getSprite(416, 96, 32, 32);
+	public static final BufferedImage TILE_FLOOR_AB = Game.spr_hub.getSprite(416, 64, 32, 32);
+	public static final BufferedImage TILE_FLOOR_AC = Game.spr_hub.getSprite(448, 64, 32, 32);
+	
+	public static final BufferedImage TILE_WALL_AD = Game.spr_hub.getSprite(448, 96, 32, 32);
+	
+	public static final BufferedImage TILE_FLOOR_AE = Game.spr_hub.getSprite(64,  256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_AF = Game.spr_hub.getSprite(128, 256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_AG = Game.spr_hub.getSprite(96,  256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_AH = Game.spr_hub.getSprite(160, 256, 32, 32);
+	public static final BufferedImage TILE_FLOOR_AI = Game.spr_hub.getSprite(448, 96, 32, 32);
+	
+	
 	public static final BufferedImage TILE_FLOOR_A5 = Game.spr_hub.getSprite(128, 0, 32, 32);
 	public static final BufferedImage TILE_FLOOR_A6 = Game.spr_hub.getSprite(160, 0, 32, 32);
 	public static final BufferedImage TILE_FLOOR_A7 = Game.spr_hub.getSprite(192, 0, 32, 32);
@@ -324,6 +336,62 @@ public class Tile {
 	public static final BufferedImage TILE_FLOOR_LAVA_SECA = Game.spr_hub.getSprite(480, 64, 32, 32);
 	
 	//Fim mapa lobby
+	
+	// MAPA CAVEIRA
+	
+	public static final BufferedImage TILE_FLOOR_C_A1 = Game.spr_caveira.getSprite(0, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_C_A2 = Game.spr_caveira.getSprite(32, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_C_A3 = Game.spr_caveira.getSprite(64, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_C_A4 = Game.spr_caveira.getSprite(96, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_C_A5 = Game.spr_caveira.getSprite(128, 0, 32, 32);
+	
+	
+	public static final BufferedImage TILE_WALL_C_B1 = Game.spr_caveira.getSprite(0, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_C_B2 = Game.spr_caveira.getSprite(32, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_C_B3 = Game.spr_caveira.getSprite(64, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_C_C1 = Game.spr_caveira.getSprite(0, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_C_C2 = Game.spr_caveira.getSprite(32, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_C_C3 = Game.spr_caveira.getSprite(64, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_C_D1 = Game.spr_caveira.getSprite(0, 96, 32, 32);
+	public static final BufferedImage TILE_WALL_C_D2 = Game.spr_caveira.getSprite(32, 96, 32, 32);
+	public static final BufferedImage TILE_WALL_C_D3 = Game.spr_caveira.getSprite(64, 96, 32, 32);
+	
+	
+	public static final BufferedImage TILE_WALL_C_B4 = Game.spr_caveira.getSprite(96, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_C_B5 = Game.spr_caveira.getSprite(128, 32, 32, 32);
+	public static final BufferedImage TILE_WALL_C_C4 = Game.spr_caveira.getSprite(96, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_C_C5 = Game.spr_caveira.getSprite(128, 64, 32, 32);
+	public static final BufferedImage TILE_WALL_C_D4 = Game.spr_caveira.getSprite(96, 96, 32, 32);
+	public static final BufferedImage TILE_WALL_C_D5 = Game.spr_caveira.getSprite(128, 96, 32, 32);
+	
+	
+	public static final BufferedImage TILE_FLOOR_C_E1 = Game.spr_caveira.getSprite(0, 128, 32, 32);
+	public static final BufferedImage TILE_FLOOR_C_E2 = Game.spr_caveira.getSprite(32, 128, 32, 32);
+	public static final BufferedImage TILE_FLOOR_C_E3 = Game.spr_caveira.getSprite(64, 128, 32, 32);
+	public static final BufferedImage TILE_FLOOR_C_E4 = Game.spr_caveira.getSprite(96, 128, 32, 32);
+	
+	// FIM MAPA CAVEIRA
+	
+	// MAPA RELOGIO
+	
+	public static final BufferedImage TILE_FLOOR_R_A1 = Game.spr_relogio.getSprite(0, 0, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_A2 = Game.spr_relogio.getSprite(32, 0, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_A3 = Game.spr_relogio.getSprite(64, 0, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_A4 = Game.spr_relogio.getSprite(96, 0, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_A5 = Game.spr_relogio.getSprite(128, 0, 32, 32);
+	public static final BufferedImage TILE_WALL_R_A6 = Game.spr_relogio.getSprite(160, 0, 32, 32);
+	
+	
+	public static final BufferedImage TILE_FLOOR_R_B1 = Game.spr_relogio.getSprite(0, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_B2 = Game.spr_relogio.getSprite(32, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_B3 = Game.spr_relogio.getSprite(64, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_B4 = Game.spr_relogio.getSprite(96, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_B5 = Game.spr_relogio.getSprite(128, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_B6 = Game.spr_relogio.getSprite(160, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_B7 = Game.spr_relogio.getSprite(192, 32, 32, 32);
+	public static final BufferedImage TILE_FLOOR_R_B8 = Game.spr_relogio.getSprite(224, 32, 32, 32);
+		
+		// FIM MAPA RELOGIO
 	
 	private BufferedImage sprite;
 	

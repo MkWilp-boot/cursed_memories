@@ -56,11 +56,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static Spritesheet spritesheet;
     public static Spritesheet spr_map0;
     public static Spritesheet spr_b_caveira;
+    public static Spritesheet spr_b_clock;
     public static SpriteSheet spr_b001;
     public static Spritesheet spr_bDarker;
     public static Spritesheet spr_hub;
+    public static Spritesheet spr_caveira;
     public static Spritesheet spr_vulcao;
     public static Spritesheet spr_fires;
+    public static Spritesheet spr_relogio;
     
     private Thread thread;
 
@@ -170,6 +173,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     
     public static boolean diedLevel0 = false;
     public static boolean died0 = false;
+    public static boolean GameEnd = false;
 
     public Game() {
     	
@@ -201,10 +205,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         spr_map0 = new Spritesheet("/spr_map_0.png");
         spr_b001 = new SpriteSheet("/b001_spr.png");
         spr_b_caveira = new Spritesheet("/spr_b_caveira.png");
+        spr_b_clock = new Spritesheet("/spr_b_clock.png");
         spr_bDarker = new Spritesheet("/spr_boss_darker.png");
-        spr_hub = new Spritesheet("/spr_hub.png");
+        spr_hub = new Spritesheet("/spr_hub_b.png");
         spr_vulcao = new Spritesheet("/spr_vulcao.png");
+        spr_caveira = new Spritesheet("/spr_caveira.png");
         spr_fires = new Spritesheet("/Small_Fireball.png");
+        spr_relogio = new Spritesheet("/spr_relogio.png");
         
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         try {
@@ -348,6 +355,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     }
 
     public void tick() {
+    	if(Game.GameEnd) {
+    		return;
+    	}
+    	
     	if(Game.mapName != "/map_2.png") {
     		merchant.setX(0);
     		merchant.setY(0);
@@ -358,6 +369,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     	}
         if (resetAble) {
             resetAble = false;
+            if(!died0) {
+    			rmvSetToBlack = true;
+    			isInScene = true;
+    			died0 = true;
+    		}
             World.restartGame(mapName, true);
         }
         // Normal gameplay
@@ -396,7 +412,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                     // só pq n tem a luta feita ainda
                     // logo, esse bloco será removido
                     // na proxima versão
-                    mapName = "/map_" + CUR_LEVEL + ".png";
+                    if(Game.mapName.contains("vulcao") ||
+                       Game.mapName.contains("clock")) {
+                    	mapName = "/map_2.png";
+                    }
+                    else {
+                    	mapName = "/map_" + CUR_LEVEL + ".png";
+                    }
                     CHANGE_LEVEL = false;
                     World.setLevel(mapName, true);
                     
@@ -600,6 +622,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         	gfx.drawString("Você agora possui: " + player.getGoldAmount() + " Moedas!", WIDTH / 2 - 110, HEIGHT / 2 + 110);
         }
         
+        if(Game.GameEnd) {
+        	gfx.setColor(Color.BLACK);
+        	gfx.fillRect(0, 0, WIDTH_SCALE, HEIGHT_SCALE);
+        	gfx.setColor(Color.WHITE);
+        	gfx.setFont(main_font.deriveFont(40f));
+        	gfx.drawString("Obrigado por jogar!", WIDTH / 2 - 150, HEIGHT / 2 - 50);
+        	gfx.setFont(main_font.deriveFont(20f));
+        	gfx.drawString("Equipe Projekt", WIDTH / 2 - 50, HEIGHT / 2 + 75);
+        }
+        
         gfx.dispose();
         gfx = bs.getDrawGraphics();
         gfx.drawImage(image,
@@ -732,11 +764,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         if (GAME_STATE == 1) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
         		Game.mapName = "/map_2.png";
-        		if(diedLevel0) {
-        			rmvSetToBlack = true;
-        			isInScene = true;
-        			died0 = true;
-        		}
                 resetAble = true;
             }
         }
